@@ -1,0 +1,11 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "estado": "vacio",
+    "es_ficticio": false,
+    "aviso": "No hay un perímetro oficial incorporado. Esta capa está preparada pero vacía.",
+    "fuente": null,
+    "fecha_hora": null
+  },
+  "features": []
+}

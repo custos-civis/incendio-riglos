@@ -1,0 +1,40 @@
+{
+  "ultima_revision": "2026-08-16T20:00:00+02:00",
+  "fuentes": [
+    {
+      "id": "gobierno-aragon",
+      "nombre": "Gobierno de Aragón / Aragón Hoy",
+      "url": "https://www.aragonhoy.es/",
+      "tipo": "oficial",
+      "ultima_consulta": "2026-08-16T20:00:00+02:00"
+    },
+    {
+      "id": "infoar",
+      "nombre": "INFOAR",
+      "url": "https://www.aragon.es/prevencion-y-extincion-de-incendios-forestales/operativo",
+      "tipo": "oficial",
+      "ultima_consulta": "2026-08-16T20:00:00+02:00"
+    },
+    {
+      "id": "112-aragon",
+      "nombre": "112 Aragón",
+      "url": "https://112aragon.aragon.es/",
+      "tipo": "oficial",
+      "ultima_consulta": "2026-08-16T20:00:00+02:00"
+    },
+    {
+      "id": "aemet",
+      "nombre": "AEMET",
+      "url": "https://www.aemet.es/es/eltiempo/prediccion/municipios/penas-de-riglos-las-id22173",
+      "tipo": "oficial",
+      "ultima_consulta": "2026-08-16T20:00:00+02:00"
+    },
+    {
+      "id": "dgt",
+      "nombre": "Dirección General de Tráfico",
+      "url": "https://www.dgt.es/conoce-el-estado-del-trafico/",
+      "tipo": "oficial",
+      "ultima_consulta": "2026-08-16T20:00:00+02:00"
+    }
+  ]
+}

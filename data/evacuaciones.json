@@ -1,0 +1,11 @@
+{
+  "ultima_revision": "2026-08-16T20:00:00+02:00",
+  "registros": [],
+  "estados_permitidos": [
+    "Evacuada",
+    "Confinada",
+    "Retorno autorizado",
+    "Sin actualización"
+  ],
+  "nota_edicion": "Añadir únicamente medidas publicadas por 112 Aragón, Protección Civil, CECOPI u otra autoridad competente. No incluir nombres de personas."
+}

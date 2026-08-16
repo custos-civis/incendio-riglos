@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Panel ciudadano no oficial sobre el incendio de Las Peñas de Riglos, elaborado con fuentes públicas oficiales.">
+  <meta name="theme-color" content="#163f46">
+  <title>Incendio de Las Peñas de Riglos · Panel ciudadano</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynhtKfPm56MZShMZTDu1NHBrc1B4=" crossorigin="">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+  <script src="js/charts.js" defer></script>
+  <script src="js/map.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="eyebrow"><span class="signal-dot" aria-hidden="true"></span> Panel ciudadano · Huesca</div>
+      <h1>Incendio de Las Peñas de Riglos</h1>
+      <p class="lede">Información pública reunida para facilitar su consulta. Este panel no pertenece a ningún organismo público.</p>
+      <div class="official-warning" role="note">
+        <strong>No es una fuente oficial.</strong>
+        <span>En caso de discrepancia, prevalecen siempre las instrucciones de 112 Aragón, Protección Civil y las autoridades competentes.</span>
+      </div>
+      <div class="update-strip" aria-label="Fechas de actualización">
+        <div>
+          <span class="update-label">Última comprobación del panel</span>
+          <time id="panel-checked" datetime="">Pendiente de cargar</time>
+          <small>Revisión humana de las fuentes</small>
+        </div>
+        <div>
+          <span class="update-label">Última actualización oficial utilizada</span>
+          <time id="official-updated" datetime="">Sin actualización oficial</time>
+          <small>Fecha del parte más reciente incorporado</small>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="section-nav" aria-label="Secciones del panel">
+    <div class="nav-inner">
+      <a href="#resumen">Resumen</a><a href="#mapa">Mapa</a><a href="#evacuaciones">Evacuaciones</a><a href="#carreteras">Carreteras</a><a href="#meteo">Meteorología</a><a href="#evolucion">Evolución</a><a href="#cronologia">Cronología</a><a href="#fuentes">Fuentes</a>
+    </div>
+  </nav>
+
+  <main id="contenido">
+    <section id="resumen" class="section section-summary" aria-labelledby="resumen-title">
+      <div class="section-heading">
+        <div><p class="section-kicker">Situación general</p><h2 id="resumen-title">Resumen verificado</h2></div>
+        <div class="legend" aria-label="Leyenda de fiabilidad"><span class="badge official">Oficial</span><span class="badge provisional">Provisional</span><span class="badge stale">Sin actualización</span></div>
+      </div>
+      <div id="status-cards" class="status-grid" aria-live="polite">
+        <article class="metric-card skeleton-card"><span>Cargando datos…</span></article>
+      </div>
+      <p class="data-rule"><span aria-hidden="true">i</span> Los valores desconocidos no se estiman. Un campo vacío se muestra siempre como “Sin actualización oficial”.</p>
+    </section>
+
+    <section id="mapa" class="section map-section" aria-labelledby="map-title">
+      <div class="section-heading">
+        <div><p class="section-kicker">Contexto territorial</p><h2 id="map-title">Mapa de situación</h2></div>
+        <p class="section-intro">Activa o desactiva capas desde el control del mapa.</p>
+      </div>
+      <div class="map-shell">
+        <div id="map" role="application" aria-label="Mapa interactivo de Las Peñas de Riglos"></div>
+        <div id="map-status" class="map-status" role="status">Cargando capas…</div>
+      </div>
+      <div class="map-notes">
+        <p><strong>Perímetro:</strong> <span id="perimeter-note">No hay un GeoJSON oficial incorporado.</span></p>
+        <p><strong>Seguridad informativa:</strong> este mapa no muestra ubicaciones de equipos, maquinaria, UME, rutas de ataque, maniobras ni posiciones de voluntariado.</p>
+      </div>
+    </section>
+
+    <section id="evacuaciones" class="section" aria-labelledby="evacuations-title">
+      <div class="section-heading"><div><p class="section-kicker">Protección de la población</p><h2 id="evacuations-title">Evacuaciones y confinamientos</h2></div></div>
+      <div class="table-wrap">
+        <table>
+          <caption class="sr-only">Estado oficial de evacuaciones y confinamientos por población</caption>
+          <thead><tr><th scope="col">Población</th><th scope="col">Estado</th><th scope="col">Fecha y hora</th><th scope="col">Fuente</th></tr></thead>
+          <tbody id="evacuations-body"><tr><td colspan="4" class="empty-cell">Cargando datos…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="carreteras" class="section" aria-labelledby="roads-title">
+      <div class="section-heading"><div><p class="section-kicker">Movilidad</p><h2 id="roads-title">Carreteras</h2></div><a class="text-link" href="https://www.dgt.es/conoce-el-estado-del-trafico/" target="_blank" rel="noopener noreferrer">Consultar DGT <span aria-hidden="true">↗</span></a></div>
+      <div id="roads-list" class="road-grid"><p class="empty-state">Cargando datos…</p></div>
+    </section>
+
+    <section id="meteo" class="section weather-section" aria-labelledby="weather-title">
+      <div class="section-heading"><div><p class="section-kicker">Condiciones meteorológicas</p><h2 id="weather-title">Meteorología</h2></div><a class="text-link" href="https://www.aemet.es/es/eltiempo/prediccion/municipios/penas-de-riglos-las-id22173" target="_blank" rel="noopener noreferrer">Predicción AEMET <span aria-hidden="true">↗</span></a></div>
+      <div class="weather-grid">
+        <article class="panel"><div class="panel-heading"><span class="panel-icon" aria-hidden="true">↗</span><div><p class="section-kicker">Modelo meteorológico</p><h3>Previsión</h3></div></div><div id="forecast-data" class="weather-data"></div><div id="forecast-source" class="source-line"></div></article>
+        <article class="panel"><div class="panel-heading"><span class="panel-icon" aria-hidden="true">●</span><div><p class="section-kicker">Estación oficial</p><h3>Observación real</h3></div></div><div id="observation-data" class="weather-data"></div><div id="observation-source" class="source-line"></div></article>
+      </div>
+      <div class="weather-warning" role="note"><strong>Importante</strong><p>La lluvia registrada en Jaca no implica necesariamente lluvia sobre el perímetro del incendio.</p></div>
+
+      <article class="rain-panel" aria-labelledby="rain-title">
+        <div class="rain-heading"><div><p class="section-kicker">Registro manual, sin interpretación automática</p><h3 id="rain-title">Precipitación y efecto operativo</h3></div><span class="badge manual">Revisión humana</span></div>
+        <div id="rain-records" class="rain-records"></div>
+        <p class="fine-print">Las observaciones se transcriben manualmente desde fuentes oficiales. El panel no infiere por sí solo si la lluvia resulta útil para la extinción.</p>
+      </article>
+    </section>
+
+    <section id="evolucion" class="section" aria-labelledby="evolution-title">
+      <div class="section-heading"><div><p class="section-kicker">Serie temporal</p><h2 id="evolution-title">Evolución</h2></div></div>
+      <div class="chart-tabs" role="tablist" aria-label="Variable de la gráfica">
+        <button type="button" role="tab" aria-selected="true" aria-controls="chart-panel" data-chart="superficie_ha">Superficie</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="chart-panel" data-chart="perimetro_consolidado_pct">Perímetro consolidado</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="chart-panel" data-chart="precipitacion_mm">Precipitación</button>
+      </div>
+      <div id="chart-panel" class="chart-panel" role="tabpanel"><div id="evolution-chart" class="chart" aria-live="polite"></div></div>
+      <p class="fine-print">Los puntos ausentes permanecen sin dibujar. El panel no interpola ni une tramos cuando falta un porcentaje oficial de perímetro consolidado.</p>
+    </section>
+
+    <section id="cronologia" class="section" aria-labelledby="timeline-title">
+      <div class="section-heading"><div><p class="section-kicker">Partes y comunicados</p><h2 id="timeline-title">Cronología oficial</h2></div></div>
+      <ol id="timeline" class="timeline"><li class="empty-state">Cargando datos…</li></ol>
+    </section>
+
+    <section id="fuentes" class="section sources-section" aria-labelledby="sources-title">
+      <div class="section-heading"><div><p class="section-kicker">Trazabilidad</p><h2 id="sources-title">Fuentes oficiales</h2></div></div>
+      <div id="sources-list" class="sources-grid"></div>
+    </section>
+
+    <section class="section info-grid" aria-label="Información del proyecto">
+      <article class="info-card"><h2>Privacidad</h2><p>Este sitio no solicita datos personales, no usa formularios, cookies, analítica ni sistemas propios de seguimiento. El mapa base y las bibliotecas externas pueden recibir la dirección IP como parte técnica de la conexión; consulta sus políticas enlazadas en el README.</p></article>
+      <article class="info-card"><h2>Criterio editorial</h2><p>Solo se incorporan fuentes públicas oficiales. No se usan publicaciones de particulares como confirmación y toda actualización requiere revisión humana.</p></article>
+      <article class="info-card"><h2>Emergencias</h2><p>Este panel es informativo. Ante una emergencia llama al <a href="tel:112">112</a> y sigue las instrucciones de las autoridades. No acudas a la zona afectada.</p></article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner"><div><strong>Panel ciudadano · Las Peñas de Riglos</strong><p>Proyecto estático, abierto y sin finalidad operativa.</p></div><div><a href="#contenido">Volver arriba ↑</a><a href="README.md">Documentación</a></div></div>
+  </footer>
+  <noscript><div class="noscript">Este panel necesita JavaScript para cargar los archivos de datos locales. Los enlaces oficiales siguen disponibles en el código fuente y el README.</div></noscript>
+</body>
+</html>

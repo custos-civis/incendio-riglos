@@ -1,0 +1,25 @@
+{
+  "ultima_comprobacion_panel": "2026-08-16T20:00:00+02:00",
+  "ultima_actualizacion_oficial": null,
+  "estado": {
+    "value": null,
+    "meta": null
+  },
+  "superficie_ha": {
+    "value": null,
+    "meta": null
+  },
+  "perimetro_consolidado_pct": {
+    "value": null,
+    "meta": null
+  },
+  "nucleos_evacuados": {
+    "value": null,
+    "meta": null
+  },
+  "personas_evacuadas": {
+    "value": null,
+    "meta": null
+  },
+  "nota_edicion": "Plantilla segura: no publicar cifras hasta contrastarlas con una publicación oficial enlazable. Los valores del enunciado eran ejemplos y no se han tratado como hechos."
+}

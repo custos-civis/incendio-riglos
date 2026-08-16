@@ -1,0 +1,6 @@
+{
+  "ultima_revision": "2026-08-16T20:00:00+02:00",
+  "eventos": [],
+  "series": [],
+  "nota_edicion": "Cada evento y cada punto de la serie debe proceder de una publicación oficial. Usar null para cualquier dato ausente; el gráfico no interpola esos huecos."
+}

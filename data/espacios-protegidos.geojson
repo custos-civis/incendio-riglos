@@ -1,0 +1,10 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "estado": "vacio",
+    "aviso": "Capa preparada para una geometría oficial del Paisaje Protegido de San Juan de la Peña y Monte Oroel. No se ha dibujado una aproximación.",
+    "fuente": null,
+    "fecha_hora": null
+  },
+  "features": []
+}

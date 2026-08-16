@@ -1,0 +1,30 @@
+{
+  "ultima_revision": "2026-08-16T20:00:00+02:00",
+  "prevision": {
+    "temperatura_c": { "value": null },
+    "viento_kmh": { "value": null },
+    "direccion": { "value": null },
+    "prob_precipitacion_pct": { "value": null },
+    "tormentas": { "value": null },
+    "meta": null
+  },
+  "observacion": {
+    "precipitacion_mm": { "value": null },
+    "racha_maxima_kmh": { "value": null },
+    "humedad_relativa_pct": { "value": null },
+    "temperatura_c": { "value": null },
+    "viento_kmh": { "value": null },
+    "direccion": { "value": null },
+    "meta": null
+  },
+  "estaciones": [],
+  "precipitacion_efecto_operativo": [],
+  "observaciones_permitidas": [
+    "Sin lluvia significativa",
+    "Lluvia local",
+    "Lluvia potencialmente útil",
+    "Tormenta con rachas erráticas",
+    "Pendiente de confirmar"
+  ],
+  "aviso": "La lluvia registrada en Jaca no implica necesariamente lluvia sobre el perímetro del incendio. No automatizar interpretaciones meteorológicas."
+}
