@@ -10,7 +10,7 @@ Los datos incorporados enlazan su fuente y conservan su fecha de publicación. L
 
 - HTML5, CSS3 y JavaScript vanilla, sin compilación ni backend.
 - Datos editables en JSON local.
-- Mapa Leaflet con capas activables, estaciones AEMET, perímetro oficial, área quemada aproximada EFFIS y focos térmicos VIIRS.
+- Mapa Leaflet con capas activables, estaciones AEMET, perímetro oficial, área quemada aproximada EFFIS y focos térmicos VIIRS opcionales.
 - Resumen, evacuaciones, carreteras, meteorología, lluvia útil, evolución y cronología.
 - Tres estados de fiabilidad: `oficial`, `provisional` y `sin_actualizacion`.
 - Gráfica SVG propia, accesible y sin dependencias adicionales.
@@ -156,7 +156,7 @@ Usa `null` cuando falte un valor. La gráfica separa los segmentos y no interpol
 
 La geometría oficial se guarda exclusivamente en `data/perimetro.geojson`. La estimación satelital se guarda por separado en `data/perimetro-aproximado.geojson`, se representa en naranja discontinuo y contiene una advertencia expresa de que no es un perímetro operativo. La capa del Paisaje Protegido de San Juan de la Peña y Monte Oroel se mantiene en `data/espacios-protegidos.geojson`.
 
-El flujo automático consulta cada hora ICEARAGON y solo incorpora una geometría oficial de 2026 cuyo nombre contenga “Riglos”. También consulta por WFS las áreas quemadas EFFIS, exige que el municipio coincida con Las Peñas de Riglos, comprueba fecha, extensión territorial y coherencia con la superficie publicada, y conserva la versión anterior si la fuente falla. Los focos térmicos VIIRS se solicitan directamente al WMS de EFFIS con la fecha actual.
+El flujo automático consulta cada hora ICEARAGON y solo incorpora una geometría oficial de 2026 cuyo nombre contenga “Riglos”. También consulta por WFS las áreas quemadas EFFIS, exige que el municipio coincida con Las Peñas de Riglos, comprueba fecha, extensión territorial y coherencia con la superficie publicada, y conserva la versión anterior si la fuente falla. Los focos térmicos VIIRS se solicitan directamente al WMS de EFFIS con la fecha actual y se dejan desactivados inicialmente porque ese servicio puede devolver teselas opacas que oculten el mapa base.
 
 ## Actualización automática
 

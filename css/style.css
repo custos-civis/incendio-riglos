@@ -110,6 +110,7 @@ h3 { font-size: 1.18rem; }
 .map-notes p { margin: 0; }
 .perimeter-history-link { font-weight: 750; }
 .leaflet-control-layers { font: 13px/1.4 inherit; border: 0 !important; border-radius: 8px !important; box-shadow: 0 4px 16px rgba(0,0,0,.18) !important; }
+.leaflet-control-layers-toggle { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23163f46' d='M16 3 2 10l14 7 14-7-14-7Zm-10 8.8L16 17l10-5.2v3.4L16 21 6 15.2v-3.4Zm0 7L16 24l10-5.2v3.4L16 28 6 22.2v-3.4Z'/%3E%3C/svg%3E") !important; background-size: 25px 25px !important; }
 .map-marker { display: grid; width: 30px; height: 30px; place-items: center; border: 3px solid white; border-radius: 50%; color: white; background: var(--teal-700); box-shadow: 0 3px 9px rgba(0,0,0,.3); font-size: 13px; font-weight: 900; }
 .map-marker.evacuated { background: var(--danger); }
 .map-marker.road { border-radius: 6px; background: #463f3a; }

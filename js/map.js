@@ -35,7 +35,7 @@ window.RiglosMap = (() => {
       "Carreteras cortadas": L.featureGroup(),
       "Estaciones meteorológicas": L.featureGroup(),
       "EFFIS en directo (respaldo)": effisLive,
-      "Focos térmicos VIIRS (hoy)": viirsHotspots,
+      "Focos térmicos VIIRS (activar)": viirsHotspots,
       "Precipitación (preparado)": L.featureGroup(),
       "Perímetros históricos (preparado)": L.featureGroup()
     };
@@ -47,7 +47,6 @@ window.RiglosMap = (() => {
     addMarkers(data.carreteras?.registros, layers["Carreteras cortadas"], "road", item => `${item.carretera}: ${item.estado}`);
     addMarkers(data.meteo?.estaciones, layers["Estaciones meteorológicas"], "station", item => stationLabel(item, data.meteo));
     ["Perímetro oficial ICEARAGON", "Área quemada aproximada EFFIS", "Espacio protegido", "Poblaciones evacuadas", "Carreteras cortadas", "Estaciones meteorológicas"].forEach(name => layers[name].addTo(map));
-    viirsHotspots.addTo(map);
     L.control.layers({}, layers, { collapsed: window.innerWidth < 720 }).addTo(map);
     L.control.scale({ imperial: false }).addTo(map);
     const visibleBounds = official.bounds?.isValid() ? official.bounds : approximate.bounds;
@@ -74,7 +73,7 @@ window.RiglosMap = (() => {
     const note = document.getElementById("perimeter-note");
     if (official?.features?.length) {
       note.textContent = official.metadata?.aviso || "Perímetro oficial incorporado desde ICEARAGON.";
-      status.textContent = "Línea roja: perímetro oficial · puntos: focos térmicos VIIRS del día actual.";
+      status.textContent = "Línea roja: perímetro oficial · los focos térmicos VIIRS se pueden activar en el control de capas.";
       return;
     }
     if (approximate?.features?.length) {
@@ -82,11 +81,11 @@ window.RiglosMap = (() => {
       const area = metadata.superficie_ha == null ? "" : ` (${formatNumber(metadata.superficie_ha)} ha)`;
       const date = metadata.fecha_hora ? `, observación ${formatDate(metadata.fecha_hora)}` : "";
       note.textContent = `Área quemada aproximada EFFIS${area}${date}. No equivale al perímetro operativo.`;
-      status.textContent = "Línea naranja discontinua: estimación satelital EFFIS · puntos: focos térmicos VIIRS del día actual.";
+      status.textContent = "Línea naranja discontinua: estimación satelital EFFIS · los focos térmicos VIIRS se pueden activar en el control de capas.";
       return;
     }
     note.textContent = "Todavía no hay geometría oficial ni satelital incorporada.";
-    status.textContent = "Sin geometría disponible · los focos térmicos VIIRS se consultan directamente a EFFIS.";
+    status.textContent = "Sin geometría disponible · los focos térmicos VIIRS se pueden activar en el control de capas.";
   }
 
   function featurePopup(feature, metadata) {
