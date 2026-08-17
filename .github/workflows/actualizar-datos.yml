@@ -59,9 +59,9 @@ jobs:
           if respuesta=$(gh api \
             --method PUT \
             "repos/${GITHUB_REPOSITORY}/pages" \
-            -f cname="custoscivis.org" \
+            -f cname="www.custoscivis.org" \
             -F https_enforced=true 2>&1); then
-            echo "HTTPS está activado para custoscivis.org"
+            echo "HTTPS está activado para www.custoscivis.org"
           elif echo "$respuesta" | grep -q "certificate does not exist yet"; then
             echo "El certificado de GitHub todavía está en provisión; se reintentará en la próxima actualización."
           else

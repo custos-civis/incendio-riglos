@@ -179,7 +179,7 @@ function renderWeather() {
   renderHourlyForecast(state.data.meteo.prevision?.horaria || []);
   const station = state.data.meteo.observacion?.meta?.estacion;
   document.getElementById("observation-context").innerHTML = station
-    ? `<strong>${escapeHtml(station.nombre)}</strong><span>${escapeHtml(formatNumber(station.distancia_capital_municipal_km, " km"))} de la capital municipal · ${escapeHtml(formatNumber(station.altitud_m, " m"))} de altitud</span><small>Datos sometidos a controles automáticos de calidad en tiempo real.</small>`
+    ? `<strong>${escapeHtml(station.nombre)}</strong><span>Estación AEMET ${escapeHtml(station.idema)} · ${escapeHtml(formatNumber(station.altitud_m, " m"))} de altitud</span><small>La estación es una referencia meteorológica cercana; no mide necesariamente las condiciones en todo el incendio.</small>`
     : "";
   const records = [...(state.data.meteo.precipitacion_diaria || [])].sort((a, b) => b.fecha.localeCompare(a.fecha) || a.estacion.localeCompare(b.estacion));
   document.getElementById("rain-records").innerHTML = records.length ? records.map(r => `<div class="rain-record"><div><span>Fecha</span><strong>${formatDate(r.fecha)}</strong></div><div><span>Estación</span><strong>${escapeHtml(r.estacion)}</strong></div><div><span>Precipitación 00–24 h</span><strong>${formatNumber(r.precipitacion_mm, " mm") ?? "Sin dato"}</strong></div><div><span>Estado</span><strong>${escapeHtml(r.estado || (r.completo ? "Día completo" : "Día en curso"))}</strong></div></div>`).join("") : `<p class="empty-state">AEMET no ha devuelto resúmenes diarios utilizables para las estaciones seleccionadas.</p>`;

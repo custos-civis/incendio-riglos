@@ -96,8 +96,8 @@ window.RiglosMap = (() => {
     const readings = [];
     if (isObserved && observation.temperatura_c?.value != null) readings.push(`Temperatura: ${escapeHtml(observation.temperatura_c.value)} °C`);
     if (isObserved && observation.viento_kmh?.value != null) readings.push(`Viento: ${escapeHtml(observation.viento_kmh.value)} km/h`);
-    const distance = item.distancia_capital_municipal_km == null ? "" : `<br><small>A unos ${escapeHtml(formatNumber(item.distancia_capital_municipal_km))} km de Riglos, capital del municipio.</small>`;
-    return `<strong>Estación meteorológica AEMET</strong><br>${escapeHtml(item.nombre)}${distance}${readings.length ? `<br>${readings.join("<br>")}` : "<br>Sin observación reciente incorporada"}`;
+    const stationDetails = [item.idema ? `IDEMA ${escapeHtml(item.idema)}` : "", item.altitud_m == null ? "" : `${escapeHtml(formatNumber(item.altitud_m))} m de altitud`].filter(Boolean).join(" · ");
+    return `<strong>Estación meteorológica AEMET</strong><br>${escapeHtml(item.nombre)}${stationDetails ? `<br><small>${stationDetails}</small>` : ""}${readings.length ? `<br>${readings.join("<br>")}` : "<br>Sin observación reciente incorporada"}`;
   }
 
   function roadPopup(item) {

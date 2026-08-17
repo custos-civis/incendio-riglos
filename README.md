@@ -2,7 +2,7 @@
 
 Web pública estática para reunir información oficial sobre el incendio forestal de Las Peñas de Riglos (Huesca). El panel prioriza claridad, trazabilidad, privacidad y seguridad informativa.
 
-Web publicada: <https://custoscivis.org/>
+Web publicada: <https://www.custoscivis.org/>
 
 > **No es una herramienta oficial de emergencias.** No sustituye los avisos de 112 Aragón, Protección Civil, CECOPI ni de ninguna autoridad. En caso de discrepancia, prevalecen siempre las instrucciones oficiales. Ante una emergencia, llama al 112.
 
@@ -123,7 +123,7 @@ En `data/carreteras.json`, cada registro admite `carretera`, `tramo`, `sentido`,
 
 ### Meteorología y precipitación diaria
 
-`data/meteo.json` separa `prevision` de `observacion`. La previsión horaria corresponde al municipio y la observación procede de la estación AEMET de Bailo-Puyalto, identificada con su distancia, altitud y hora. La actualización automática no presenta esa medición como si se hubiera tomado dentro del incendio.
+`data/meteo.json` separa `prevision` de `observacion`. La previsión horaria corresponde al municipio y la observación procede de la estación AEMET de Bailo-Puyalto, identificada por su código IDEMA, altitud y hora. La actualización automática no presenta esa medición como si se hubiera tomado dentro del incendio ni muestra una distancia ambigua a la capital municipal.
 
 La automatización consulta también los resúmenes diarios públicos de AEMET para Bailo-Puyalto (9211F) y Jaca (9201X). Los almacena en `precipitacion_diaria` con este formato:
 
@@ -151,7 +151,7 @@ El día en curso se identifica como incompleto y se sustituye en cada ejecución
 - `eventos`: partes ordenados de más reciente a más antiguo;
 - `series`: puntos cronológicos con `fecha`, `superficie_ha` y `perimetro_consolidado_pct`. La precipitación se representa desde `data/meteo.json` para mantener separadas las dos estaciones.
 
-Usa `null` cuando falte un valor. La gráfica separa los segmentos y no interpola huecos.
+Usa `null` cuando falte un valor. En superficie, la línea une las cifras publicadas consecutivas y omite los registros sin cifra; en el porcentaje consolidado y la precipitación mantiene las discontinuidades para no aparentar mediciones inexistentes.
 
 ## Capas de perímetro y área quemada
 
@@ -205,7 +205,7 @@ Después activa Pages con los pasos 3–6 anteriores. No hace falta una acción 
 
 ### Dominio público de este proyecto
 
-El dominio canónico es `custoscivis.org`, declarado en el archivo `CNAME`. El dominio raíz apunta a las direcciones oficiales de GitHub Pages y `www.custoscivis.org` apunta a `custos-civis.github.io`; GitHub redirige automáticamente `www` al dominio canónico. HTTPS debe permanecer forzado en la configuración de Pages.
+El dominio canónico es `www.custoscivis.org`, declarado en el archivo `CNAME`. El dominio raíz apunta a las direcciones oficiales de GitHub Pages y `www.custoscivis.org` apunta a `custos-civis.github.io`; GitHub redirige automáticamente el dominio raíz al canónico. HTTPS permanece forzado en la configuración de Pages.
 
 ## Lista de comprobación antes de publicar
 

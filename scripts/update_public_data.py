@@ -40,14 +40,12 @@ STATIONS = (
     {
         "idema": "9211F",
         "nombre": "Bailo, Puyalto",
-        "distancia_capital_municipal_km": 19.79,
         "altitud_m": 722,
         "coordenadas": [42.5141666667, -0.8172222222],
     },
     {
         "idema": "9201X",
         "nombre": "Jaca",
-        "distancia_capital_municipal_km": 29.6,
         "altitud_m": 832,
         "coordenadas": [42.5797222222, -0.545],
     },
@@ -1070,8 +1068,9 @@ def update_weather() -> bool:
         "estaciones": list(STATIONS),
         "precipitacion_diaria": daily_precipitation,
         "aviso": (
-            "La predicción corresponde a la capital municipal. La observación procede de Bailo, Puyalto, "
-            "a 19,79 km de la capital municipal, y no representa necesariamente las condiciones en todo el incendio."
+            "La predicción corresponde al punto de referencia municipal utilizado por AEMET. "
+            "La observación procede de la estación de Bailo, Puyalto, y no representa necesariamente "
+            "las condiciones en todo el incendio."
         ),
     }
     checked_at = datetime.now(TZ).isoformat(timespec="seconds")

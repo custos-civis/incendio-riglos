@@ -23,7 +23,7 @@ window.RiglosCharts = (() => {
       return;
     }
     const chart = chartGeometry(valid);
-    const paths = buildSegments(series, key).map(segment => segment
+    const paths = buildSegments(series, key, key === "superficie_ha").map(segment => segment
       .filter(item => item[key] != null)
       .map(item => `${chart.x(new Date(item.fecha))},${chart.y(item[key])}`).join(" "))
       .filter(Boolean)
@@ -36,7 +36,10 @@ window.RiglosCharts = (() => {
         : "";
       return `${label}<circle class="chart-point" cx="${chart.x(item.date)}" cy="${chart.y(item.value)}" r="5"><title>${formatDate(item.date)}: ${format(item.value)} ${config[key].unit}${source}</title></circle>`;
     }).join("");
-    container.innerHTML = svgFrame(chart, valid, config[key], paths + points, `${valid.length} valores fechados representados. Los datos ausentes no se interpolan.`);
+    const description = key === "superficie_ha"
+      ? `${valid.length} valores fechados representados. La línea une las cifras publicadas consecutivas y omite los registros sin superficie.`
+      : `${valid.length} valores fechados representados. Los datos ausentes no se interpolan.`;
+    container.innerHTML = svgFrame(chart, valid, config[key], paths + points, description);
   }
 
   function renderPrecipitation(container, records) {
@@ -101,7 +104,11 @@ window.RiglosCharts = (() => {
     return `<svg viewBox="0 0 ${chart.width} ${chart.height}" role="img" aria-labelledby="chart-title chart-desc"><title id="chart-title">Evolución de ${cfg.label.toLowerCase()}</title><desc id="chart-desc">${description}</desc>${grids}${labels}${drawings}${xLabels}<text class="chart-axis" x="16" y="18">${cfg.unit}</text></svg>`;
   }
 
-  function buildSegments(series, key) {
+  function buildSegments(series, key, connectValidPoints = false) {
+    if (connectValidPoints) {
+      const valid = series.filter(item => item[key] != null && Number.isFinite(Number(item[key])));
+      return valid.length ? [valid] : [];
+    }
     const segments = []; let current = [];
     series.forEach(item => {
       if (item[key] == null) { if (current.length) segments.push(current); current = []; }
