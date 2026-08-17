@@ -84,7 +84,7 @@ function perimeterCard(e) {
   const lastPercentage = normalizeDatum(e.perimetro_consolidado_ultimo_pct);
   const lastLength = normalizeDatum(e.perimetro_longitud_ultima_km);
   const currentValue = lastLength.value == null ? "Sin cifra vigente" : `≈ ${formatNumber(lastLength.value)} km`;
-  const consolidatedValue = current.value == null ? "Sin porcentaje vigente publicado" : `${formatNumber(current.value)} % consolidado`;
+  const consolidatedValue = current.value == null ? "No publicado en el último parte" : `${formatNumber(current.value)} % consolidado`;
   return `<article class="metric-card perimeter-card">
     <span class="metric-label">Perímetro aproximado</span>
     <strong class="metric-value ${lastLength.value == null ? "unavailable" : ""}">${escapeHtml(currentValue)}</strong>
@@ -274,7 +274,7 @@ function formatDate(iso) {
 }
 
 function sourceBlock(meta, inline = false) {
-  if (!meta?.fuente) return inline ? `<span>Sin fuente oficial incorporada · ${badge("sin_actualizacion")}</span>` : `<div class="metric-source">${badge("sin_actualizacion")}<time>Sin fuente oficial incorporada</time></div>`;
+  if (!meta?.fuente) return inline ? `<span>No publicado en las fuentes consultadas · ${badge("sin_actualizacion")}</span>` : `<div class="metric-source">${badge("sin_actualizacion")}<time>No publicado en las fuentes consultadas</time></div>`;
   const inner = `${sourceLink(meta.fuente)}<time datetime="${escapeAttr(meta.fecha_hora || "")}">Actualizado: ${formatDate(meta.fecha_hora)}</time>${badge(meta.fiabilidad || "oficial")}`;
   return inline ? inner : `<div class="metric-source">${inner}</div>`;
 }
@@ -287,7 +287,7 @@ function sourceLink(source) {
 
 function badge(value) {
   const key = String(value || "sin_actualizacion").toLowerCase();
-  const mapping = { oficial: ["official", "Oficial"], provisional: ["provisional", "Provisional"], historico: ["manual", "Dato histórico"], sin_actualizacion: ["stale", "Sin actualización"] };
+  const mapping = { oficial: ["official", "Oficial"], provisional: ["provisional", "Provisional"], historico: ["manual", "Dato histórico"], sin_actualizacion: ["stale", "No publicado"] };
   const [className, label] = mapping[key] || mapping.sin_actualizacion;
   return `<span class="badge ${className}">${label}</span>`;
 }
