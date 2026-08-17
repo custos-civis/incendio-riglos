@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pages: write
 
 concurrency:
   group: actualizar-datos-publicos
@@ -49,5 +50,22 @@ jobs:
           else
             git commit -m "Actualizar todos los datos públicos"
             git push
+          fi
+
+      - name: Activar HTTPS del dominio personalizado cuando el certificado esté listo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if respuesta=$(gh api \
+            --method PUT \
+            "repos/${GITHUB_REPOSITORY}/pages" \
+            -f cname="custoscivis.org" \
+            -F https_enforced=true 2>&1); then
+            echo "HTTPS está activado para custoscivis.org"
+          elif echo "$respuesta" | grep -q "certificate does not exist yet"; then
+            echo "El certificado de GitHub todavía está en provisión; se reintentará en la próxima actualización."
+          else
+            echo "$respuesta" >&2
+            exit 1
           fi
 
