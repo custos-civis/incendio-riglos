@@ -1,6 +1,16 @@
 {
-  "ultima_revision": "2026-08-17T10:01:28+02:00",
+  "ultima_revision": "2026-08-17T20:51:25+02:00",
   "eventos": [
+    {
+      "fecha_hora": "2026-08-17T20:51:25+02:00",
+      "categoria": "Situación general",
+      "descripcion": "El incendio de Las Peñas de Riglos evoluciona favorablemente y el Gobierno de Aragón trabaja para acelerar la vuelta de los desalojados a sus casas. El parte comunica 17500 hectáreas provisionales, 1046 personas evacuadas, 8 vías cortadas.",
+      "fiabilidad": "provisional",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
+      }
+    },
     {
       "fecha_hora": "2026-08-17T10:01:28+02:00",
       "categoria": "Situación general",
@@ -219,6 +229,12 @@
     },
     {
       "fecha": "2026-08-17T10:01:28+02:00",
+      "superficie_ha": 17500,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-17T20:51:25+02:00",
       "superficie_ha": 17500,
       "perimetro_consolidado_pct": null,
       "precipitacion_mm": null

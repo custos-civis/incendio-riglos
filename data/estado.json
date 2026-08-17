@@ -1,6 +1,6 @@
 {
-  "ultima_comprobacion_panel": "2026-08-17T19:55:58+02:00",
-  "ultima_actualizacion_oficial": "2026-08-17T10:01:28+02:00",
+  "ultima_comprobacion_panel": "2026-08-17T20:59:27+02:00",
+  "ultima_actualizacion_oficial": "2026-08-17T20:51:25+02:00",
   "estado": {
     "value": "Activo",
     "meta": {
@@ -15,11 +15,11 @@
   "superficie_ha": {
     "value": 17500,
     "meta": {
-      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fecha_hora": "2026-08-17T20:51:25+02:00",
       "fiabilidad": "provisional",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
       }
     }
   },
@@ -40,15 +40,15 @@
     }
   },
   "perimetro_longitud_ultima_km": {
-    "value": 58,
+    "value": 100,
     "meta": {
-      "fecha_hora": "2026-08-14T20:59:00+02:00",
+      "fecha_hora": "2026-08-17T20:51:25+02:00",
       "fiabilidad": "historico",
-      "vigencia": "Última longitud explícita publicada; puede no ser el valor vigente.",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
+      },
+      "vigencia": "Última longitud explícita publicada; puede no ser el valor vigente."
     }
   },
   "perimetro_longitud_secundaria_km": {
@@ -77,19 +77,19 @@
   "personas_evacuadas": {
     "value": 1046,
     "meta": {
-      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fecha_hora": "2026-08-17T20:51:25+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
       }
     }
   },
   "nota_edicion": "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización.",
   "ultimo_informe_cecopi": {
-    "titulo": "Una noche de trabajo favorable permite avanzar en la extinción del incendio de Las Peñas de Riglos",
-    "fecha_hora": "2026-08-17T10:01:28+02:00",
-    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118",
+    "titulo": "El incendio de Las Peñas de Riglos evoluciona favorablemente y el Gobierno de Aragón trabaja para acelerar la vuelta de los desalojados a sus casas",
+    "fecha_hora": "2026-08-17T20:51:25+02:00",
+    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124",
     "fuente": "Gobierno de Aragón / Aragón Hoy"
   }
 }
