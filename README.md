@@ -119,7 +119,7 @@ Estados admitidos: `Evacuada`, `Confinada`, `Retorno autorizado` y `Sin actualiz
 
 ### Carreteras
 
-En `data/carreteras.json`, cada registro admite `carretera`, `pk_inicio`, `pk_fin`, `tramo`, `sentido`, `localizacion`, `estado`, `fecha_hora`, `fuente` y, opcionalmente, `coordenadas` y `trazado`. La automatización contrasta las vías enumeradas por el último parte con el cuadro vigente de carreteras cortadas por incendio de DGT; si DGT no está disponible, conserva la relación del parte. Para cada intervalo con PK georreferenciados compatibles, enlaza esos puntos sobre el eje viario oficial de ICEARAGON y publica una línea aproximada. Si no existe correspondencia suficiente mantiene solo el marcador. Ninguna representación sustituye al mapa de tráfico: verifica siempre el estado en DGT, 011 o la autoridad vial competente antes de desplazarte.
+En `data/carreteras.json`, cada registro admite `carretera`, `pk_inicio`, `pk_fin`, `tramo`, `sentido`, `localizacion`, `estado`, `fecha_hora`, `fuente` y, opcionalmente, `coordenadas` y `trazado`. La automatización contrasta las vías enumeradas por el último parte con el cuadro vigente de carreteras cortadas por incendio de DGT. Para cada intervalo enlaza el eje viario oficial de ICEARAGON con hitos kilométricos de ICEARAGON o del geocodificador oficial CartoCiudad/IGN. Si el intervalo de DGT abarca una vía completa, puede utilizar el eje oficial completo después de comprobar su longitud. Cuando no existe correspondencia suficiente conserva el marcador y publica el motivo. Ninguna representación sustituye al mapa de tráfico: verifica siempre el estado en DGT, 011 o la autoridad vial competente antes de desplazarte.
 
 ### Meteorología y precipitación diaria
 
@@ -151,7 +151,7 @@ El día en curso se identifica como incompleto y se sustituye en cada ejecución
 - `eventos`: partes ordenados de más reciente a más antiguo;
 - `series`: puntos cronológicos con `fecha`, `superficie_ha` y `perimetro_consolidado_pct`. La precipitación se representa desde `data/meteo.json` para mantener separadas las dos estaciones.
 
-Usa `null` cuando falte un valor. En superficie, la línea une las cifras publicadas consecutivas y omite los registros sin cifra; en el porcentaje consolidado y la precipitación mantiene las discontinuidades para no aparentar mediciones inexistentes.
+Usa `null` cuando falte un valor. En superficie y porcentaje consolidado, la línea une únicamente los puntos oficiales fechados disponibles sin crear valores intermedios. La precipitación mantiene separadas las series de cada estación.
 
 ## Capas de perímetro y área quemada
 
@@ -171,13 +171,13 @@ El flujo automático consulta cada media hora ICEARAGON y solo incorpora una geo
 GitHub Actions ejecuta `scripts/update_public_data.py` cada media hora y también puede lanzarse manualmente desde **Actions → Actualizar datos y publicar el panel → Run workflow**. El proceso:
 
 1. localiza y lee el último parte oficial de Aragón Hoy sobre Las Peñas de Riglos;
-2. actualiza estado, superficie, perímetro aproximado publicado, totales de evacuación, carreteras contrastadas con DGT y sus trazados por PK disponibles en ICEARAGON, cronología y fuentes cuando las fuentes publican datos explícitos;
+2. actualiza estado, superficie, último informe CECOPI, perímetro aproximado publicado, totales de evacuación, carreteras contrastadas con DGT y sus trazados con cartografía oficial de ICEARAGON y CartoCiudad/IGN, cronología y fuentes cuando las fuentes publican datos explícitos;
 3. descarga la predicción horaria oficial de AEMET, la observación más reciente de Bailo-Puyalto y la precipitación diaria de Bailo-Puyalto y Jaca;
 4. consulta si ICEARAGON ya ha publicado el perímetro de 2026;
 5. descarga el área quemada EFFIS atribuida a Las Peñas de Riglos y aplica controles automáticos de coherencia;
 6. valida todos los JSON y GeoJSON, conserva los datos anteriores si una fuente falla y vuelve a publicar GitHub Pages.
 
-Antes de cada publicación, `scripts/validate_public_data.py` comprueba además que las fechas no sean futuras, que las fuentes usen HTTPS, que no haya vías duplicadas, que los PK sean numéricos y que cada marcador o trazado permanezca dentro del ámbito territorial del incendio. Un trazado se rechaza si sus PK cartográficos se separan más de 1,5 km de los PK comunicados por DGT.
+Antes de cada publicación, `scripts/validate_public_data.py` comprueba además que las fechas no sean futuras, que todas las fuentes del panel sean oficiales y usen HTTPS, que no haya vías duplicadas, que los PK sean numéricos y que cada marcador o trazado permanezca dentro del ámbito territorial del incendio. Un trazado se rechaza si sus PK cartográficos se separan más de 1,5 km de los PK comunicados por DGT. Después, `scripts/verify_official_sources.py` realiza una segunda consulta independiente al PDF vigente de DGT y al último informe de CECOPI para impedir la publicación si los PK, el número de cortes, el enlace o la fecha ya no coinciden.
 
 No requiere claves ni secretos. La extracción es deliberadamente conservadora: no interpreta expresiones ambiguas, no inventa retornos o evacuaciones y mantiene vacío el porcentaje consolidado vigente si el último parte no lo publica expresamente.
 

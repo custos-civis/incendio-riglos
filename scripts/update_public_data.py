@@ -8,6 +8,8 @@ Fuentes:
   precipitación diaria de Bailo-Puyalto y Jaca.
 - ICEARAGON: perímetro oficial, únicamente cuando exista un registro de 2026
   cuyo nombre contenga "Riglos".
+- CartoCiudad/IGN: puntos kilométricos oficiales cuando no están disponibles
+  en el servicio autonómico de ICEARAGON.
 - EFFIS/Copernicus: área quemada satelital, separada del perímetro operativo.
 
 El script no fabrica valores ni geometrías: conserva separadas las capas oficiales
@@ -113,13 +115,9 @@ ICEARAGON_PK_ARCGIS = "https://idearagon.aragon.es/servicios/rest/services/CARRE
 ICEARAGON_ROADS_WFS = "https://idearagon.aragon.es/Visor2D"
 ICEARAGON_PK_INFO = "https://idearagon.aragon.es/servicios/rest/services/CARRETERAS/PK_ARAGON/MapServer"
 ICEARAGON_ROADS_INFO = "https://opendata.aragon.es/ckan/dataset/carreteras"
+CARTOCIUDAD_GEOCODER = "https://www.cartociudad.es/geocoder/api/geocoder/candidates"
+CARTOCIUDAD_INFO = "https://www.cartociudad.es/web/portal/directorio-de-servicios/geoprocesamiento"
 ARAGON_HOY = "https://www.aragonhoy.es"
-CADENA_SER_ARAGON = "https://cadenaser.com/aragon/"
-CADENA_SER_PERIMETER_SEED = (
-    "https://cadenaser.com/aragon/2026/08/17/"
-    "luis-biendicho-el-incendio-de-las-penas-de-riglos-evoluciona-favorablemente-"
-    "pero-tenemos-fuego-para-dias-radio-zaragoza/"
-)
 ARAGON_HOY_PAGES = (
     f"{ARAGON_HOY}/",
     f"{ARAGON_HOY}/hacienda-interior-administracion-publica",
@@ -135,17 +133,6 @@ CONSOLIDATED_HISTORY = (
             "operativo-logra-perimetrar-50-incendio-penas-riglos-106081"
         ),
         "patron": r"(?:perimetrar\s+el\s+50|mitad\s+del\s+perimetro)",
-    },
-    {
-        "fecha": "2026-08-14T19:23:43+02:00",
-        "value": 40,
-        "fiabilidad": "provisional",
-        "nombre": "Cadena SER / Radio Huesca, con información del Gobierno de Aragón",
-        "url": (
-            "https://cadenaser.com/aragon/2026/08/14/el-incendio-de-las-penas-de-riglos-"
-            "sigue-activo-y-con-un-40-del-perimetro-consolidado-radio-huesca/"
-        ),
-        "patron": r"40\s*%\s+del\s+perimetro\s+consolidado",
     },
 )
 SPANISH_MONTHS = {
@@ -233,7 +220,7 @@ def find_latest_official_article() -> dict:
             normalized = normalize_text(url)
             if (
                 "/hacienda-interior-administracion-publica/" in url
-                and "incendio" in normalized
+                and ("incendio" in normalized or "extincion" in normalized)
                 and "riglos" in normalized
                 and re.search(r"-\d{5,}/?$", url)
             ):
@@ -242,7 +229,7 @@ def find_latest_official_article() -> dict:
         raise RuntimeError("No se localizaron partes de Riglos en Aragón Hoy: " + "; ".join(errors))
 
     articles = []
-    for url in sorted(links, key=lambda item: int(item.rsplit("-", 1)[-1]), reverse=True)[:8]:
+    for url in sorted(links, key=lambda item: int(item.rsplit("-", 1)[-1]), reverse=True)[:20]:
         try:
             raw = fetch_bytes(url).decode("utf-8")
             published_match = re.search(r'"datePublished"\s*:\s*"([^"]+)"', raw)
@@ -265,12 +252,24 @@ def find_latest_official_article() -> dict:
                 "paragraphs": paragraphs,
                 "body": body,
                 "normalized": normalize_text(body),
+                "mentions_cecopi": bool(re.search(r"\bcecopi\b", normalize_text(body))),
             })
         except Exception as error:
             errors.append(f"{url}: {error}")
     if not articles:
         raise RuntimeError("No se pudo leer un parte oficial verificable: " + "; ".join(errors))
-    return max(articles, key=lambda item: item["published_at"])
+    latest = max(articles, key=lambda item: item["published_at"])
+    cecopi_articles = [item for item in articles if item["mentions_cecopi"]]
+    if not cecopi_articles:
+        raise RuntimeError("No se localizó un informe oficial que mencione expresamente al CECOPI")
+    cecopi = max(cecopi_articles, key=lambda item: item["published_at"])
+    latest["ultimo_informe_cecopi"] = {
+        "titulo": cecopi["title"],
+        "fecha_hora": cecopi["published_at"],
+        "url": cecopi["url"],
+        "fuente": "Gobierno de Aragón / Aragón Hoy",
+    }
+    return latest
 
 
 def explicit_fire_status(normalized: str) -> str | None:
@@ -281,70 +280,6 @@ def explicit_fire_status(normalized: str) -> str | None:
         ("Activo", r"incendio.{0,80}(?:permanece|continua|sigue) activo"),
     )
     return next((label for label, pattern in checks if re.search(pattern, normalized)), None)
-
-
-def nested_dicts(value):
-    if isinstance(value, dict):
-        yield value
-        for item in value.values():
-            yield from nested_dicts(item)
-    elif isinstance(value, list):
-        for item in value:
-            yield from nested_dicts(item)
-
-
-def find_latest_reported_perimeter(previous_url: str | None = None) -> dict:
-    links = {CADENA_SER_PERIMETER_SEED}
-    if previous_url and "cadenaser.com/" in previous_url:
-        links.add(previous_url)
-    try:
-        page = fetch_bytes(CADENA_SER_ARAGON, user_agent="Mozilla/5.0 (compatible; incendio-riglos-panel/1.0)").decode("utf-8")
-        for href in re.findall(r'href=["\']([^"\']+)["\']', page, re.I):
-            url = urljoin(CADENA_SER_ARAGON, unescape(href))
-            normalized = normalize_text(url)
-            if "cadenaser.com/aragon/" in url and "incendio" in normalized and "riglos" in normalized:
-                links.add(url.split("?", 1)[0])
-    except Exception as error:
-        print(f"AVISO: no se pudo revisar la portada de Cadena SER; se comprueban las referencias conocidas: {error}")
-    reports = []
-    for url in list(links)[:12]:
-        raw = fetch_bytes(url, user_agent="Mozilla/5.0 (compatible; incendio-riglos-panel/1.0)").decode("utf-8")
-        documents = []
-        for script in re.findall(
-            r'<script\b[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',
-            raw,
-            re.I | re.S,
-        ):
-            try:
-                documents.append(json.loads(unescape(script).strip()))
-            except (json.JSONDecodeError, TypeError):
-                continue
-        for item in (entry for document in documents for entry in nested_dicts(document)):
-            body = item.get("articleBody")
-            published_at = item.get("datePublished")
-            if not isinstance(body, str) or not isinstance(published_at, str):
-                continue
-            normalized_body = normalize_text(body)
-            if "penas de riglos" not in normalized_body:
-                continue
-            match = re.search(
-                r"perimetro.{0,100}?(?:alcanza|cercano a|aproximad[oa]|de)?\s*(?:los|unos)?\s*([0-9]{1,3})\s*kilometros",
-                normalized_body,
-            )
-            if not match:
-                continue
-            length = int(match.group(1))
-            if not 10 <= length <= 500:
-                continue
-            reports.append({
-                "value": length,
-                "published_at": datetime.fromisoformat(published_at).astimezone(TZ).isoformat(),
-                "url": url,
-                "title": item.get("headline") or "Información sobre el perímetro",
-            })
-    if not reports:
-        raise RuntimeError("Cadena SER no ha publicado una longitud inequívoca en los artículos localizados")
-    return max(reports, key=lambda item: item["published_at"])
 
 
 def parse_closed_roads(article: dict) -> list[dict] | None:
@@ -415,6 +350,36 @@ def fetch_icearagon_pk(road: str) -> list[dict]:
         ),
         key=lambda item: item["pk"],
     )
+
+
+def fetch_cartociudad_pk(road: str, targets: tuple[float, float]) -> list[dict]:
+    """Obtiene hitos oficiales del IGN próximos a los PK publicados por DGT."""
+    requested = {
+        candidate
+        for target in targets
+        for candidate in (math.floor(float(target)), math.ceil(float(target)))
+    }
+    normalized_road = re.sub(r"[^A-Z0-9]", "", road.upper())
+    markers: dict[float, dict] = {}
+    for pk in sorted(requested):
+        params = {"q": f"{road} {pk}", "limit": "20"}
+        candidates = json.loads(fetch_bytes(f"{CARTOCIUDAD_GEOCODER}?{urlencode(params)}"))
+        for item in candidates:
+            address = str(item.get("address") or "")
+            address_road = address.split(" km ", 1)[0]
+            if (
+                item.get("provinceCode") != "22"
+                or item.get("type") != "portal"
+                or re.sub(r"[^A-Z0-9]", "", address_road.upper()) != normalized_road
+                or item.get("portalNumber") is None
+            ):
+                continue
+            value = float(item["portalNumber"])
+            markers[value] = {
+                "pk": value,
+                "coordenadas": (float(item["lng"]), float(item["lat"])),
+            }
+    return sorted(markers.values(), key=lambda item: item["pk"])
 
 
 def fetch_icearagon_road(road: str) -> list[dict]:
@@ -490,6 +455,42 @@ def shortest_road_path(features: list[dict], start: tuple[float, float], end: tu
     return simplify_leaflet_path(path), distances[end_key]
 
 
+def full_road_path(features: list[dict]) -> tuple[list[list[float]], float]:
+    """Devuelve el recorrido completo cuando el intervalo DGT abarca toda la vía."""
+    graph, coordinates = road_graph(features)
+    endpoints = [key for key, neighbors in graph.items() if len(neighbors) == 1]
+    if len(endpoints) < 2:
+        raise RuntimeError("el eje oficial no tiene extremos cartográficos inequívocos")
+    best: tuple[float, tuple[float, float], tuple[float, float], dict] | None = None
+    for start_key in endpoints:
+        distances = {start_key: 0.0}
+        previous: dict[tuple[float, float], tuple[float, float]] = {}
+        pending = [(0.0, start_key)]
+        while pending:
+            current_distance, current = heapq.heappop(pending)
+            if current_distance != distances.get(current):
+                continue
+            for neighbor, edge_distance in graph.get(current, []):
+                candidate = current_distance + edge_distance
+                if candidate < distances.get(neighbor, math.inf):
+                    distances[neighbor] = candidate
+                    previous[neighbor] = current
+                    heapq.heappush(pending, (candidate, neighbor))
+        for end_key in endpoints:
+            distance = distances.get(end_key)
+            if distance is not None and (best is None or distance > best[0]):
+                best = (distance, start_key, end_key, previous)
+    if best is None:
+        raise RuntimeError("el eje oficial no forma un recorrido completo")
+    distance, start_key, end_key, previous = best
+    keys = [end_key]
+    while keys[-1] != start_key:
+        keys.append(previous[keys[-1]])
+    keys.reverse()
+    path = [[round(coordinates[key][1], 7), round(coordinates[key][0], 7)] for key in keys]
+    return simplify_leaflet_path(path), distance
+
+
 def simplify_leaflet_path(path: list[list[float]], tolerance_m: float = 6) -> list[list[float]]:
     """Reduce el peso del JSON manteniendo la forma del eje viario al aproximar el mapa."""
     if len(path) < 3:
@@ -525,44 +526,68 @@ def simplify_leaflet_path(path: list[list[float]], tolerance_m: float = 6) -> li
 
 
 def attach_official_road_traces(records: list[dict]) -> list[dict]:
-    """Añade trazados solo cuando ICEARAGON publica PK y eje viario compatibles."""
+    """Añade trazados con ejes oficiales y PK de ICEARAGON o CartoCiudad."""
     for record in records:
         start = record.get("pk_inicio")
         end = record.get("pk_fin")
-        if start is None or end is None or math.isclose(float(start), float(end)):
+        if start is None or end is None:
+            record["trazado_no_disponible"] = "El parte oficial no publica un intervalo de puntos kilométricos."
+            continue
+        if math.isclose(float(start), float(end)):
+            record["trazado_no_disponible"] = "DGT publica un corte puntual, sin intervalo lineal que pueda representarse."
             continue
         road = record["carretera"]
         try:
+            road_features = fetch_icearagon_road(road)
             markers = fetch_icearagon_pk(road)
+            marker_source = "ICEARAGON"
             if len(markers) < 2:
-                continue
+                markers = fetch_cartociudad_pk(road, (float(start), float(end)))
+                marker_source = "CartoCiudad/IGN"
             start_marker = min(markers, key=lambda item: abs(item["pk"] - float(start)))
             end_marker = min(markers, key=lambda item: abs(item["pk"] - float(end)))
             if abs(start_marker["pk"] - float(start)) > 1.5 or abs(end_marker["pk"] - float(end)) > 1.5:
-                continue
-            path, length_m = shortest_road_path(
-                fetch_icearagon_road(road), start_marker["coordenadas"], end_marker["coordenadas"]
-            )
+                raise RuntimeError("no hay hitos oficiales próximos a los PK comunicados")
+            path, length_m = shortest_road_path(road_features, start_marker["coordenadas"], end_marker["coordenadas"])
             expected_m = abs(float(end) - float(start)) * 1_000
             if not 0.65 * expected_m <= length_m <= 1.35 * expected_m:
                 raise RuntimeError(f"longitud cartográfica incoherente ({length_m / 1000:.1f} km para {expected_m / 1000:.1f} km)")
             record["trazado"] = path
             record["trazado_aproximado"] = True
+            record["trazado_metodo"] = "pk_oficiales"
             record["trazado_pk_referencia"] = {
                 "inicio": start_marker["pk"],
                 "fin": end_marker["pk"],
             }
             record["trazado_fuente"] = {
-                "nombre": "ICEARAGON — red viaria y puntos kilométricos",
-                "url": ICEARAGON_PK_INFO,
+                "nombre": f"ICEARAGON — eje viario · {marker_source} — puntos kilométricos",
+                "url": ICEARAGON_PK_INFO if marker_source == "ICEARAGON" else CARTOCIUDAD_INFO,
                 "catalogo": ICEARAGON_ROADS_INFO,
             }
             print(
-                f"ICEARAGON: trazado {road} PK {format_pk(start_marker['pk'])}–{format_pk(end_marker['pk'])} "
+                f"Cartografía oficial: trazado {road} PK {format_pk(start_marker['pk'])}–{format_pk(end_marker['pk'])} "
                 f"({length_m / 1000:.1f} km)"
             )
         except Exception as error:
-            print(f"AVISO: no se dibuja el tramo de {road}: {error}")
+            try:
+                expected_m = abs(float(end) - float(start)) * 1_000
+                if not math.isclose(float(start), 0.0) or expected_m <= 0:
+                    raise error
+                path, length_m = full_road_path(fetch_icearagon_road(road))
+                if not 0.65 * expected_m <= length_m <= 1.35 * expected_m:
+                    raise RuntimeError("la longitud del eje completo no coincide con el intervalo de DGT")
+                record["trazado"] = path
+                record["trazado_aproximado"] = True
+                record["trazado_metodo"] = "eje_oficial_completo"
+                record["trazado_pk_referencia"] = {"inicio": float(start), "fin": float(end)}
+                record["trazado_fuente"] = {
+                    "nombre": "ICEARAGON — eje viario oficial completo",
+                    "url": ICEARAGON_ROADS_INFO,
+                }
+                print(f"Cartografía oficial: trazado completo {road} ({length_m / 1000:.1f} km)")
+            except Exception as fallback_error:
+                record["trazado_no_disponible"] = f"No hay correspondencia cartográfica oficial suficiente: {fallback_error}."
+                print(f"AVISO: no se dibuja el tramo de {road}: {fallback_error}")
     return records
 
 
@@ -659,7 +684,7 @@ def mark_sources_checked(source_ids: tuple[str, ...], checked_at: str, updates: 
     return write_json_if_changed(path, data)
 
 
-def update_sources(article: dict, checked_at: str, perimeter_report: dict | None = None) -> bool:
+def update_sources(article: dict, checked_at: str) -> bool:
     path = DATA / "fuentes.json"
     data = read_json(path)
     data["ultima_revision"] = checked_at
@@ -669,43 +694,7 @@ def update_sources(article: dict, checked_at: str, perimeter_report: dict | None
             source["ultima_consulta"] = checked_at
         elif source.get("id") == "aragon-hoy-busqueda":
             source["ultima_consulta"] = checked_at
-    if perimeter_report:
-        source = next((item for item in data.get("fuentes", []) if item.get("id") == "cadena-ser-perimetro"), None)
-        values = {
-            "id": "cadena-ser-perimetro",
-            "nombre": "Cadena SER — declaraciones de responsables del Gobierno de Aragón",
-            "url": perimeter_report["url"],
-            "tipo": "provisional",
-            "ultima_consulta": checked_at,
-            "alcance": "Longitud aproximada del perímetro comunicada en entrevista",
-        }
-        if source is None:
-            data.setdefault("fuentes", []).append(values)
-        else:
-            source.update(values)
-    return write_json_if_changed(path, data)
-
-
-def update_perimeter_report_chronology(report: dict | None) -> bool:
-    if not report:
-        return False
-    path = DATA / "cronologia.json"
-    data = read_json(path)
-    known_urls = {item.get("fuente", {}).get("url") for item in data.get("eventos", [])}
-    if report["url"] in known_urls:
-        return False
-    data.setdefault("eventos", []).insert(0, {
-        "fecha_hora": report["published_at"],
-        "categoria": "Perímetro",
-        "descripcion": (
-            f"El perímetro alcanza aproximadamente {report['value']} kilómetros, "
-            "según declaraciones de responsables del Gobierno de Aragón recogidas por Cadena SER."
-        ),
-        "fiabilidad": "provisional",
-        "fuente": {"nombre": "Cadena SER / responsables del Gobierno de Aragón", "url": report["url"]},
-    })
-    data["eventos"].sort(key=lambda item: item["fecha_hora"], reverse=True)
-    data["ultima_revision"] = max(data.get("ultima_revision") or "", report["published_at"])
+    data["fuentes"] = [source for source in data.get("fuentes", []) if source.get("tipo") == "oficial"]
     return write_json_if_changed(path, data)
 
 
@@ -727,12 +716,21 @@ def verify_consolidated_history() -> list[dict]:
 
 
 def update_consolidated_history(records: list[dict]) -> bool:
-    if not records:
-        return False
     path = DATA / "cronologia.json"
     data = read_json(path)
     series = data.setdefault("series", [])
-    events = data.setdefault("eventos", [])
+    official_hosts = ("www.aragonhoy.es", "aragonhoy.es")
+    for point in series:
+        meta = point.get("perimetro_consolidado_meta") or {}
+        source_url = str(meta.get("fuente", {}).get("url") or "")
+        if point.get("perimetro_consolidado_pct") is not None and not any(host in source_url for host in official_hosts):
+            point["perimetro_consolidado_pct"] = None
+            point.pop("perimetro_consolidado_meta", None)
+    events = [
+        event for event in data.setdefault("eventos", [])
+        if "cadenaser.com" not in str(event.get("fuente", {}).get("url") or "")
+    ]
+    data["eventos"] = events
     known_urls = {item.get("fuente", {}).get("url") for item in events}
     for record in records:
         point = next((item for item in series if item.get("fecha") == record["fecha"]), None)
@@ -765,10 +763,9 @@ def update_consolidated_history(records: list[dict]) -> bool:
     series.sort(key=lambda item: item["fecha"])
     events.sort(key=lambda item: item["fecha_hora"], reverse=True)
     data["nota_edicion"] = (
-        "Las superficies son cifras nominales comunicadas oficialmente. Los porcentajes de consolidación "
-        "son observaciones explícitas y fechadas: 50 % el 12 de agosto y 40 % el 14 de agosto. El descenso "
-        "no es una contradicción necesariamente, porque el perímetro total creció entre ambas publicaciones; "
-        "no se interpolan los periodos sin cifra."
+        "Las superficies y porcentajes son cifras explícitas publicadas por fuentes oficiales. La línea une "
+        "los puntos oficiales disponibles sin inventar valores intermedios; una cifra difundida únicamente "
+        "por medios de comunicación no se incorpora."
     )
     return write_json_if_changed(path, data)
 
@@ -872,16 +869,12 @@ def update_official_incident_data() -> bool:
     perimeter_length = first_integer(normalized, (
         r"perimetro.{0,50}?(?:de|alcanza|asciende a)\s*([0-9][0-9.]*)\s*kilometros",
     ))
+    verified_consolidated = verify_consolidated_history()
 
     state_path = DATA / "estado.json"
     state = read_json(state_path)
-    previous_length_url = state.get("perimetro_longitud_ultima_km", {}).get("meta", {}).get("fuente", {}).get("url")
-    perimeter_report = None
-    try:
-        perimeter_report = find_latest_reported_perimeter(previous_length_url)
-    except Exception as error:
-        print(f"AVISO: no se pudo actualizar la longitud publicada del perímetro: {error}")
     state["ultima_comprobacion_panel"] = checked_at
+    state["ultimo_informe_cecopi"] = article["ultimo_informe_cecopi"]
     if article["published_at"] >= (state.get("ultima_actualizacion_oficial") or ""):
         state["ultima_actualizacion_oficial"] = article["published_at"]
     if status:
@@ -899,6 +892,19 @@ def update_official_incident_data() -> bool:
         }
     else:
         state["perimetro_consolidado_pct"] = {"value": None, "meta": None}
+    if verified_consolidated:
+        latest_consolidated = max(verified_consolidated, key=lambda item: item["fecha"])
+        state["perimetro_consolidado_ultimo_pct"] = {
+            "value": latest_consolidated["value"],
+            "meta": {
+                "fecha_hora": latest_consolidated["fecha"],
+                "fiabilidad": "historico",
+                "vigencia": "Último porcentaje explícito localizado en una publicación oficial; no confirmado como vigente en partes posteriores.",
+                "fuente": {"nombre": latest_consolidated["nombre"], "url": latest_consolidated["url"]},
+            },
+        }
+    else:
+        state["perimetro_consolidado_ultimo_pct"] = {"value": None, "meta": None}
     if perimeter_length is not None and 1 <= perimeter_length <= 2_000:
         state["perimetro_longitud_ultima_km"] = {
             "value": perimeter_length,
@@ -907,19 +913,8 @@ def update_official_incident_data() -> bool:
                 "vigencia": "Última longitud explícita publicada; puede no ser el valor vigente.",
             },
         }
-    if perimeter_report and perimeter_report["published_at"] >= state.get("perimetro_longitud_ultima_km", {}).get("meta", {}).get("fecha_hora", ""):
-        state["perimetro_longitud_ultima_km"] = {
-            "value": perimeter_report["value"],
-            "meta": {
-                "fecha_hora": perimeter_report["published_at"],
-                "fiabilidad": "provisional",
-                "vigencia": "Longitud aproximada comunicada por responsables del Gobierno de Aragón en entrevista.",
-                "fuente": {
-                    "nombre": "Cadena SER / responsables del Gobierno de Aragón",
-                    "url": perimeter_report["url"],
-                },
-            },
-        }
+    elif "aragonhoy.es" not in str(((state.get("perimetro_longitud_ultima_km", {}).get("meta") or {}).get("fuente") or {}).get("url") or ""):
+        state["perimetro_longitud_ultima_km"] = {"value": None, "meta": None}
     state["nota_edicion"] = (
         "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. "
         "Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización."
@@ -949,9 +944,9 @@ def update_official_incident_data() -> bool:
         if roads and roads[0].get("fuente", {}).get("nombre", "").startswith("DGT"):
             road_data["nota_edicion"] = (
                 "Relación contrastada con el cuadro vigente de carreteras cortadas por incendio de DGT. "
-                "Los trazados se dibujan únicamente cuando ICEARAGON permite enlazar el eje oficial con "
-                "puntos kilométricos georreferenciados; son aproximaciones cartográficas entre esos PK. "
-                "Cuando no existe esa correspondencia se conserva un marcador orientativo. "
+                "Los trazados enlazan el eje oficial de ICEARAGON con hitos kilométricos oficiales de "
+                "ICEARAGON o CartoCiudad/IGN; son aproximaciones cartográficas entre esos PK. "
+                "Cuando no existe correspondencia suficiente se conserva un marcador y se explica el motivo. "
                 "Verificar de nuevo en DGT o 011 antes de desplazarse."
             )
         else:
@@ -963,9 +958,8 @@ def update_official_incident_data() -> bool:
         changed = write_json_if_changed(roads_path, road_data) or changed
 
     changed = update_chronology(article, area, nuclei, people, roads, consolidated) or changed
-    changed = update_consolidated_history(verify_consolidated_history()) or changed
-    changed = update_perimeter_report_chronology(perimeter_report) or changed
-    changed = update_sources(article, checked_at, perimeter_report) or changed
+    changed = update_consolidated_history(verified_consolidated) or changed
+    changed = update_sources(article, checked_at) or changed
     print(f"Aragón Hoy: {article['published_at']} · {article['url']}")
     return changed
 

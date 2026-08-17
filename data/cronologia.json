@@ -2,16 +2,6 @@
   "ultima_revision": "2026-08-17T10:01:28+02:00",
   "eventos": [
     {
-      "fecha_hora": "2026-08-17T12:55:14+02:00",
-      "categoria": "Perímetro",
-      "descripcion": "El perímetro alcanza aproximadamente 100 kilómetros, según declaraciones de responsables del Gobierno de Aragón recogidas por Cadena SER.",
-      "fiabilidad": "provisional",
-      "fuente": {
-        "nombre": "Cadena SER / responsables del Gobierno de Aragón",
-        "url": "https://cadenaser.com/aragon/2026/08/17/luis-biendicho-el-incendio-de-las-penas-de-riglos-evoluciona-favorablemente-pero-tenemos-fuego-para-dias-radio-zaragoza/"
-      }
-    },
-    {
       "fecha_hora": "2026-08-17T10:01:28+02:00",
       "categoria": "Situación general",
       "descripcion": "Una noche de trabajo favorable permite avanzar en la extinción del incendio de Las Peñas de Riglos. El parte comunica 17500 hectáreas provisionales, 19 núcleos evacuados, 1046 personas evacuadas, 8 vías cortadas.",
@@ -69,16 +59,6 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
-    },
-    {
-      "fecha_hora": "2026-08-14T19:23:43+02:00",
-      "categoria": "Perímetro",
-      "descripcion": "Se publica un 40 % del perímetro consolidado.",
-      "fiabilidad": "provisional",
-      "fuente": {
-        "nombre": "Cadena SER / Radio Huesca, con información del Gobierno de Aragón",
-        "url": "https://cadenaser.com/aragon/2026/08/14/el-incendio-de-las-penas-de-riglos-sigue-activo-y-con-un-40-del-perimetro-consolidado-radio-huesca/"
       }
     },
     {
@@ -180,16 +160,8 @@
     {
       "fecha": "2026-08-14T19:23:43+02:00",
       "superficie_ha": null,
-      "perimetro_consolidado_pct": 40,
-      "precipitacion_mm": null,
-      "perimetro_consolidado_meta": {
-        "fecha_hora": "2026-08-14T19:23:43+02:00",
-        "fiabilidad": "provisional",
-        "fuente": {
-          "nombre": "Cadena SER / Radio Huesca, con información del Gobierno de Aragón",
-          "url": "https://cadenaser.com/aragon/2026/08/14/el-incendio-de-las-penas-de-riglos-sigue-activo-y-con-un-40-del-perimetro-consolidado-radio-huesca/"
-        }
-      }
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
     },
     {
       "fecha": "2026-08-14T20:59:45+02:00",
@@ -228,5 +200,5 @@
       "precipitacion_mm": null
     }
   ],
-  "nota_edicion": "Las superficies son cifras nominales comunicadas oficialmente. Los porcentajes de consolidación son observaciones explícitas y fechadas: 50 % el 12 de agosto y 40 % el 14 de agosto. El descenso no es una contradicción necesariamente, porque el perímetro total creció entre ambas publicaciones; no se interpolan los periodos sin cifra."
+  "nota_edicion": "Las superficies y porcentajes son cifras explícitas publicadas por fuentes oficiales. La línea une los puntos oficiales disponibles sin inventar valores intermedios; una cifra difundida únicamente por medios de comunicación no se incorpora."
 }

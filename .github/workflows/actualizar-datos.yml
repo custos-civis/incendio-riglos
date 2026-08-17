@@ -35,10 +35,12 @@ jobs:
         run: |
           python -m py_compile scripts/update_public_data.py
           python -m py_compile scripts/validate_public_data.py
+          python -m py_compile scripts/verify_official_sources.py
           for file in data/*.json data/*.geojson; do
             python -m json.tool "$file" > /dev/null
           done
           python scripts/validate_public_data.py
+          python scripts/verify_official_sources.py
           git diff --check
 
       - name: Publicar solo si hay datos nuevos

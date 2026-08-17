@@ -106,9 +106,10 @@ window.RiglosMap = (() => {
     const trace = Array.isArray(item.trazado) && item.trazado.length > 1;
     const reference = item.trazado_pk_referencia;
     const mappedPks = reference ? `<br>PK cartográficos de referencia: ${escapeHtml(formatNumber(reference.inicio))}–${escapeHtml(formatNumber(reference.fin))}` : "";
-    const note = trace
-      ? "Línea aproximada sobre el eje viario oficial de ICEARAGON entre los PK georreferenciados disponibles."
-      : "Marcador orientativo; no hay correspondencia suficiente de PK georreferenciados para dibujar una línea fiable.";
+    const method = item.trazado_metodo === "eje_oficial_completo"
+      ? "Línea aproximada sobre el eje viario oficial completo; DGT publica un intervalo que abarca toda la vía."
+      : "Línea aproximada sobre el eje viario oficial entre los PK oficiales disponibles.";
+    const note = trace ? method : `Marcador orientativo: ${escapeHtml(item.trazado_no_disponible || "no hay correspondencia oficial suficiente para dibujar una línea fiable.")}`;
     const traceSource = trace ? safeSourceLink(item.trazado_fuente) : "";
     return `<strong>Carretera cortada: ${escapeHtml(item.carretera)}</strong><br>${escapeHtml(item.tramo)}${direction}${mappedPks}<br><small>${note} Confirma el estado en DGT o llamando al 011.</small>${source}${traceSource}`;
   }
