@@ -1,5 +1,5 @@
 {
-  "ultima_comprobacion_panel": "2026-08-17T19:22:38+02:00",
+  "ultima_comprobacion_panel": "2026-08-17T19:33:47+02:00",
   "ultima_actualizacion_oficial": "2026-08-17T10:01:28+02:00",
   "estado": {
     "value": "Activo",
@@ -40,8 +40,16 @@
     }
   },
   "perimetro_longitud_ultima_km": {
-    "value": null,
-    "meta": null
+    "value": 58,
+    "meta": {
+      "fecha_hora": "2026-08-14T20:59:00+02:00",
+      "fiabilidad": "historico",
+      "vigencia": "Última longitud explícita publicada; puede no ser el valor vigente.",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    }
   },
   "nucleos_evacuados": {
     "value": 19,

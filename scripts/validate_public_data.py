@@ -141,11 +141,20 @@ def validate_official_sources(documents: dict) -> None:
             fail(f"fuentes.json: dominio no oficial en {source.get('id', '?')}")
     chronology = documents.get("cronologia.json", {})
     for point in chronology.get("series", []):
-        if point.get("perimetro_consolidado_pct") is None:
-            continue
-        url = str(point.get("perimetro_consolidado_meta", {}).get("fuente", {}).get("url") or "")
-        if "aragonhoy.es" not in url:
-            fail("cronologia.json: porcentaje de perímetro sin fuente oficial del Gobierno de Aragón")
+        percentage = point.get("perimetro_consolidado_pct")
+        if percentage is not None:
+            if not isinstance(percentage, (int, float)) or not 0 <= percentage <= 100:
+                fail("cronologia.json: porcentaje de perímetro fuera de rango")
+            url = str(point.get("perimetro_consolidado_meta", {}).get("fuente", {}).get("url") or "")
+            if "aragonhoy.es" not in url:
+                fail("cronologia.json: porcentaje de perímetro sin fuente oficial del Gobierno de Aragón")
+        length = point.get("perimetro_longitud_km")
+        if length is not None:
+            if not isinstance(length, (int, float)) or not 0 < length <= 2_000:
+                fail("cronologia.json: longitud de perímetro fuera de rango")
+            url = str(point.get("perimetro_longitud_meta", {}).get("fuente", {}).get("url") or "")
+            if "aragonhoy.es" not in url:
+                fail("cronologia.json: longitud de perímetro sin fuente oficial del Gobierno de Aragón")
 
 
 def validate_geojson(path: Path, data) -> None:

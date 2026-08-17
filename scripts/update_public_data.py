@@ -136,6 +136,30 @@ CONSOLIDATED_HISTORY = (
         "patron": r"(?:perimetrar\s+el\s+50|mitad\s+del\s+perimetro)",
     },
 )
+PERIMETER_LENGTH_HISTORY = (
+    {
+        "fecha": "2026-08-12T10:39:19+02:00",
+        "value": 41.9,
+        "fiabilidad": "oficial",
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": (
+            "https://www.aragonhoy.es/hacienda-interior-administracion-publica/"
+            "operativo-logra-perimetrar-50-incendio-penas-riglos-106081"
+        ),
+        "patron": r"perimetro\s+de\s+41[,.]9\s+kilometros",
+    },
+    {
+        "fecha": "2026-08-14T20:59:00+02:00",
+        "value": 58,
+        "fiabilidad": "oficial",
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": (
+            "https://www.aragonhoy.es/hacienda-interior-administracion-publica/"
+            "aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+        ),
+        "patron": r"perimetro\s+de\s+58\s+kilometros",
+    },
+)
 SPANISH_MONTHS = {
     "enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
     "julio": 7, "agosto": 8, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12,
@@ -186,6 +210,20 @@ def first_integer(text: str, patterns: tuple[str, ...]) -> int | None:
         match = re.search(pattern, text, re.I)
         if match:
             return spanish_integer(match.group(1))
+    return None
+
+
+def first_decimal(text: str, patterns: tuple[str, ...]) -> float | int | None:
+    for pattern in patterns:
+        match = re.search(pattern, text, re.I)
+        if match:
+            value = match.group(1).strip()
+            value = value.replace(".", "").replace(",", ".") if "," in value else value
+            try:
+                parsed = float(value)
+                return int(parsed) if parsed.is_integer() else parsed
+            except ValueError:
+                continue
     return None
 
 
@@ -723,10 +761,31 @@ def verify_consolidated_history() -> list[dict]:
             verified.append(item)
         except Exception as error:
             print(f"AVISO: no se pudo revalidar el {item['value']} % del {item['fecha'][:10]}: {error}")
+    if os.environ.get("RIGLOS_STRICT_UPDATE") == "1" and len(verified) != len(CONSOLIDATED_HISTORY):
+        raise RuntimeError("no se pudieron revalidar todos los porcentajes históricos del perímetro")
     return verified
 
 
-def update_consolidated_history(records: list[dict]) -> bool:
+def verify_perimeter_length_history() -> list[dict]:
+    """Revalida las longitudes fechadas antes de incorporarlas a la serie."""
+    verified = []
+    for item in PERIMETER_LENGTH_HISTORY:
+        try:
+            raw = fetch_bytes(
+                item["url"],
+                user_agent="Mozilla/5.0 (compatible; incendio-riglos-panel/1.0)",
+            ).decode("utf-8", errors="replace")
+            if not re.search(item["patron"], normalize_text(clean_html(raw)), re.I):
+                raise RuntimeError("la longitud esperada ya no aparece en la publicación")
+            verified.append(item)
+        except Exception as error:
+            print(f"AVISO: no se pudo revalidar el perímetro de {item['value']} km del {item['fecha'][:10]}: {error}")
+    if os.environ.get("RIGLOS_STRICT_UPDATE") == "1" and len(verified) != len(PERIMETER_LENGTH_HISTORY):
+        raise RuntimeError("no se pudieron revalidar todas las longitudes históricas del perímetro")
+    return verified
+
+
+def update_perimeter_history(percent_records: list[dict], length_records: list[dict]) -> bool:
     path = DATA / "cronologia.json"
     data = read_json(path)
     series = data.setdefault("series", [])
@@ -737,13 +796,18 @@ def update_consolidated_history(records: list[dict]) -> bool:
         if point.get("perimetro_consolidado_pct") is not None and not any(host in source_url for host in official_hosts):
             point["perimetro_consolidado_pct"] = None
             point.pop("perimetro_consolidado_meta", None)
+        length_meta = point.get("perimetro_longitud_meta") or {}
+        length_url = str(length_meta.get("fuente", {}).get("url") or "")
+        if point.get("perimetro_longitud_km") is not None and not any(host in length_url for host in official_hosts):
+            point["perimetro_longitud_km"] = None
+            point.pop("perimetro_longitud_meta", None)
     events = [
         event for event in data.setdefault("eventos", [])
         if "cadenaser.com" not in str(event.get("fuente", {}).get("url") or "")
     ]
     data["eventos"] = events
     known_urls = {item.get("fuente", {}).get("url") for item in events}
-    for record in records:
+    for record in percent_records:
         point = next((item for item in series if item.get("fecha") == record["fecha"]), None)
         if point is None:
             point = {
@@ -771,10 +835,26 @@ def update_consolidated_history(records: list[dict]) -> bool:
                 "fuente": {"nombre": record["nombre"], "url": record["url"]},
             })
             known_urls.add(record["url"])
+    for record in length_records:
+        point = next((item for item in series if item.get("fecha") == record["fecha"]), None)
+        if point is None:
+            point = {
+                "fecha": record["fecha"],
+                "superficie_ha": None,
+                "perimetro_consolidado_pct": None,
+                "precipitacion_mm": None,
+            }
+            series.append(point)
+        point["perimetro_longitud_km"] = record["value"]
+        point["perimetro_longitud_meta"] = {
+            "fecha_hora": record["fecha"],
+            "fiabilidad": record["fiabilidad"],
+            "fuente": {"nombre": record["nombre"], "url": record["url"]},
+        }
     series.sort(key=lambda item: item["fecha"])
     events.sort(key=lambda item: item["fecha_hora"], reverse=True)
     data["nota_edicion"] = (
-        "Las superficies y porcentajes son cifras explícitas publicadas por fuentes oficiales. La línea une "
+        "Las superficies, los porcentajes y las longitudes son cifras explícitas publicadas por fuentes oficiales. La línea une "
         "los puntos oficiales disponibles sin inventar valores intermedios; una cifra difundida únicamente "
         "por medios de comunicación no se incorpora."
     )
@@ -877,10 +957,11 @@ def update_official_incident_data() -> bool:
         r"perimetro.{0,60}?consolidad[oa].{0,30}?([0-9]{1,3})\s*%",
         r"consolidad[oa].{0,50}?([0-9]{1,3})\s*%\s+del\s+perimetro",
     ))
-    perimeter_length = first_integer(normalized, (
-        r"perimetro.{0,50}?(?:de|alcanza|asciende a)\s*([0-9][0-9.]*)\s*kilometros",
+    perimeter_length = first_decimal(normalized, (
+        r"perimetro.{0,50}?(?:de|alcanza|asciende a)\s*([0-9][0-9.,]*)\s*kilometros",
     ))
     verified_consolidated = verify_consolidated_history()
+    verified_lengths = verify_perimeter_length_history()
 
     state_path = DATA / "estado.json"
     state = read_json(state_path)
@@ -922,6 +1003,17 @@ def update_official_incident_data() -> bool:
             "meta": {
                 **official_meta(article["published_at"], article["url"], reliability="historico"),
                 "vigencia": "Última longitud explícita publicada; puede no ser el valor vigente.",
+            },
+        }
+    elif verified_lengths:
+        latest_length = max(verified_lengths, key=lambda item: item["fecha"])
+        state["perimetro_longitud_ultima_km"] = {
+            "value": latest_length["value"],
+            "meta": {
+                "fecha_hora": latest_length["fecha"],
+                "fiabilidad": "historico",
+                "vigencia": "Última longitud explícita publicada; puede no ser el valor vigente.",
+                "fuente": {"nombre": latest_length["nombre"], "url": latest_length["url"]},
             },
         }
     elif "aragonhoy.es" not in str(((state.get("perimetro_longitud_ultima_km", {}).get("meta") or {}).get("fuente") or {}).get("url") or ""):
@@ -969,7 +1061,7 @@ def update_official_incident_data() -> bool:
         changed = write_json_if_changed(roads_path, road_data) or changed
 
     changed = update_chronology(article, area, nuclei, people, roads, consolidated) or changed
-    changed = update_consolidated_history(verified_consolidated) or changed
+    changed = update_perimeter_history(verified_consolidated, verified_lengths) or changed
     changed = update_sources(article, checked_at) or changed
     print(f"Aragón Hoy: {article['published_at']} · {article['url']}")
     return changed

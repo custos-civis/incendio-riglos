@@ -143,6 +143,15 @@
           "nombre": "Gobierno de Aragón / Aragón Hoy",
           "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-logra-perimetrar-50-incendio-penas-riglos-106081"
         }
+      },
+      "perimetro_longitud_km": 41.9,
+      "perimetro_longitud_meta": {
+        "fecha_hora": "2026-08-12T10:39:19+02:00",
+        "fiabilidad": "oficial",
+        "fuente": {
+          "nombre": "Gobierno de Aragón / Aragón Hoy",
+          "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-logra-perimetrar-50-incendio-penas-riglos-106081"
+        }
       }
     },
     {
@@ -162,6 +171,21 @@
       "superficie_ha": null,
       "perimetro_consolidado_pct": null,
       "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-14T20:59:00+02:00",
+      "superficie_ha": null,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null,
+      "perimetro_longitud_km": 58,
+      "perimetro_longitud_meta": {
+        "fecha_hora": "2026-08-14T20:59:00+02:00",
+        "fiabilidad": "oficial",
+        "fuente": {
+          "nombre": "Gobierno de Aragón / Aragón Hoy",
+          "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+        }
+      }
     },
     {
       "fecha": "2026-08-14T20:59:45+02:00",
@@ -200,5 +224,5 @@
       "precipitacion_mm": null
     }
   ],
-  "nota_edicion": "Las superficies y porcentajes son cifras explícitas publicadas por fuentes oficiales. La línea une los puntos oficiales disponibles sin inventar valores intermedios; una cifra difundida únicamente por medios de comunicación no se incorpora."
+  "nota_edicion": "Las superficies, los porcentajes y las longitudes son cifras explícitas publicadas por fuentes oficiales. La línea une los puntos oficiales disponibles sin inventar valores intermedios; una cifra difundida únicamente por medios de comunicación no se incorpora."
 }

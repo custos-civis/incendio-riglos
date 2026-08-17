@@ -1,5 +1,5 @@
 {
-  "ultima_revision": "2026-08-17T19:20:00+02:00",
+  "ultima_revision": "2026-08-17T19:30:00+02:00",
   "registros": [
     {
       "carretera": "A-1205",
@@ -9,7 +9,7 @@
       "sentido": "Sentido creciente de la kilometración",
       "localizacion": "Jaca – Santa María",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T19:20:00+02:00",
+      "fecha_hora": "2026-08-17T19:30:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -1937,7 +1937,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Murillo de Gállego – Puente la Reina de Jaca",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T19:20:00+02:00",
+      "fecha_hora": "2026-08-17T19:30:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -2909,7 +2909,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Abay – Puente la Reina de Jaca",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T19:20:00+02:00",
+      "fecha_hora": "2026-08-17T19:30:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -3073,7 +3073,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Bernués – Botaya",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T19:20:00+02:00",
+      "fecha_hora": "2026-08-17T19:30:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -3725,7 +3725,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Bailo",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T19:20:00+02:00",
+      "fecha_hora": "2026-08-17T19:30:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -3745,7 +3745,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Yeste – Rasal",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T19:20:00+02:00",
+      "fecha_hora": "2026-08-17T19:30:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -4113,7 +4113,7 @@
       "sentido": "Sentido creciente de la kilometración",
       "localizacion": "Javierrelatre – Osia",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T19:20:00+02:00",
+      "fecha_hora": "2026-08-17T19:30:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -4393,7 +4393,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Áscara – Atarés",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T19:20:00+02:00",
+      "fecha_hora": "2026-08-17T19:30:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -4405,168 +4405,168 @@
       "ubicacion_aproximada": true,
       "trazado": [
         [
-          42.5323642,
-          -0.6249147
-        ],
-        [
-          42.5325638,
-          -0.6252032
-        ],
-        [
-          42.5325893,
-          -0.6255637
-        ],
-        [
-          42.5327022,
-          -0.6257976
-        ],
-        [
-          42.5332524,
-          -0.6267112
-        ],
-        [
-          42.5332721,
-          -0.6276632
-        ],
-        [
-          42.5331793,
-          -0.6283988
-        ],
-        [
-          42.5336106,
-          -0.630527
-        ],
-        [
-          42.5335902,
-          -0.6315026
-        ],
-        [
-          42.5337158,
-          -0.631695
-        ],
-        [
-          42.5339357,
-          -0.6325329
-        ],
-        [
-          42.534674,
-          -0.6331792
-        ],
-        [
-          42.5359794,
-          -0.6340363
-        ],
-        [
-          42.5370064,
-          -0.6344922
-        ],
-        [
-          42.5390797,
-          -0.6363386
-        ],
-        [
-          42.5403667,
-          -0.6378289
-        ],
-        [
-          42.5409606,
-          -0.6382442
-        ],
-        [
-          42.5416215,
-          -0.6384163
-        ],
-        [
-          42.5418745,
-          -0.6386785
-        ],
-        [
-          42.5422669,
-          -0.6393647
-        ],
-        [
-          42.5424939,
-          -0.6394551
-        ],
-        [
-          42.5435642,
-          -0.6391757
-        ],
-        [
-          42.5442188,
-          -0.6392576
-        ],
-        [
-          42.5447458,
-          -0.6388336
-        ],
-        [
-          42.5468427,
-          -0.6381129
-        ],
-        [
-          42.5475815,
-          -0.6381337
-        ],
-        [
-          42.5488764,
-          -0.6389168
-        ],
-        [
-          42.5498965,
-          -0.6390428
-        ],
-        [
-          42.5511238,
-          -0.6398209
-        ],
-        [
-          42.5531295,
-          -0.6383918
-        ],
-        [
-          42.5533269,
-          -0.6379223
-        ],
-        [
-          42.5534274,
-          -0.6375561
-        ],
-        [
-          42.5534344,
-          -0.636806
-        ],
-        [
-          42.5529478,
-          -0.6348269
-        ],
-        [
-          42.5529751,
-          -0.6346196
-        ],
-        [
-          42.5538243,
-          -0.633228
-        ],
-        [
-          42.5541642,
-          -0.6328961
-        ],
-        [
-          42.5552304,
-          -0.6324181
-        ],
-        [
-          42.5555517,
-          -0.6329312
+          42.5561827,
+          -0.6331829
         ],
         [
           42.5558219,
           -0.6331516
         ],
         [
-          42.5561827,
-          -0.6331829
+          42.5555517,
+          -0.6329312
+        ],
+        [
+          42.5552304,
+          -0.6324181
+        ],
+        [
+          42.5541642,
+          -0.6328961
+        ],
+        [
+          42.5538243,
+          -0.633228
+        ],
+        [
+          42.5529751,
+          -0.6346196
+        ],
+        [
+          42.5529478,
+          -0.6348269
+        ],
+        [
+          42.5534344,
+          -0.636806
+        ],
+        [
+          42.5534274,
+          -0.6375561
+        ],
+        [
+          42.5533269,
+          -0.6379223
+        ],
+        [
+          42.5531295,
+          -0.6383918
+        ],
+        [
+          42.5511238,
+          -0.6398209
+        ],
+        [
+          42.5498965,
+          -0.6390428
+        ],
+        [
+          42.5488764,
+          -0.6389168
+        ],
+        [
+          42.5475815,
+          -0.6381337
+        ],
+        [
+          42.5468427,
+          -0.6381129
+        ],
+        [
+          42.5447458,
+          -0.6388336
+        ],
+        [
+          42.5442188,
+          -0.6392576
+        ],
+        [
+          42.5435642,
+          -0.6391757
+        ],
+        [
+          42.5424939,
+          -0.6394551
+        ],
+        [
+          42.5422669,
+          -0.6393647
+        ],
+        [
+          42.5418745,
+          -0.6386785
+        ],
+        [
+          42.5416215,
+          -0.6384163
+        ],
+        [
+          42.5409606,
+          -0.6382442
+        ],
+        [
+          42.5403667,
+          -0.6378289
+        ],
+        [
+          42.5390797,
+          -0.6363386
+        ],
+        [
+          42.5370064,
+          -0.6344922
+        ],
+        [
+          42.5359794,
+          -0.6340363
+        ],
+        [
+          42.534674,
+          -0.6331792
+        ],
+        [
+          42.5339357,
+          -0.6325329
+        ],
+        [
+          42.5337158,
+          -0.631695
+        ],
+        [
+          42.5335902,
+          -0.6315026
+        ],
+        [
+          42.5336106,
+          -0.630527
+        ],
+        [
+          42.5331793,
+          -0.6283988
+        ],
+        [
+          42.5332721,
+          -0.6276632
+        ],
+        [
+          42.5332524,
+          -0.6267112
+        ],
+        [
+          42.5327022,
+          -0.6257976
+        ],
+        [
+          42.5325893,
+          -0.6255637
+        ],
+        [
+          42.5325638,
+          -0.6252032
+        ],
+        [
+          42.5323642,
+          -0.6249147
         ]
       ],
       "trazado_aproximado": true,

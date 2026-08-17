@@ -16,9 +16,9 @@
   <link rel="stylesheet" href="css/leaflet.css?v=1.9.4-local">
   <link rel="stylesheet" href="css/style.css?v=20260817-official-roads-cecopi">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
-  <script src="js/charts.js?v=20260817-continuous-official" defer></script>
+  <script src="js/charts.js?v=20260817-perimeter-length" defer></script>
   <script src="js/map.js?v=20260817-official-roads-cecopi" defer></script>
-  <script src="js/app.js?v=20260817-official-chart-note" defer></script>
+  <script src="js/app.js?v=20260817-perimeter-length" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
@@ -134,6 +134,7 @@
       <div class="chart-tabs" role="tablist" aria-label="Variable de la gráfica">
         <button type="button" role="tab" aria-selected="true" aria-controls="chart-panel" data-chart="superficie_ha">Superficie</button>
         <button type="button" role="tab" aria-selected="false" aria-controls="chart-panel" data-chart="perimetro_consolidado_pct">Perímetro consolidado</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="chart-panel" data-chart="perimetro_longitud_km">Longitud del perímetro</button>
         <button type="button" role="tab" aria-selected="false" aria-controls="chart-panel" data-chart="precipitacion_mm">Precipitación</button>
       </div>
       <div id="chart-panel" class="chart-panel" role="tabpanel"><div id="evolution-chart" class="chart" aria-live="polite"></div></div>

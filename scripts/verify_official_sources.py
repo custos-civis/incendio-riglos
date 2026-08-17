@@ -115,12 +115,52 @@ def verify_cecopi(state: dict) -> None:
         )
 
 
+def verify_perimeter_history(chronology: dict) -> tuple[int, int]:
+    """Contrasta cada porcentaje y longitud de la serie con su publicación oficial."""
+    cache: dict[str, str] = {}
+    percentages = lengths = 0
+    for point in chronology.get("series", []):
+        percentage = point.get("perimetro_consolidado_pct")
+        if percentage is not None:
+            meta = point.get("perimetro_consolidado_meta") or {}
+            url = str((meta.get("fuente") or {}).get("url") or "")
+            if urlparse(url).netloc not in {"aragonhoy.es", "www.aragonhoy.es"}:
+                raise RuntimeError("un porcentaje histórico no tiene fuente oficial de Aragón Hoy")
+            visible = cache.setdefault(url, clean_html(fetch(url).decode("utf-8", errors="replace")))
+            explicit = re.search(rf"{re.escape(str(percentage))}\s*%", visible, re.I)
+            half = percentage == 50 and re.search(r"mitad\s+del\s+per.metro", visible, re.I)
+            if not explicit and not half:
+                raise RuntimeError(f"el {percentage} % histórico no aparece en su publicación oficial")
+            percentages += 1
+
+        length = point.get("perimetro_longitud_km")
+        if length is not None:
+            meta = point.get("perimetro_longitud_meta") or {}
+            url = str((meta.get("fuente") or {}).get("url") or "")
+            if urlparse(url).netloc not in {"aragonhoy.es", "www.aragonhoy.es"}:
+                raise RuntimeError("una longitud histórica no tiene fuente oficial de Aragón Hoy")
+            visible = cache.setdefault(url, clean_html(fetch(url).decode("utf-8", errors="replace")))
+            displayed = str(length).replace(".", "[,.]")
+            if not re.search(rf"per.metro.{{0,80}}{displayed}\s+kil.metros", visible, re.I):
+                raise RuntimeError(f"el perímetro de {length} km no aparece en su publicación oficial")
+            lengths += 1
+    if percentages < 1 or lengths < 2:
+        raise RuntimeError("la serie histórica del perímetro está incompleta")
+    return percentages, lengths
+
+
 def main() -> None:
     roads = json.loads((DATA / "carreteras.json").read_text(encoding="utf-8"))["registros"]
     state = json.loads((DATA / "estado.json").read_text(encoding="utf-8"))
+    chronology = json.loads((DATA / "cronologia.json").read_text(encoding="utf-8"))
     verify_dgt(roads)
     verify_cecopi(state)
-    print(f"Verificación externa completa: DGT ({len(roads)} cortes) y último informe CECOPI coinciden")
+    percentages, lengths = verify_perimeter_history(chronology)
+    print(
+        "Verificación externa completa: "
+        f"DGT ({len(roads)} cortes), último informe CECOPI y serie de perímetro "
+        f"({percentages} porcentaje, {lengths} longitudes) coinciden"
+    )
 
 
 if __name__ == "__main__":

@@ -4,6 +4,7 @@ window.RiglosCharts = (() => {
   const config = {
     superficie_ha: { label: "Superficie", unit: "ha" },
     perimetro_consolidado_pct: { label: "Perímetro consolidado", unit: "%" },
+    perimetro_longitud_km: { label: "Longitud del perímetro", unit: "km" },
     precipitacion_mm: { label: "Precipitación", unit: "mm" }
   };
 
@@ -23,16 +24,16 @@ window.RiglosCharts = (() => {
       return;
     }
     const chart = chartGeometry(valid);
-    const paths = buildSegments(series, key, ["superficie_ha", "perimetro_consolidado_pct"].includes(key)).map(segment => segment
+    const paths = buildSegments(series, key, ["superficie_ha", "perimetro_consolidado_pct", "perimetro_longitud_km"].includes(key)).map(segment => segment
       .filter(item => item[key] != null)
       .map(item => `${chart.x(new Date(item.fecha))},${chart.y(item[key])}`).join(" "))
       .filter(Boolean)
       .map(points => `<polyline class="chart-line" points="${points}" />`).join("");
     const points = valid.map(item => {
-      const meta = item.perimetro_consolidado_meta;
+      const meta = key === "perimetro_longitud_km" ? item.perimetro_longitud_meta : item.perimetro_consolidado_meta;
       const source = meta?.fuente?.nombre ? ` · ${meta.fuente.nombre}` : "";
-      const label = key === "perimetro_consolidado_pct"
-        ? `<text class="chart-value" x="${chart.x(item.date)}" y="${chart.y(item.value) - 13}" text-anchor="middle">${format(item.value)} %</text>`
+      const label = ["perimetro_consolidado_pct", "perimetro_longitud_km"].includes(key)
+        ? `<text class="chart-value" x="${chart.x(item.date)}" y="${chart.y(item.value) - 13}" text-anchor="middle">${format(item.value)} ${config[key].unit}</text>`
         : "";
       return `${label}<circle class="chart-point" cx="${chart.x(item.date)}" cy="${chart.y(item.value)}" r="5"><title>${formatDate(item.date)}: ${format(item.value)} ${config[key].unit}${source}</title></circle>`;
     }).join("");
