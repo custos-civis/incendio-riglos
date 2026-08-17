@@ -19,6 +19,11 @@ OFFICIAL_SOURCE_HOSTS = (
     "aragonhoy.es", "aragon.es", "aemet.es", "dgt.es", "cartociudad.es",
     "idearagon.aragon.es", "opendata.aragon.es", "copernicus.eu", "europa.eu",
 )
+SECONDARY_PERIMETER_URL = (
+    "https://cadenaser.com/aragon/2026/08/17/"
+    "miguel-angel-clavero-en-hoy-por-hoy-hemos-podido-estabilizar-diferentes-frentes-"
+    "del-incendio-de-las-penas-de-riglos-radio-zaragoza/"
+)
 errors: list[str] = []
 
 
@@ -57,7 +62,8 @@ def validate_all_urls(value, context: str) -> None:
         for index, child in enumerate(value):
             validate_all_urls(child, f"{context}[{index}]")
     elif isinstance(value, str) and value.startswith(("http://", "https://")):
-        if not official_url(value):
+        secondary_context = "estado.json.perimetro_longitud_secundaria_km.meta.fuente.url"
+        if not official_url(value) and not (context == secondary_context and value == SECONDARY_PERIMETER_URL):
             fail(f"{context}: URL no oficial o sin HTTPS ({value})")
 
 
@@ -155,6 +161,18 @@ def validate_official_sources(documents: dict) -> None:
             url = str(point.get("perimetro_longitud_meta", {}).get("fuente", {}).get("url") or "")
             if "aragonhoy.es" not in url:
                 fail("cronologia.json: longitud de perímetro sin fuente oficial del Gobierno de Aragón")
+    state = documents.get("estado.json", {})
+    secondary = state.get("perimetro_longitud_secundaria_km") if isinstance(state, dict) else None
+    if secondary is not None:
+        meta = secondary.get("meta") or {}
+        source = meta.get("fuente") or {}
+        if secondary.get("value") != 100:
+            fail("estado.json: la referencia periodística de perímetro no coincide con los 100 km publicados")
+        if meta.get("fiabilidad") != "fuente_secundaria":
+            fail("estado.json: la referencia periodística no está etiquetada como fuente secundaria")
+        if source.get("url") != SECONDARY_PERIMETER_URL:
+            fail("estado.json: la referencia periodística no usa la publicación contrastada")
+        valid_date(meta.get("fecha_hora"), "estado.json referencia periodística de perímetro")
 
 
 def validate_geojson(path: Path, data) -> None:

@@ -59,6 +59,7 @@ function renderMapSummary() {
   const perimeter = normalizeDatum(e.perimetro_consolidado_pct);
   const lastPercentage = normalizeDatum(e.perimetro_consolidado_ultimo_pct);
   const lastLength = normalizeDatum(e.perimetro_longitud_ultima_km);
+  const secondaryLength = normalizeDatum(e.perimetro_longitud_secundaria_km);
   const values = [
     ["Estado", e.estado?.value ?? "—"],
     ["Superficie", e.superficie_ha?.value == null ? "—" : `${formatNumber(e.superficie_ha.value)} ha`],
@@ -72,7 +73,7 @@ function renderMapSummary() {
     const fullText = `${label}: ${value}`;
     return `<div title="${escapeHtml(fullText)}"><span>${escapeHtml(label)}</span><strong title="${escapeHtml(value)}">${escapeHtml(value)}</strong></div>`;
   }).join("");
-  document.getElementById("perimeter-history").innerHTML = `<strong>Cifras de perímetro:</strong> ${historicalPerimeterLinks(lastPercentage, lastLength)}. La longitud es aproximada y el porcentaje es una referencia histórica fechada.`;
+  document.getElementById("perimeter-history").innerHTML = `<strong>Cifras oficiales de perímetro:</strong> ${historicalPerimeterLinks(lastPercentage, lastLength)}. La longitud es aproximada y el porcentaje es una referencia histórica fechada.${secondaryLength.value == null ? "" : ` <strong>Referencia periodística:</strong> ${historicalDatumLink(`≈ ${formatNumber(secondaryLength.value)} km`, secondaryLength.meta)}; no incorporada a la serie oficial.`}`;
   const traced = roads.filter(road => Array.isArray(road.trazado) && road.trazado.length > 1).length;
   const missing = roads.length - traced;
   document.getElementById("road-map-note").textContent = missing
@@ -89,7 +90,7 @@ function renderSummary() {
   const e = state.data.estado;
   const m = state.data.meteo;
   const cards = [
-    metricCard("Estado del incendio", e.estado, "", e.estado_meta, String(e.estado?.value || "").toLowerCase() === "activo" ? "danger" : ""),
+    metricCard("Último estado explícitamente publicado", e.estado, "", e.estado_meta, String(e.estado?.value || "").toLowerCase() === "activo" ? "danger" : ""),
     metricCard("Superficie", e.superficie_ha, "ha", e.superficie_ha?.meta),
     perimeterCard(e),
     evacuationsCard(e),
@@ -102,14 +103,21 @@ function perimeterCard(e) {
   const current = normalizeDatum(e.perimetro_consolidado_pct);
   const lastPercentage = normalizeDatum(e.perimetro_consolidado_ultimo_pct);
   const lastLength = normalizeDatum(e.perimetro_longitud_ultima_km);
+  const secondaryLength = normalizeDatum(e.perimetro_longitud_secundaria_km);
   const currentValue = lastLength.value == null ? "Sin cifra vigente" : `≈ ${formatNumber(lastLength.value)} km`;
   const consolidatedValue = current.value == null ? "No publicado en el último parte" : `${formatNumber(current.value)} % consolidado`;
   return `<article class="metric-card perimeter-card">
     <span class="metric-label">Perímetro aproximado</span>
     <strong class="metric-value ${lastLength.value == null ? "unavailable" : ""}">${escapeHtml(currentValue)}</strong>
     <div class="perimeter-history"><span>Consolidación</span>${escapeHtml(consolidatedValue)}${lastPercentage.value == null ? "" : ` · ${historicalDatumLink(`${formatNumber(lastPercentage.value)} % (último explícito)`, lastPercentage.meta)}`}</div>
+    ${secondaryPerimeterReference(secondaryLength)}
     ${sourceBlock(lastLength.meta || current.meta)}
   </article>`;
+}
+
+function secondaryPerimeterReference(datum) {
+  if (datum.value == null) return "";
+  return `<div class="secondary-reference">${badge("fuente_secundaria")}<span>${historicalDatumLink(`≈ ${formatNumber(datum.value)} km difundidos por Cadena SER`, datum.meta)}</span><small>Referencia periodística vinculada a entrevistas con responsables del Gobierno de Aragón; no publicada en un parte oficial ni incorporada a la gráfica.</small></div>`;
 }
 
 function historicalPerimeterLinks(lastPercentage, lastLength) {
@@ -319,7 +327,7 @@ function sourceLink(source) {
 
 function badge(value) {
   const key = String(value || "sin_actualizacion").toLowerCase();
-  const mapping = { oficial: ["official", "Oficial"], provisional: ["provisional", "Provisional"], historico: ["manual", "Dato histórico"], sin_actualizacion: ["stale", "No publicado"] };
+  const mapping = { oficial: ["official", "Oficial"], provisional: ["provisional", "Provisional"], historico: ["manual", "Dato histórico"], fuente_secundaria: ["secondary", "Fuente periodística"], sin_actualizacion: ["stale", "No publicado"] };
   const [className, label] = mapping[key] || mapping.sin_actualizacion;
   return `<span class="badge ${className}">${label}</span>`;
 }

@@ -43,6 +43,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .eyebrow, .section-kicker { margin: 0 0 .55rem; font-size: .75rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
 .eyebrow { color: #c0d8d8; }
 .signal-dot { display: inline-block; width: 9px; height: 9px; margin-right: 7px; border-radius: 50%; background: #dc794e; box-shadow: 0 0 0 4px rgba(220,121,78,.15); }
+.auto-update-indicator { display: inline-flex; gap: 7px; align-items: center; margin: 0 0 14px; padding: 5px 9px; color: #d8e7e7; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); border-radius: 999px; font-size: .7rem; font-weight: 750; }
+.auto-update-indicator > span { width: 7px; height: 7px; border-radius: 50%; background: #75c5a5; box-shadow: 0 0 0 3px rgba(117,197,165,.12); }
 h1 { max-width: 780px; margin: 0; font-family: Georgia, Cambria, serif; font-size: clamp(2.3rem, 5.5vw, 4.8rem); font-weight: 500; line-height: .98; letter-spacing: -.035em; }
 .lede { max-width: 710px; margin: 1.4rem 0 0; color: #d8e7e7; font-size: clamp(1.05rem, 2vw, 1.25rem); }
 .official-warning { display: flex; gap: 16px; align-items: baseline; max-width: 940px; margin-top: 30px; padding: 17px 20px; color: #f8e7c8; background: rgba(1, 16, 20, .34); border: 1px solid rgba(244, 211, 154, .28); border-left: 4px solid #e1a94c; border-radius: 8px; }
@@ -73,6 +75,7 @@ h3 { font-size: 1.18rem; }
 .badge.provisional { color: #80520e; background: var(--amber-bg); }
 .badge.stale { color: #60696a; background: #e9ecea; }
 .badge.manual { color: #365d63; background: var(--teal-100); }
+.badge.secondary { color: #4d5f63; background: #e5eceb; }
 
 .status-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .metric-card { display: flex; min-width: 0; min-height: 250px; padding: 22px; flex-direction: column; background: var(--white); border: 1px solid var(--line); border-top: 4px solid var(--teal-700); border-radius: var(--radius); box-shadow: var(--shadow); }
@@ -84,6 +87,8 @@ h3 { font-size: 1.18rem; }
 .metric-value.unavailable { max-width: 230px; color: #687476; font-family: inherit; font-size: 1.05rem; font-weight: 750; line-height: 1.25; }
 .perimeter-history { display: grid; gap: 3px; margin: 3px 0 14px; color: var(--muted); font-size: .76rem; }
 .perimeter-history > span { font-size: .65rem; font-weight: 800; letter-spacing: .055em; text-transform: uppercase; }
+.secondary-reference { display: grid; gap: 4px; margin: 0 0 14px; padding: 9px 10px; color: #425d61; background: #f3f6f5; border-left: 3px solid #7d9da2; border-radius: 5px; font-size: .72rem; line-height: 1.35; }
+.secondary-reference a { font-weight: 750; }
 .metric-source { width: 100%; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: .76rem; }
 .metric-source a { display: inline-block; max-width: 100%; font-weight: 750; line-height: 1.35; }
 .metric-source time { display: block; }

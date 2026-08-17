@@ -149,6 +149,23 @@ def verify_perimeter_history(chronology: dict) -> tuple[int, int]:
     return percentages, lengths
 
 
+def verify_secondary_perimeter_reference(state: dict) -> None:
+    """Comprueba la referencia periodística sin confundirla con la serie oficial."""
+    datum = state.get("perimetro_longitud_secundaria_km") or {}
+    meta = datum.get("meta") or {}
+    source = meta.get("fuente") or {}
+    url = str(source.get("url") or "")
+    if datum.get("value") != 100 or meta.get("fiabilidad") != "fuente_secundaria":
+        raise RuntimeError("la referencia periodística de perímetro no está correctamente etiquetada")
+    if urlparse(url).netloc not in {"cadenaser.com", "www.cadenaser.com"}:
+        raise RuntimeError("la referencia periodística no procede de la publicación contrastada")
+    visible = clean_html(fetch(url).decode("utf-8", errors="replace"))
+    if not re.search(r"per.metro\s+cercano\s+a\s+los\s+100\s+kil.metros", visible, re.I):
+        raise RuntimeError("la publicación periodística ya no contiene la referencia de 100 km")
+    if not re.search(r"Miguel\s+.ngel\s+Clavero", visible, re.I):
+        raise RuntimeError("la publicación no identifica al responsable entrevistado")
+
+
 def main() -> None:
     roads = json.loads((DATA / "carreteras.json").read_text(encoding="utf-8"))["registros"]
     state = json.loads((DATA / "estado.json").read_text(encoding="utf-8"))
@@ -156,10 +173,11 @@ def main() -> None:
     verify_dgt(roads)
     verify_cecopi(state)
     percentages, lengths = verify_perimeter_history(chronology)
+    verify_secondary_perimeter_reference(state)
     print(
         "Verificación externa completa: "
         f"DGT ({len(roads)} cortes), último informe CECOPI y serie de perímetro "
-        f"({percentages} porcentaje, {lengths} longitudes) coinciden"
+        f"({percentages} porcentaje, {lengths} longitudes) coinciden; referencia periodística de 100 km contrastada"
     )
 
 
