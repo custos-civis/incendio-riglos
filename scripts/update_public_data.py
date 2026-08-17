@@ -22,7 +22,7 @@ import re
 import time
 import unicodedata
 from collections import Counter
-from datetime import datetime
+from datetime import datetime, timedelta
 from html import unescape
 from pathlib import Path
 from urllib.parse import urlencode, urljoin
@@ -83,9 +83,21 @@ ROAD_REFERENCE_COORDINATES = {
     "HU-V-3003": [42.4079018, -0.5279721],
     "HF-0262-BA": [42.5275, -0.6305],
 }
+DGT_ROAD_ALIASES = {"HF-0262-BA": "HF0262BA"}
+DGT_ROAD_LOCATIONS = {
+    "A-1205": "Jaca – Santa María",
+    "A-1603": "Bernués – Botaya",
+    "A-2602": "Bailo",
+    "HF-0262-BA": "Áscara – Atarés",
+    "HU-V-3001": "Yeste – Rasal",
+    "HU-V-3003": "Javierrelatre – Osia",
+    "N-240": "Abay – Puente la Reina de Jaca",
+    "A-132": "Murillo de Gállego – Puente la Reina de Jaca",
+}
 INCIDENT_BBOX = (-1.15, 42.10, -0.25, 42.72)
 INCIDENT_START = "2026-08-09"
 EFFIS_WFS = "https://maps.effis.emergency.copernicus.eu/effis"
+DGT_FIRE_ROADS_PDF = "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
 ARAGON_HOY = "https://www.aragonhoy.es"
 CADENA_SER_ARAGON = "https://cadenaser.com/aragon/"
 CADENA_SER_PERIMETER_SEED = (
@@ -323,6 +335,88 @@ def parse_closed_roads(article: dict) -> list[dict] | None:
     return list(unique.values()) if 3 <= len(unique) <= 30 else None
 
 
+def format_pk(value: float) -> str:
+    return str(int(value)) if value.is_integer() else str(value).replace(".", ",")
+
+
+def fetch_dgt_fire_road_closures(official_roads: list[dict] | None) -> list[dict] | None:
+    """Contrasta las vías del parte con el cuadro vigente de cortes por incendio de DGT.
+
+    Devuelve ``None`` si el PDF no puede validarse, para conservar el último
+    parte oficial. Una lista vacía es válida: significa que ninguna de las vías
+    del incendio continúa en el cuadro actualizado de DGT.
+    """
+    if official_roads is None:
+        return None
+    try:
+        from pypdf import PdfReader
+    except ImportError as error:
+        raise RuntimeError("Falta la dependencia pypdf para consultar DGT") from error
+
+    payload = fetch_bytes(f"{DGT_FIRE_ROADS_PDF}&_={int(time.time())}")
+    reader = PdfReader(io.BytesIO(payload))
+    text = " ".join(" ".join((page.extract_text() or "").split()) for page in reader.pages)
+    if "CARRETERAS CORTADAS POR INCENDIO" not in text:
+        raise RuntimeError("el PDF de DGT no contiene el encabezado esperado")
+
+    generated_match = re.search(
+        r"Fecha de generaci.n del PDF:\s*(\d{2})-(\d{2})-(\d{4})\s+(\d{2}):(\d{2})",
+        text,
+        re.I,
+    )
+    if not generated_match:
+        raise RuntimeError("el PDF de DGT no contiene una fecha de generación reconocible")
+    day, month, year, hour, minute = map(int, generated_match.groups())
+    generated_at = datetime(year, month, day, hour, minute, tzinfo=TZ)
+    now = datetime.now(TZ)
+    if generated_at > now + timedelta(hours=1) or now - generated_at > timedelta(hours=24):
+        raise RuntimeError(f"el cuadro de DGT no es reciente ({generated_at.isoformat()})")
+
+    source = {
+        "nombre": "DGT — carreteras cortadas por incendio",
+        "url": DGT_FIRE_ROADS_PDF,
+    }
+    records = []
+    for official in official_roads:
+        road = official["carretera"]
+        alias = re.escape(DGT_ROAD_ALIASES.get(road, road))
+        match = re.search(
+            rf"Arag.n\s+(?:Zaragoza\s+-\s+Huesca|Huesca)\s+{alias}\s+"
+            r"(?P<start>\d+(?:\.\d+)?)\s+(?P<end>\d+(?:\.\d+)?)\s+"
+            r"(?P<body>.*?)\s+NEGRO",
+            text,
+            re.I,
+        )
+        if not match:
+            continue
+        body = match.group("body")
+        if re.match(r"AMBOS SENTIDOS\b", body, re.I):
+            direction = "Ambos sentidos"
+        elif re.match(r"CRECIENTE DE LA KILOMETRACI.N\b", body, re.I):
+            direction = "Sentido creciente de la kilometración"
+        elif re.match(r"DECRECIENTE DE LA KILOMETRACI.N\b", body, re.I):
+            direction = "Sentido decreciente de la kilometración"
+        else:
+            raise RuntimeError(f"sentido no reconocido para {road}: {body}")
+        start = float(match.group("start"))
+        end = float(match.group("end"))
+        location = DGT_ROAD_LOCATIONS.get(road, "Tramo indicado por DGT")
+        record = {
+            "carretera": road,
+            "tramo": f"entre los pk {format_pk(start)} y {format_pk(end)} · {location}",
+            "sentido": direction,
+            "localizacion": location,
+            "estado": "Cortada",
+            "fecha_hora": generated_at.isoformat(timespec="seconds"),
+            "fuente": source,
+        }
+        if road in ROAD_REFERENCE_COORDINATES:
+            record["coordenadas"] = ROAD_REFERENCE_COORDINATES[road]
+            record["ubicacion_aproximada"] = True
+        records.append(record)
+    return records
+
+
 def update_sources(article: dict, checked_at: str, perimeter_report: dict | None = None) -> bool:
     path = DATA / "fuentes.json"
     data = read_json(path)
@@ -331,8 +425,14 @@ def update_sources(article: dict, checked_at: str, perimeter_report: dict | None
         if source.get("id") == "aragon-hoy-ultimo-parte":
             source["url"] = article["url"]
             source["ultima_consulta"] = checked_at
-        elif source.get("id") in {"aragon-hoy-busqueda", "aemet", "icearagon-perimetros", "effis"}:
+        elif source.get("id") in {"aragon-hoy-busqueda", "aemet", "icearagon-perimetros", "effis", "dgt"}:
             source["ultima_consulta"] = checked_at
+            if source.get("id") == "dgt":
+                source.update({
+                    "nombre": "DGT — carreteras cortadas por incendio",
+                    "url": DGT_FIRE_ROADS_PDF,
+                    "alcance": "Estado, puntos kilométricos y sentido de los cortes vigentes por incendio",
+                })
     if perimeter_report:
         source = next((item for item in data.get("fuentes", []) if item.get("id") == "cadena-ser-perimetro"), None)
         values = {
@@ -433,6 +533,13 @@ def update_official_incident_data() -> bool:
         r"(?:evacuad|desalojad)[^.]{0,100}?([0-9][0-9.\s]*)\s+nucleos",
     ))
     roads = parse_closed_roads(article)
+    try:
+        dgt_roads = fetch_dgt_fire_road_closures(roads)
+        if dgt_roads is not None:
+            roads = dgt_roads
+            print(f"DGT: {len(roads)} cortes del incendio vigentes en el cuadro de carreteras")
+    except Exception as error:
+        print(f"AVISO: no se pudieron contrastar los cortes con DGT: {error}")
     status = explicit_fire_status(normalized)
     consolidated = first_integer(normalized, (
         r"([0-9]{1,3})\s*%\s+del\s+perimetro\s+consolidado",
@@ -514,13 +621,20 @@ def update_official_incident_data() -> bool:
     if roads is not None:
         roads_path = DATA / "carreteras.json"
         road_data = read_json(roads_path)
-        road_data["ultima_revision"] = article["published_at"]
+        road_data["ultima_revision"] = max((item["fecha_hora"] for item in roads), default=checked_at)
         road_data["registros"] = roads
-        road_data["nota_edicion"] = (
-            "Relación extraída del último parte oficial que enumera expresamente las vías cortadas. "
-            "Los marcadores son referencias orientativas del entorno del tramo, no el punto exacto del corte. "
-            "Verificar de nuevo en DGT o 112 antes de desplazarse."
-        )
+        if roads and roads[0].get("fuente", {}).get("nombre", "").startswith("DGT"):
+            road_data["nota_edicion"] = (
+                "Relación contrastada con el cuadro vigente de carreteras cortadas por incendio de DGT. "
+                "Los marcadores son referencias orientativas del tramo, no el punto exacto del corte. "
+                "Verificar de nuevo en DGT o 011 antes de desplazarse."
+            )
+        else:
+            road_data["nota_edicion"] = (
+                "Relación extraída del último parte oficial que enumera expresamente las vías cortadas. "
+                "Los marcadores son referencias orientativas del entorno del tramo, no el punto exacto del corte. "
+                "Verificar de nuevo en DGT o 112 antes de desplazarse."
+            )
         changed = write_json_if_changed(roads_path, road_data) or changed
 
     changed = update_chronology(article, area, nuclei, people, roads, consolidated) or changed

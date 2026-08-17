@@ -151,11 +151,14 @@ function renderEvacuations() {
 
 function renderRoads() {
   const roads = state.data.carreteras.registros || [];
-  document.getElementById("roads-list").innerHTML = roads.length ? roads.map(road => `<article class="road-card ${slug(road.estado)}">
-    <div class="road-name"><strong>${escapeHtml(road.carretera)}</strong><span class="status-pill ${slug(road.estado)}">${escapeHtml(road.estado)}</span></div>
-    <dl><dt>Tramo</dt><dd>${escapeHtml(road.tramo || "Sin detalle oficial")}</dd><dt>Actualización</dt><dd>${formatDate(road.fecha_hora)}</dd></dl>
-    <div class="source-line">${sourceLink(road.fuente)}</div>
-  </article>`).join("") : `<p class="empty-state"><strong>Sin cortes oficiales incorporados</strong><br>Consulta siempre el mapa de tráfico de la DGT antes de desplazarte.</p>`;
+  document.getElementById("roads-list").innerHTML = roads.length ? roads.map(road => {
+    const direction = road.sentido ? `<dt>Sentido</dt><dd>${escapeHtml(road.sentido)}</dd>` : "";
+    return `<article class="road-card ${slug(road.estado)}">
+      <div class="road-name"><strong>${escapeHtml(road.carretera)}</strong><span class="status-pill ${slug(road.estado)}">${escapeHtml(road.estado)}</span></div>
+      <dl><dt>Tramo</dt><dd>${escapeHtml(road.tramo || "Sin detalle oficial")}</dd>${direction}<dt>Actualización</dt><dd>${formatDate(road.fecha_hora)}</dd></dl>
+      <div class="source-line">${sourceLink(road.fuente)}</div>
+    </article>`;
+  }).join("") : `<p class="empty-state"><strong>Sin cortes oficiales incorporados</strong><br>Consulta siempre el mapa de tráfico de la DGT antes de desplazarte.</p>`;
 }
 
 function renderWeather() {

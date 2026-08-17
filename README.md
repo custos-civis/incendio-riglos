@@ -11,7 +11,7 @@ Los datos incorporados enlazan su fuente y conservan su fecha de publicación. L
 - HTML5, CSS3 y JavaScript vanilla, sin compilación ni backend.
 - Datos editables en JSON local.
 - Mapa Leaflet con capas activables, estaciones AEMET, perímetro oficial, área quemada aproximada EFFIS y focos térmicos VIIRS opcionales.
-- Resumen, evacuaciones, carreteras, meteorología, lluvia útil, evolución y cronología.
+- Resumen, evacuaciones, carreteras contrastadas con DGT, meteorología, lluvia útil, evolución y cronología.
 - Tres estados de fiabilidad: `oficial`, `provisional` y `sin_actualizacion`.
 - Gráfica SVG propia, accesible y sin dependencias adicionales.
 - Diseño responsive, navegación por teclado y marcado semántico.
@@ -117,7 +117,7 @@ Estados admitidos: `Evacuada`, `Confinada`, `Retorno autorizado` y `Sin actualiz
 
 ### Carreteras
 
-En `data/carreteras.json`, cada registro admite `carretera`, `tramo`, `estado`, `fecha_hora`, `fuente` y, opcionalmente, `coordenadas`. Los puntos del mapa son referencias orientativas del entorno del tramo comunicado: no representan el lugar exacto del corte ni sustituyen al mapa de tráfico. Verifica siempre el estado en DGT, 112 o la autoridad vial competente antes de desplazarte.
+En `data/carreteras.json`, cada registro admite `carretera`, `tramo`, `sentido`, `localizacion`, `estado`, `fecha_hora`, `fuente` y, opcionalmente, `coordenadas`. La automatización contrasta las vías enumeradas por el último parte con el cuadro vigente de carreteras cortadas por incendio de DGT; si DGT no está disponible, conserva la relación del parte. Los puntos del mapa son referencias orientativas del entorno del tramo comunicado: no representan el lugar exacto del corte ni sustituyen al mapa de tráfico. Verifica siempre el estado en DGT, 011 o la autoridad vial competente antes de desplazarte.
 
 ### Meteorología y precipitación útil
 
@@ -163,7 +163,7 @@ El flujo automático consulta cada media hora ICEARAGON y solo incorpora una geo
 GitHub Actions ejecuta `scripts/update_public_data.py` cada media hora y también puede lanzarse manualmente desde **Actions → Actualizar datos y publicar el panel → Run workflow**. El proceso:
 
 1. localiza y lee el último parte oficial de Aragón Hoy sobre Las Peñas de Riglos;
-2. actualiza estado, superficie, perímetro aproximado publicado, totales de evacuación, carreteras, cronología y fuentes cuando las fuentes publican datos explícitos;
+2. actualiza estado, superficie, perímetro aproximado publicado, totales de evacuación, carreteras contrastadas con DGT, cronología y fuentes cuando las fuentes publican datos explícitos;
 3. descarga la predicción horaria oficial de AEMET y la observación más reciente de Bailo-Puyalto;
 4. consulta si ICEARAGON ya ha publicado el perímetro de 2026;
 5. descarga el área quemada EFFIS atribuida a Las Peñas de Riglos y aplica controles automáticos de coherencia;

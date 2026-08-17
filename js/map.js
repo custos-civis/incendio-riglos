@@ -102,7 +102,8 @@ window.RiglosMap = (() => {
 
   function roadPopup(item) {
     const source = safeSourceLink(item.fuente);
-    return `<strong>Carretera cortada: ${escapeHtml(item.carretera)}</strong><br>${escapeHtml(item.tramo)}<br><small>Marcador orientativo del tramo; no señala el punto exacto del corte. Confirma el estado en DGT o 112.</small>${source}`;
+    const direction = item.sentido ? `<br>Sentido: ${escapeHtml(item.sentido)}` : "";
+    return `<strong>Carretera cortada: ${escapeHtml(item.carretera)}</strong><br>${escapeHtml(item.tramo)}${direction}<br><small>Marcador orientativo del tramo; no señala el punto exacto del corte. Confirma el estado en DGT o llamando al 011.</small>${source}`;
   }
 
   function evacuationPopup(items) {

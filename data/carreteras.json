@@ -1,14 +1,16 @@
 {
-  "ultima_revision": "2026-08-17T10:01:28+02:00",
+  "ultima_revision": "2026-08-17T16:40:00+02:00",
   "registros": [
     {
       "carretera": "A-1205",
-      "tramo": "entre los puntos kilométricos 0 y 41",
+      "tramo": "entre los pk 0 y 41 · Jaca – Santa María",
+      "sentido": "Sentido creciente de la kilometración",
+      "localizacion": "Jaca – Santa María",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fecha_hora": "2026-08-17T16:40:00+02:00",
       "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+        "nombre": "DGT — carreteras cortadas por incendio",
+        "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
       },
       "coordenadas": [
         42.4258022,
@@ -18,12 +20,14 @@
     },
     {
       "carretera": "A-132",
-      "tramo": "entre los pk 38,8 y 70,8",
+      "tramo": "entre los pk 38,8 y 70,78 · Murillo de Gállego – Puente la Reina de Jaca",
+      "sentido": "Ambos sentidos",
+      "localizacion": "Murillo de Gállego – Puente la Reina de Jaca",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fecha_hora": "2026-08-17T16:40:00+02:00",
       "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+        "nombre": "DGT — carreteras cortadas por incendio",
+        "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
       },
       "coordenadas": [
         42.3981902,
@@ -33,12 +37,14 @@
     },
     {
       "carretera": "N-240",
-      "tramo": "entre los pk 287,9 y 303",
+      "tramo": "entre los pk 287,9 y 303 · Abay – Puente la Reina de Jaca",
+      "sentido": "Ambos sentidos",
+      "localizacion": "Abay – Puente la Reina de Jaca",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fecha_hora": "2026-08-17T16:40:00+02:00",
       "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+        "nombre": "DGT — carreteras cortadas por incendio",
+        "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
       },
       "coordenadas": [
         42.5577012,
@@ -48,12 +54,14 @@
     },
     {
       "carretera": "A-1603",
-      "tramo": "entre los pk 0 y 10, en los accesos al Monasterio de San Juan de la Peña",
+      "tramo": "entre los pk 0 y 10 · Bernués – Botaya",
+      "sentido": "Ambos sentidos",
+      "localizacion": "Bernués – Botaya",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fecha_hora": "2026-08-17T16:40:00+02:00",
       "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+        "nombre": "DGT — carreteras cortadas por incendio",
+        "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
       },
       "coordenadas": [
         42.49,
@@ -63,12 +71,14 @@
     },
     {
       "carretera": "A-2602",
-      "tramo": "en el acceso a Bailo",
+      "tramo": "entre los pk 0 y 0 · Bailo",
+      "sentido": "Ambos sentidos",
+      "localizacion": "Bailo",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fecha_hora": "2026-08-17T16:40:00+02:00",
       "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+        "nombre": "DGT — carreteras cortadas por incendio",
+        "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
       },
       "coordenadas": [
         42.5170978,
@@ -78,12 +88,14 @@
     },
     {
       "carretera": "HU-V-3001",
-      "tramo": "de acceso a Rasal",
+      "tramo": "entre los pk 0 y 9 · Yeste – Rasal",
+      "sentido": "Ambos sentidos",
+      "localizacion": "Yeste – Rasal",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fecha_hora": "2026-08-17T16:40:00+02:00",
       "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+        "nombre": "DGT — carreteras cortadas por incendio",
+        "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
       },
       "coordenadas": [
         42.3712182,
@@ -93,12 +105,14 @@
     },
     {
       "carretera": "HU-V-3003",
-      "tramo": "de acceso a Javierrelatre",
+      "tramo": "entre los pk 15,5 y 23 · Javierrelatre – Osia",
+      "sentido": "Sentido creciente de la kilometración",
+      "localizacion": "Javierrelatre – Osia",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fecha_hora": "2026-08-17T16:40:00+02:00",
       "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+        "nombre": "DGT — carreteras cortadas por incendio",
+        "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
       },
       "coordenadas": [
         42.4079018,
@@ -108,12 +122,14 @@
     },
     {
       "carretera": "HF-0262-BA",
-      "tramo": "de acceso a Atarés",
+      "tramo": "entre los pk 0 y 4 · Áscara – Atarés",
+      "sentido": "Ambos sentidos",
+      "localizacion": "Áscara – Atarés",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fecha_hora": "2026-08-17T16:40:00+02:00",
       "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+        "nombre": "DGT — carreteras cortadas por incendio",
+        "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
       },
       "coordenadas": [
         42.5275,
@@ -122,5 +138,5 @@
       "ubicacion_aproximada": true
     }
   ],
-  "nota_edicion": "Relación extraída del último parte oficial que enumera expresamente las vías cortadas. Los marcadores son referencias orientativas del entorno del tramo, no el punto exacto del corte. Verificar de nuevo en DGT o 112 antes de desplazarse."
+  "nota_edicion": "Relación contrastada con el cuadro vigente de carreteras cortadas por incendio de DGT. Los marcadores son referencias orientativas del tramo, no el punto exacto del corte. Verificar de nuevo en DGT o 011 antes de desplazarse."
 }

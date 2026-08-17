@@ -25,7 +25,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Consultar Aragón Hoy, AEMET, ICEARAGON y EFFIS
+      - name: Instalar dependencias
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Consultar Aragón Hoy, DGT, AEMET, ICEARAGON y EFFIS
         run: python scripts/update_public_data.py
 
       - name: Validar los archivos
