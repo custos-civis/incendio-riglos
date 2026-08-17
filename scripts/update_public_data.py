@@ -46,16 +46,22 @@ INCIDENT_BBOX = (-1.15, 42.10, -0.25, 42.72)
 INCIDENT_START = "2026-08-09"
 EFFIS_WFS = "https://maps.effis.emergency.copernicus.eu/effis"
 ARAGON_HOY = "https://www.aragonhoy.es"
+CADENA_SER_ARAGON = "https://cadenaser.com/aragon/"
+CADENA_SER_PERIMETER_SEED = (
+    "https://cadenaser.com/aragon/2026/08/17/"
+    "luis-biendicho-el-incendio-de-las-penas-de-riglos-evoluciona-favorablemente-"
+    "pero-tenemos-fuego-para-dias-radio-zaragoza/"
+)
 ARAGON_HOY_PAGES = (
     f"{ARAGON_HOY}/",
     f"{ARAGON_HOY}/hacienda-interior-administracion-publica",
 )
 
 
-def fetch_bytes(url: str, attempts: int = 2) -> bytes:
+def fetch_bytes(url: str, attempts: int = 2, user_agent: str = "incendio-riglos-panel/1.0") -> bytes:
     last_error = None
     for attempt in range(attempts):
-        request = Request(url, headers={"User-Agent": "incendio-riglos-panel/1.0"})
+        request = Request(url, headers={"User-Agent": user_agent})
         try:
             with urlopen(request, timeout=20) as response:
                 return response.read()
@@ -179,6 +185,70 @@ def explicit_fire_status(normalized: str) -> str | None:
     return next((label for label, pattern in checks if re.search(pattern, normalized)), None)
 
 
+def nested_dicts(value):
+    if isinstance(value, dict):
+        yield value
+        for item in value.values():
+            yield from nested_dicts(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from nested_dicts(item)
+
+
+def find_latest_reported_perimeter(previous_url: str | None = None) -> dict:
+    links = {CADENA_SER_PERIMETER_SEED}
+    if previous_url and "cadenaser.com/" in previous_url:
+        links.add(previous_url)
+    try:
+        page = fetch_bytes(CADENA_SER_ARAGON, user_agent="Mozilla/5.0 (compatible; incendio-riglos-panel/1.0)").decode("utf-8")
+        for href in re.findall(r'href=["\']([^"\']+)["\']', page, re.I):
+            url = urljoin(CADENA_SER_ARAGON, unescape(href))
+            normalized = normalize_text(url)
+            if "cadenaser.com/aragon/" in url and "incendio" in normalized and "riglos" in normalized:
+                links.add(url.split("?", 1)[0])
+    except Exception as error:
+        print(f"AVISO: no se pudo revisar la portada de Cadena SER; se comprueban las referencias conocidas: {error}")
+    reports = []
+    for url in list(links)[:12]:
+        raw = fetch_bytes(url, user_agent="Mozilla/5.0 (compatible; incendio-riglos-panel/1.0)").decode("utf-8")
+        documents = []
+        for script in re.findall(
+            r'<script\b[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',
+            raw,
+            re.I | re.S,
+        ):
+            try:
+                documents.append(json.loads(unescape(script).strip()))
+            except (json.JSONDecodeError, TypeError):
+                continue
+        for item in (entry for document in documents for entry in nested_dicts(document)):
+            body = item.get("articleBody")
+            published_at = item.get("datePublished")
+            if not isinstance(body, str) or not isinstance(published_at, str):
+                continue
+            normalized_body = normalize_text(body)
+            if "penas de riglos" not in normalized_body:
+                continue
+            match = re.search(
+                r"perimetro.{0,100}?(?:alcanza|cercano a|aproximad[oa]|de)?\s*(?:los|unos)?\s*([0-9]{1,3})\s*kilometros",
+                normalized_body,
+            )
+            if not match:
+                continue
+            length = int(match.group(1))
+            if not 10 <= length <= 500:
+                continue
+            reports.append({
+                "value": length,
+                "published_at": datetime.fromisoformat(published_at).astimezone(TZ).isoformat(),
+                "url": url,
+                "title": item.get("headline") or "Información sobre el perímetro",
+            })
+    if not reports:
+        raise RuntimeError("Cadena SER no ha publicado una longitud inequívoca en los artículos localizados")
+    return max(reports, key=lambda item: item["published_at"])
+
+
 def parse_closed_roads(article: dict) -> list[dict] | None:
     road_pattern = re.compile(r"\b(?:[A-Z]{1,3}(?:-[A-Z])?-\d+(?:-[A-Z]{2})?|N-\d+)\b", re.I)
     paragraph = next((
@@ -208,7 +278,7 @@ def parse_closed_roads(article: dict) -> list[dict] | None:
     return list(unique.values()) if 3 <= len(unique) <= 30 else None
 
 
-def update_sources(article: dict, checked_at: str) -> bool:
+def update_sources(article: dict, checked_at: str, perimeter_report: dict | None = None) -> bool:
     path = DATA / "fuentes.json"
     data = read_json(path)
     data["ultima_revision"] = checked_at
@@ -218,6 +288,43 @@ def update_sources(article: dict, checked_at: str) -> bool:
             source["ultima_consulta"] = checked_at
         elif source.get("id") in {"aragon-hoy-busqueda", "aemet", "icearagon-perimetros", "effis"}:
             source["ultima_consulta"] = checked_at
+    if perimeter_report:
+        source = next((item for item in data.get("fuentes", []) if item.get("id") == "cadena-ser-perimetro"), None)
+        values = {
+            "id": "cadena-ser-perimetro",
+            "nombre": "Cadena SER — declaraciones de responsables del Gobierno de Aragón",
+            "url": perimeter_report["url"],
+            "tipo": "provisional",
+            "ultima_consulta": checked_at,
+            "alcance": "Longitud aproximada del perímetro comunicada en entrevista",
+        }
+        if source is None:
+            data.setdefault("fuentes", []).append(values)
+        else:
+            source.update(values)
+    return write_json_if_changed(path, data)
+
+
+def update_perimeter_report_chronology(report: dict | None) -> bool:
+    if not report:
+        return False
+    path = DATA / "cronologia.json"
+    data = read_json(path)
+    known_urls = {item.get("fuente", {}).get("url") for item in data.get("eventos", [])}
+    if report["url"] in known_urls:
+        return False
+    data.setdefault("eventos", []).insert(0, {
+        "fecha_hora": report["published_at"],
+        "categoria": "Perímetro",
+        "descripcion": (
+            f"El perímetro alcanza aproximadamente {report['value']} kilómetros, "
+            "según declaraciones de responsables del Gobierno de Aragón recogidas por Cadena SER."
+        ),
+        "fiabilidad": "provisional",
+        "fuente": {"nombre": "Cadena SER / responsables del Gobierno de Aragón", "url": report["url"]},
+    })
+    data["eventos"].sort(key=lambda item: item["fecha_hora"], reverse=True)
+    data["ultima_revision"] = max(data.get("ultima_revision") or "", report["published_at"])
     return write_json_if_changed(path, data)
 
 
@@ -293,6 +400,12 @@ def update_official_incident_data() -> bool:
 
     state_path = DATA / "estado.json"
     state = read_json(state_path)
+    previous_length_url = state.get("perimetro_longitud_ultima_km", {}).get("meta", {}).get("fuente", {}).get("url")
+    perimeter_report = None
+    try:
+        perimeter_report = find_latest_reported_perimeter(previous_length_url)
+    except Exception as error:
+        print(f"AVISO: no se pudo actualizar la longitud publicada del perímetro: {error}")
     state["ultima_comprobacion_panel"] = checked_at
     if article["published_at"] >= (state.get("ultima_actualizacion_oficial") or ""):
         state["ultima_actualizacion_oficial"] = article["published_at"]
@@ -317,6 +430,19 @@ def update_official_incident_data() -> bool:
             "meta": {
                 **official_meta(article["published_at"], article["url"], reliability="historico"),
                 "vigencia": "Última longitud explícita publicada; puede no ser el valor vigente.",
+            },
+        }
+    if perimeter_report and perimeter_report["published_at"] >= state.get("perimetro_longitud_ultima_km", {}).get("meta", {}).get("fecha_hora", ""):
+        state["perimetro_longitud_ultima_km"] = {
+            "value": perimeter_report["value"],
+            "meta": {
+                "fecha_hora": perimeter_report["published_at"],
+                "fiabilidad": "provisional",
+                "vigencia": "Longitud aproximada comunicada por responsables del Gobierno de Aragón en entrevista.",
+                "fuente": {
+                    "nombre": "Cadena SER / responsables del Gobierno de Aragón",
+                    "url": perimeter_report["url"],
+                },
             },
         }
     state["nota_edicion"] = (
@@ -346,7 +472,8 @@ def update_official_incident_data() -> bool:
         changed = write_json_if_changed(roads_path, road_data) or changed
 
     changed = update_chronology(article, area, nuclei, people, roads, consolidated) or changed
-    changed = update_sources(article, checked_at) or changed
+    changed = update_perimeter_report_chronology(perimeter_report) or changed
+    changed = update_sources(article, checked_at, perimeter_report) or changed
     print(f"Aragón Hoy: {article['published_at']} · {article['url']}")
     return changed
 

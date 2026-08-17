@@ -1,6 +1,16 @@
 {
-  "ultima_revision": "2026-08-17T10:01:28+02:00",
+  "ultima_revision": "2026-08-17T12:55:14+02:00",
   "eventos": [
+    {
+      "fecha_hora": "2026-08-17T12:55:14+02:00",
+      "categoria": "Perímetro",
+      "descripcion": "El perímetro alcanza aproximadamente 100 kilómetros, según declaraciones de responsables del Gobierno de Aragón recogidas por Cadena SER.",
+      "fiabilidad": "provisional",
+      "fuente": {
+        "nombre": "Cadena SER / responsables del Gobierno de Aragón",
+        "url": "https://cadenaser.com/aragon/2026/08/17/luis-biendicho-el-incendio-de-las-penas-de-riglos-evoluciona-favorablemente-pero-tenemos-fuego-para-dias-radio-zaragoza/"
+      }
+    },
     {
       "fecha_hora": "2026-08-17T10:01:28+02:00",
       "categoria": "Situación general",

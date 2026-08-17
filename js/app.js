@@ -53,12 +53,12 @@ function renderMapSummary() {
     ["Superficie", e.superficie_ha?.value == null ? "—" : `${formatNumber(e.superficie_ha.value)} ha`],
     ["Consolidado vigente", perimeter.value == null ? "No publicado" : `${formatNumber(perimeter.value)} %`],
     ["Último % explícito", lastPercentage.value == null ? "—" : `${formatNumber(lastPercentage.value)} % · ${formatDate(lastPercentage.meta?.fecha_hora)}`],
-    ["Última longitud", lastLength.value == null ? "—" : `${formatNumber(lastLength.value)} km · ${formatDate(lastLength.meta?.fecha_hora)}`],
+    ["Perímetro aprox.", lastLength.value == null ? "—" : `≈ ${formatNumber(lastLength.value)} km · ${formatDate(lastLength.meta?.fecha_hora)}`],
     ["Evacuados", e.nucleos_evacuados?.value == null ? "—" : `${formatNumber(e.nucleos_evacuados.value)} núcleos`],
     ["Cortes", `${roads.length} vías`]
   ];
   document.getElementById("map-summary").innerHTML = values.map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
-  document.getElementById("perimeter-history").innerHTML = `<strong>Últimas cifras explícitas:</strong> ${historicalPerimeterLinks(lastPercentage, lastLength)}. Son referencias fechadas, no el valor vigente.`;
+  document.getElementById("perimeter-history").innerHTML = `<strong>Cifras de perímetro:</strong> ${historicalPerimeterLinks(lastPercentage, lastLength)}. La longitud es aproximada y el porcentaje es una referencia histórica fechada.`;
 }
 
 function renderDates() {
@@ -83,19 +83,20 @@ function perimeterCard(e) {
   const current = normalizeDatum(e.perimetro_consolidado_pct);
   const lastPercentage = normalizeDatum(e.perimetro_consolidado_ultimo_pct);
   const lastLength = normalizeDatum(e.perimetro_longitud_ultima_km);
-  const currentValue = current.value == null ? "Sin cifra vigente" : `${formatNumber(current.value)} %`;
+  const currentValue = lastLength.value == null ? "Sin cifra vigente" : `≈ ${formatNumber(lastLength.value)} km`;
+  const consolidatedValue = current.value == null ? "Sin porcentaje vigente publicado" : `${formatNumber(current.value)} % consolidado`;
   return `<article class="metric-card perimeter-card">
-    <span class="metric-label">Perímetro consolidado</span>
-    <strong class="metric-value ${current.value == null ? "unavailable" : ""}">${escapeHtml(currentValue)}</strong>
-    <div class="perimeter-history"><span>Referencias anteriores</span>${historicalPerimeterLinks(lastPercentage, lastLength)}</div>
-    ${sourceBlock(current.meta)}
+    <span class="metric-label">Perímetro aproximado</span>
+    <strong class="metric-value ${lastLength.value == null ? "unavailable" : ""}">${escapeHtml(currentValue)}</strong>
+    <div class="perimeter-history"><span>Consolidación</span>${escapeHtml(consolidatedValue)}${lastPercentage.value == null ? "" : ` · ${historicalDatumLink(`${formatNumber(lastPercentage.value)} % (último explícito)`, lastPercentage.meta)}`}</div>
+    ${sourceBlock(lastLength.meta || current.meta)}
   </article>`;
 }
 
 function historicalPerimeterLinks(lastPercentage, lastLength) {
   const items = [];
-  if (lastPercentage.value != null) items.push(historicalDatumLink(`${formatNumber(lastPercentage.value)} % consolidado`, lastPercentage.meta));
-  if (lastLength.value != null) items.push(historicalDatumLink(`${formatNumber(lastLength.value)} km de perímetro`, lastLength.meta));
+  if (lastLength.value != null) items.push(historicalDatumLink(`≈ ${formatNumber(lastLength.value)} km de perímetro`, lastLength.meta));
+  if (lastPercentage.value != null) items.push(historicalDatumLink(`${formatNumber(lastPercentage.value)} % consolidado (histórico)`, lastPercentage.meta));
   return items.length ? items.join(" · ") : "sin referencias anteriores incorporadas";
 }
 

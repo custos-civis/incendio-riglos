@@ -1,5 +1,5 @@
 {
-  "ultima_comprobacion_panel": "2026-08-17T15:15:43+02:00",
+  "ultima_comprobacion_panel": "2026-08-17T15:24:25+02:00",
   "ultima_actualizacion_oficial": "2026-08-17T10:01:28+02:00",
   "estado": {
     "value": "Activo",
@@ -40,14 +40,14 @@
     }
   },
   "perimetro_longitud_ultima_km": {
-    "value": 58,
+    "value": 100,
     "meta": {
-      "fecha_hora": "2026-08-14T20:59:45+02:00",
-      "fiabilidad": "historico",
-      "vigencia": "Última longitud explícita localizada; el perímetro aumentó posteriormente.",
+      "fecha_hora": "2026-08-17T12:55:14+02:00",
+      "fiabilidad": "provisional",
+      "vigencia": "Longitud aproximada comunicada por responsables del Gobierno de Aragón en entrevista.",
       "fuente": {
-        "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+        "nombre": "Cadena SER / responsables del Gobierno de Aragón",
+        "url": "https://cadenaser.com/aragon/2026/08/17/luis-biendicho-el-incendio-de-las-penas-de-riglos-evoluciona-favorablemente-pero-tenemos-fuego-para-dias-radio-zaragoza/"
       }
     }
   },

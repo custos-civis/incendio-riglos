@@ -156,14 +156,14 @@ Usa `null` cuando falte un valor. La gráfica separa los segmentos y no interpol
 
 La geometría oficial se guarda exclusivamente en `data/perimetro.geojson`. La estimación satelital se guarda por separado en `data/perimetro-aproximado.geojson`, se representa en naranja discontinuo y contiene una advertencia expresa de que no es un perímetro operativo. La capa del Paisaje Protegido de San Juan de la Peña y Monte Oroel se mantiene en `data/espacios-protegidos.geojson`.
 
-El flujo automático consulta cada hora ICEARAGON y solo incorpora una geometría oficial de 2026 cuyo nombre contenga “Riglos”. También consulta por WFS las áreas quemadas EFFIS, exige que el municipio coincida con Las Peñas de Riglos, comprueba fecha, extensión territorial y coherencia con la superficie publicada, y conserva la versión anterior si la fuente falla. Los focos térmicos VIIRS se solicitan directamente al WMS de EFFIS con la fecha actual y se dejan desactivados inicialmente porque ese servicio puede devolver teselas opacas que oculten el mapa base.
+El flujo automático consulta cada media hora ICEARAGON y solo incorpora una geometría oficial de 2026 cuyo nombre contenga “Riglos”. También consulta por WFS las áreas quemadas EFFIS, exige que el municipio coincida con Las Peñas de Riglos, comprueba fecha, extensión territorial y coherencia con la superficie publicada, y conserva la versión anterior si la fuente falla. Los focos térmicos VIIRS se solicitan directamente al WMS de EFFIS con la fecha actual y se dejan desactivados inicialmente porque ese servicio puede devolver teselas opacas que oculten el mapa base.
 
 ## Actualización automática
 
-GitHub Actions ejecuta `scripts/update_public_data.py` cada hora y también puede lanzarse manualmente desde **Actions → Actualizar datos y publicar el panel → Run workflow**. El proceso:
+GitHub Actions ejecuta `scripts/update_public_data.py` cada media hora y también puede lanzarse manualmente desde **Actions → Actualizar datos y publicar el panel → Run workflow**. El proceso:
 
 1. localiza y lee el último parte oficial de Aragón Hoy sobre Las Peñas de Riglos;
-2. actualiza estado, superficie, totales de evacuación, carreteras, cronología y fuentes cuando el parte publica datos explícitos;
+2. actualiza estado, superficie, perímetro aproximado publicado, totales de evacuación, carreteras, cronología y fuentes cuando las fuentes publican datos explícitos;
 3. descarga la predicción horaria oficial de AEMET y la observación más reciente de Bailo-Puyalto;
 4. consulta si ICEARAGON ya ha publicado el perímetro de 2026;
 5. descarga el área quemada EFFIS atribuida a Las Peñas de Riglos y aplica controles automáticos de coherencia;
@@ -232,7 +232,7 @@ Para reducir todavía más las conexiones externas, puede descargarse Leaflet al
 
 ## Limitaciones
 
-- Todos los conjuntos de datos se comprueban automáticamente cada hora. Los valores solo cambian cuando la fuente oficial publica información inequívoca, por lo que algunos campos pueden conservar su dato anterior entre partes.
+- Todos los conjuntos de datos se comprueban automáticamente cada media hora. Los valores solo cambian cuando una fuente identificada publica información inequívoca, por lo que algunos campos pueden conservar su dato anterior entre partes.
 - La observación AEMET más cercana está fuera del perímetro y puede no representar las condiciones del frente.
 - EFFIS es una estimación satelital de actualización diaria y puede tardar en mostrar un incendio o diferir de la cartografía oficial.
 - El panel no envía alertas.
