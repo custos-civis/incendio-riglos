@@ -267,7 +267,7 @@ function renderChart() {
   window.RiglosCharts?.render(document.getElementById("evolution-chart"), series, state.chartKey);
   const notes = {
     superficie_ha: "Las superficies son estimaciones publicadas en partes fechados; la línea permite ver la evolución de esas cifras.",
-    perimetro_consolidado_pct: "Cada punto es un porcentaje explícito y fechado. El paso del 50 % al 40 % coincide con el crecimiento del perímetro total; no se rellenan los intervalos sin cifra publicada.",
+    perimetro_consolidado_pct: "Cada punto es un porcentaje explícito, fechado y publicado por una fuente oficial. La línea une todos los puntos oficiales disponibles sin inventar valores intermedios; si solo existe uno, se muestra aislado.",
     precipitacion_mm: "Precipitación diaria 00–24 h registrada por AEMET en Jaca y Bailo-Puyalto. El último día puede estar incompleto y se actualiza cada 30 minutos."
   };
   document.getElementById("chart-note").textContent = notes[state.chartKey];
