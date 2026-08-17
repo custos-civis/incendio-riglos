@@ -27,6 +27,30 @@
     "value": null,
     "meta": null
   },
+  "perimetro_consolidado_ultimo_pct": {
+    "value": 40,
+    "meta": {
+      "fecha_hora": "2026-08-14T19:23:00+02:00",
+      "fiabilidad": "historico",
+      "vigencia": "Último porcentaje explícito localizado; no confirmado como vigente en partes posteriores.",
+      "fuente": {
+        "nombre": "Cadena SER / Radio Huesca, con información del Gobierno de Aragón",
+        "url": "https://cadenaser.com/aragon/2026/08/14/el-incendio-de-las-penas-de-riglos-sigue-activo-y-con-un-40-del-perimetro-consolidado-radio-huesca/"
+      }
+    }
+  },
+  "perimetro_longitud_ultima_km": {
+    "value": 58,
+    "meta": {
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fiabilidad": "historico",
+      "vigencia": "Última longitud explícita localizada; el perímetro aumentó posteriormente.",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    }
+  },
   "nucleos_evacuados": {
     "value": 19,
     "meta": {
@@ -49,5 +73,5 @@
       }
     }
   },
-  "nota_edicion": "Último parte oficial localizado en Aragón Hoy. La superficie es provisional. El porcentaje de perímetro consolidado permanece en null porque el último parte no publica un valor vigente. ICEARAGON y EFFIS todavía no muestran una geometría de este incendio en la comprobación realizada."
+  "nota_edicion": "Último parte oficial localizado en Aragón Hoy. La superficie es provisional. El porcentaje vigente de perímetro consolidado permanece en null porque el último parte no publica una cifra. Se conservan como referencias históricas el 40 % y los 58 km publicados el 14 de agosto; el perímetro aumentó después. ICEARAGON y EFFIS todavía no muestran una geometría oficial de este incendio en la comprobación realizada."
 }

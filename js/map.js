@@ -40,7 +40,11 @@ window.RiglosMap = (() => {
     L.control.scale({ imperial: false }).addTo(map);
     if (officialBounds?.isValid()) map.fitBounds(officialBounds, { padding: [24, 24], maxZoom: 12 });
     status.textContent = "ICEARAGON: perímetro oficial si está publicado · EFFIS: área quemada satelital diaria.";
-    setTimeout(() => map.invalidateSize(), 0);
+    const resizeMap = () => map.invalidateSize({ pan: false });
+    requestAnimationFrame(resizeMap);
+    setTimeout(resizeMap, 250);
+    window.addEventListener("resize", resizeMap, { passive: true });
+    if ("ResizeObserver" in window) new ResizeObserver(resizeMap).observe(document.getElementById("map"));
   }
 
   async function addGeoJson(url, group, style) {

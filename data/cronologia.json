@@ -32,7 +32,7 @@
     {
       "fecha_hora": "2026-08-14T20:59:45+02:00",
       "categoria": "Situación general",
-      "descripcion": "El incendio continúa activo y afecta a alrededor de 12.000 hectáreas. Los desalojos afectan a 1.021 personas de 18 núcleos.",
+      "descripcion": "El incendio continúa activo y afecta a alrededor de 12.000 hectáreas, con un perímetro de 58 kilómetros. Los desalojos afectan a 1.021 personas de 18 núcleos.",
       "fiabilidad": "provisional",
       "fuente": { "nombre": "Gobierno de Aragón / Aragón Hoy", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" }
     },
