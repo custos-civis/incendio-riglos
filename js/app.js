@@ -32,6 +32,7 @@ async function init() {
 function renderAll() {
   renderDates();
   renderSummary();
+  renderMapSummary();
   renderEvacuations();
   renderRoads();
   renderWeather();
@@ -39,6 +40,20 @@ function renderAll() {
   renderSources();
   setupChartTabs();
   renderChart();
+}
+
+function renderMapSummary() {
+  const e = state.data.estado;
+  const roads = state.data.carreteras.registros || [];
+  const perimeter = normalizeDatum(e.perimetro_consolidado_pct);
+  const values = [
+    ["Estado", e.estado?.value ?? "—"],
+    ["Superficie", e.superficie_ha?.value == null ? "—" : `${formatNumber(e.superficie_ha.value)} ha`],
+    ["Consolidado", perimeter.value == null ? "No publicado" : `${formatNumber(perimeter.value)} %`],
+    ["Evacuados", e.nucleos_evacuados?.value == null ? "—" : `${formatNumber(e.nucleos_evacuados.value)} núcleos`],
+    ["Cortes", `${roads.length} vías`]
+  ];
+  document.getElementById("map-summary").innerHTML = values.map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
 }
 
 function renderDates() {
@@ -84,9 +99,9 @@ function weatherCard(m) {
   const values = [
     ["Viento", formatNumber(o.viento_kmh?.value, " km/h")],
     ["Dirección", o.direccion?.value],
-    ["Racha máx.", formatNumber(o.racha_maxima_kmh?.value, " km/h")],
+    ["Racha máx. hoy", formatNumber(o.racha_maxima_desde_00_kmh?.value, " km/h")],
     ["Humedad", formatNumber(o.humedad_relativa_pct?.value, " %")],
-    ["Precipitación", formatNumber(o.precipitacion_mm?.value, " mm")]
+    ["Lluvia desde 00 h", formatNumber(o.precipitacion_desde_00_mm?.value, " mm")]
   ];
   return `<article class="metric-card weather-card"><span class="metric-label">Observación meteorológica</span><div class="weather-brief">${values.map(([l,v]) => `<div><span>${escapeHtml(l)}</span><strong>${escapeHtml(v ?? "—")}</strong></div>`).join("")}</div>${sourceBlock(o.meta)}</article>`;
 }
@@ -112,19 +127,44 @@ function renderRoads() {
 
 function renderWeather() {
   renderWeatherGroup("forecast-data", "forecast-source", state.data.meteo.prevision, [
-    ["Temperatura", "temperatura_c", " °C"], ["Viento", "viento_kmh", " km/h"], ["Dirección", "direccion", ""],
-    ["Prob. precipitación", "prob_precipitacion_pct", " %"], ["Tormentas", "tormentas", ""]
+    ["Temperatura máxima", "temperatura_maxima_c", " °C"], ["Temperatura mínima", "temperatura_minima_c", " °C"],
+    ["Humedad mínima", "humedad_minima_pct", " %"], ["Humedad máxima", "humedad_maxima_pct", " %"],
+    ["Viento máximo", "viento_maximo_kmh", " km/h"], ["Dirección al máximo", "direccion_viento_maximo", ""],
+    ["Racha máxima prevista", "racha_maxima_kmh", " km/h"], ["Prob. precipitación", "prob_precipitacion_pct", " %"],
+    ["Precipitación prevista", "precipitacion_total_mm", " mm"], ["Prob. tormenta", "prob_tormenta_pct", " %"],
+    ["Estado del cielo", "cielo", ""]
   ]);
   renderWeatherGroup("observation-data", "observation-source", state.data.meteo.observacion, [
-    ["Precipitación", "precipitacion_mm", " mm"], ["Racha máxima", "racha_maxima_kmh", " km/h"],
-    ["Humedad", "humedad_relativa_pct", " %"], ["Temperatura", "temperatura_c", " °C"], ["Viento", "viento_kmh", " km/h"], ["Dirección", "direccion", ""]
+    ["Temperatura", "temperatura_c", " °C"], ["Humedad", "humedad_relativa_pct", " %"],
+    ["Viento", "viento_kmh", " km/h"], ["Dirección", "direccion", ""],
+    ["Racha actual", "racha_actual_kmh", " km/h"], ["Racha máxima hoy", "racha_maxima_desde_00_kmh", " km/h"],
+    ["Lluvia última hora", "precipitacion_ultima_hora_mm", " mm"], ["Lluvia desde 00 h", "precipitacion_desde_00_mm", " mm"]
   ]);
+  renderHourlyForecast(state.data.meteo.prevision?.horaria || []);
+  const station = state.data.meteo.observacion?.meta?.estacion;
+  document.getElementById("observation-context").innerHTML = station
+    ? `<strong>${escapeHtml(station.nombre)}</strong><span>${escapeHtml(formatNumber(station.distancia_capital_municipal_km, " km"))} de la capital municipal · ${escapeHtml(formatNumber(station.altitud_m, " m"))} de altitud</span><small>Datos sometidos a controles automáticos de calidad en tiempo real.</small>`
+    : "";
   const records = state.data.meteo.precipitacion_efecto_operativo || [];
   document.getElementById("rain-records").innerHTML = records.length ? records.map(r => `<div class="rain-record"><div><span>Fecha</span><strong>${formatDate(r.fecha)}</strong></div><div><span>Estación</span><strong>${escapeHtml(r.estacion)}</strong></div><div><span>Precipitación</span><strong>${formatNumber(r.precipitacion_mm, " mm") ?? "—"}</strong></div><div><span>Observación</span><strong>${escapeHtml(r.observacion)}</strong></div></div>`).join("") : `<p class="empty-state">Sin registros manuales incorporados.</p>`;
 }
 
+function renderHourlyForecast(records) {
+  const target = document.getElementById("forecast-hourly");
+  target.innerHTML = records.length ? `<p class="hourly-title">Evolución horaria</p><div class="hourly-list">${records.map(record => `<div class="hourly-item">
+    <time>${escapeHtml(record.hora)}</time>
+    <strong>${escapeHtml(formatNumber(record.temperatura_c, " °C") ?? "—")}</strong>
+    <span>${escapeHtml(record.direccion || "—")} · ${escapeHtml(formatNumber(record.viento_kmh, " km/h") ?? "—")}</span>
+    <small>Racha ${escapeHtml(formatNumber(record.racha_kmh, " km/h") ?? "—")} · HR ${escapeHtml(formatNumber(record.humedad_pct, " %") ?? "—")}</small>
+  </div>`).join("")}</div>` : "";
+}
+
 function renderWeatherGroup(dataId, sourceId, group, fields) {
-  document.getElementById(dataId).innerHTML = fields.map(([label,key,unit]) => `<div class="weather-item"><span>${escapeHtml(label)}</span><strong>${escapeHtml(formatDatum(group?.[key]?.value, unit))}</strong></div>`).join("");
+  document.getElementById(dataId).innerHTML = fields.map(([label,key,unit]) => {
+    const datum = group?.[key];
+    const period = datum?.periodo ? `<small>${escapeHtml(datum.periodo)}</small>` : "";
+    return `<div class="weather-item"><span>${escapeHtml(label)}</span><strong>${escapeHtml(formatDatum(datum?.value, unit))}</strong>${period}</div>`;
+  }).join("");
   document.getElementById(sourceId).innerHTML = sourceBlock(group?.meta, true);
 }
 

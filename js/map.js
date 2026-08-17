@@ -9,37 +9,67 @@ window.RiglosMap = (() => {
     const map = L.map("map", { center, zoom: 10, zoomControl: true, scrollWheelZoom: false });
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
 
+    const effis = L.tileLayer.wms("https://maps.effis.emergency.copernicus.eu/effis", {
+      layers: "modis.ba.poly",
+      format: "image/png",
+      transparent: true,
+      time: new Date().toISOString().slice(0, 10),
+      attribution: '<a href="https://forest-fire.emergency.copernicus.eu/" target="_blank" rel="noopener noreferrer">EFFIS / Copernicus</a>'
+    });
+
     const layers = {
       "Perímetro del incendio": L.featureGroup(),
       "Espacio protegido": L.featureGroup(),
       "Poblaciones evacuadas": L.featureGroup(),
       "Carreteras cortadas": L.featureGroup(),
       "Estaciones meteorológicas": L.featureGroup(),
+      "Área quemada satelital EFFIS (diaria)": effis,
       "Focos térmicos (preparado)": L.featureGroup(),
       "Precipitación (preparado)": L.featureGroup(),
       "Perímetros históricos (preparado)": L.featureGroup()
     };
 
-    await addGeoJson("data/perimetro.geojson", layers["Perímetro del incendio"], { color: "#a53d34", weight: 3, fillOpacity: .16 });
+    const officialBounds = await addGeoJson("data/perimetro.geojson", layers["Perímetro del incendio"], { color: "#a53d34", weight: 3, fillOpacity: .16 });
     await addGeoJson("data/espacios-protegidos.geojson", layers["Espacio protegido"], { color: "#397454", weight: 2, fillColor: "#67a47d", fillOpacity: .12 });
     addMarkers(data.evacuaciones?.registros, layers["Poblaciones evacuadas"], "evacuated", item => `${item.poblacion}: ${item.estado}`);
     addMarkers(data.carreteras?.registros, layers["Carreteras cortadas"], "road", item => `${item.carretera}: ${item.estado}`);
-    addMarkers(data.meteo?.estaciones, layers["Estaciones meteorológicas"], "station", item => item.nombre);
+    addMarkers(data.meteo?.estaciones, layers["Estaciones meteorológicas"], "station", item => stationLabel(item, data.meteo));
     ["Perímetro del incendio", "Espacio protegido", "Poblaciones evacuadas", "Carreteras cortadas", "Estaciones meteorológicas"].forEach(name => layers[name].addTo(map));
+    effis.addTo(map);
     L.control.layers({}, layers, { collapsed: window.innerWidth < 720 }).addTo(map);
     L.control.scale({ imperial: false }).addTo(map);
-    status.textContent = "Mapa orientativo. Consulta siempre la cartografía y los avisos oficiales.";
+    if (officialBounds?.isValid()) map.fitBounds(officialBounds, { padding: [24, 24], maxZoom: 12 });
+    status.textContent = "ICEARAGON: perímetro oficial si está publicado · EFFIS: área quemada satelital diaria.";
     setTimeout(() => map.invalidateSize(), 0);
   }
 
   async function addGeoJson(url, group, style) {
     try {
       const response = await fetch(url, { cache: "no-store" });
-      if (!response.ok) return;
+      if (!response.ok) return null;
       const geojson = await response.json();
-      L.geoJSON(geojson, { style, onEachFeature: (feature, layer) => feature.properties?.nombre && layer.bindPopup(escapeHtml(feature.properties.nombre)) }).addTo(group);
-      if (url.includes("perimetro") && geojson.features?.length) document.getElementById("perimeter-note").textContent = geojson.metadata?.aviso || "Capa incorporada; consulta su procedencia en los metadatos.";
-    } catch (error) { console.warn(`No se pudo cargar ${url}`, error); }
+      const layer = L.geoJSON(geojson, { style, onEachFeature: (feature, itemLayer) => itemLayer.bindPopup(featurePopup(feature, geojson.metadata)) }).addTo(group);
+      if (url.includes("perimetro")) document.getElementById("perimeter-note").textContent = geojson.metadata?.aviso || (geojson.features?.length ? "Capa oficial incorporada." : "No hay un GeoJSON oficial incorporado.");
+      return layer.getBounds();
+    } catch (error) { console.warn(`No se pudo cargar ${url}`, error); return null; }
+  }
+
+  function featurePopup(feature, metadata) {
+    const properties = feature.properties || {};
+    const name = properties.nombre || "Perímetro del incendio";
+    const area = properties.sup_total ?? properties.superficie_ha;
+    const date = properties.fecha_mod || metadata?.fecha_hora;
+    return `<strong>${escapeHtml(name)}</strong>${area != null ? `<br>${escapeHtml(new Intl.NumberFormat("es-ES", { maximumFractionDigits: 1 }).format(area))} ha` : ""}${date ? `<br>Actualizado: ${escapeHtml(new Date(date).toLocaleString("es-ES"))}` : ""}`;
+  }
+
+  function stationLabel(item, meteo) {
+    const observation = meteo?.observacion;
+    const isObserved = observation?.meta?.estacion?.idema === item.idema;
+    const parts = [item.nombre];
+    if (item.distancia_capital_municipal_km != null) parts.push(`${new Intl.NumberFormat("es-ES", { maximumFractionDigits: 1 }).format(item.distancia_capital_municipal_km)} km de la capital municipal`);
+    if (isObserved && observation.temperatura_c?.value != null) parts.push(`${observation.temperatura_c.value} °C`);
+    if (isObserved && observation.viento_kmh?.value != null) parts.push(`viento ${observation.viento_kmh.value} km/h`);
+    return parts.join(" · ");
   }
 
   function addMarkers(records = [], group, type, label) {

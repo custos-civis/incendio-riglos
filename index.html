@@ -64,14 +64,16 @@
     <section id="mapa" class="section map-section" aria-labelledby="map-title">
       <div class="section-heading">
         <div><p class="section-kicker">Contexto territorial</p><h2 id="map-title">Mapa de situación</h2></div>
-        <p class="section-intro">Activa o desactiva capas desde el control del mapa.</p>
+        <div class="map-actions"><a class="text-link" href="https://www.google.com/maps/search/?api=1&amp;query=incendio+Las+Pe%C3%B1as+de+Riglos" target="_blank" rel="noopener noreferrer">Ver incendio en Google Maps <span aria-hidden="true">↗</span></a><p class="section-intro">Activa o desactiva capas desde el control del mapa.</p></div>
       </div>
       <div class="map-shell">
         <div id="map" role="application" aria-label="Mapa interactivo de Las Peñas de Riglos"></div>
+        <div id="map-summary" class="map-summary" aria-label="Datos principales del incendio">Cargando datos…</div>
         <div id="map-status" class="map-status" role="status">Cargando capas…</div>
       </div>
       <div class="map-notes">
         <p><strong>Perímetro:</strong> <span id="perimeter-note">No hay un GeoJSON oficial incorporado.</span></p>
+        <p><strong>Capas:</strong> el perímetro operativo oficial y el área quemada estimada por satélite son productos distintos. La capa EFFIS se actualiza diariamente y puede aparecer más tarde que el incendio.</p>
         <p><strong>Seguridad informativa:</strong> este mapa no muestra ubicaciones de equipos, maquinaria, UME, rutas de ataque, maniobras ni posiciones de voluntariado.</p>
       </div>
     </section>
@@ -95,10 +97,10 @@
     <section id="meteo" class="section weather-section" aria-labelledby="weather-title">
       <div class="section-heading"><div><p class="section-kicker">Condiciones meteorológicas</p><h2 id="weather-title">Meteorología</h2></div><a class="text-link" href="https://www.aemet.es/es/eltiempo/prediccion/municipios/penas-de-riglos-las-id22173" target="_blank" rel="noopener noreferrer">Predicción AEMET <span aria-hidden="true">↗</span></a></div>
       <div class="weather-grid">
-        <article class="panel"><div class="panel-heading"><span class="panel-icon" aria-hidden="true">↗</span><div><p class="section-kicker">Modelo meteorológico</p><h3>Previsión</h3></div></div><div id="forecast-data" class="weather-data"></div><div id="forecast-source" class="source-line"></div></article>
-        <article class="panel"><div class="panel-heading"><span class="panel-icon" aria-hidden="true">●</span><div><p class="section-kicker">Estación oficial</p><h3>Observación real</h3></div></div><div id="observation-data" class="weather-data"></div><div id="observation-source" class="source-line"></div></article>
+        <article class="panel"><div class="panel-heading"><span class="panel-icon" aria-hidden="true">↗</span><div><p class="section-kicker">Modelo meteorológico</p><h3>Previsión detallada</h3></div></div><div id="forecast-data" class="weather-data weather-data-detailed"></div><div id="forecast-hourly" class="hourly-strip" aria-label="Previsión por horas"></div><div id="forecast-source" class="source-line"></div></article>
+        <article class="panel"><div class="panel-heading"><span class="panel-icon" aria-hidden="true">●</span><div><p class="section-kicker">Estación oficial cercana</p><h3>Observación real</h3></div></div><div id="observation-data" class="weather-data weather-data-detailed"></div><div id="observation-context" class="observation-context"></div><div id="observation-source" class="source-line"></div></article>
       </div>
-      <div class="weather-warning" role="note"><strong>Importante</strong><p>La lluvia registrada en Jaca no implica necesariamente lluvia sobre el perímetro del incendio.</p></div>
+      <div class="weather-warning" role="note"><strong>Importante</strong><p>La medición de Bailo-Puyalto no implica que existan las mismas condiciones o precipitación sobre todo el perímetro del incendio.</p></div>
 
       <article class="rain-panel" aria-labelledby="rain-title">
         <div class="rain-heading"><div><p class="section-kicker">Registro manual, sin interpretación automática</p><h3 id="rain-title">Precipitación y efecto operativo</h3></div><span class="badge manual">Revisión humana</span></div>

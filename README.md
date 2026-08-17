@@ -1,20 +1,21 @@
 # Panel ciudadano del incendio de Las Peñas de Riglos
 
-Primera versión funcional de una web pública estática para reunir información oficial sobre un posible incendio forestal en Las Peñas de Riglos (Huesca). El panel prioriza claridad, trazabilidad, privacidad y seguridad informativa.
+Web pública estática para reunir información oficial sobre el incendio forestal de Las Peñas de Riglos (Huesca). El panel prioriza claridad, trazabilidad, privacidad y seguridad informativa.
 
 > **No es una herramienta oficial de emergencias.** No sustituye los avisos de 112 Aragón, Protección Civil, CECOPI ni de ninguna autoridad. En caso de discrepancia, prevalecen siempre las instrucciones oficiales. Ante una emergencia, llama al 112.
 
-Los datos iniciales están deliberadamente vacíos: la comprobación realizada al crear esta versión no permitió verificar un parte oficial específico del incendio descrito en el encargo. Las cifras del enunciado eran ejemplos, no fuentes, y por tanto no se han publicado como hechos.
+Los datos incorporados enlazan su fuente y conservan su fecha de publicación. Los campos que el último parte no cuantifica —como el porcentaje de perímetro consolidado— permanecen vacíos aunque otras fuentes utilicen expresiones cualitativas.
 
 ## Características
 
 - HTML5, CSS3 y JavaScript vanilla, sin compilación ni backend.
 - Datos editables en JSON local.
-- Mapa Leaflet con capas activables y GeoJSON local.
+- Mapa Leaflet con capas activables, resumen del incendio, estaciones AEMET, GeoJSON oficial y capa satelital EFFIS.
 - Resumen, evacuaciones, carreteras, meteorología, lluvia útil, evolución y cronología.
 - Tres estados de fiabilidad: `oficial`, `provisional` y `sin_actualizacion`.
 - Gráfica SVG propia, accesible y sin dependencias adicionales.
 - Diseño responsive, navegación por teclado y marcado semántico.
+- Actualización horaria automática de predicción y observación AEMET y consulta del perímetro de ICEARAGON.
 - Sin cookies, formularios, autenticación, analítica, publicidad ni trackers propios.
 
 ## Ejecutar localmente
@@ -51,6 +52,10 @@ No hacen falta `npm install`, Node.js, base de datos ni variables de entorno.
 │   ├── fuentes.json
 │   ├── perimetro.geojson
 │   └── espacios-protegidos.geojson
+├── scripts/
+│   └── update_public_data.py
+├── .github/workflows/
+│   └── actualizar-datos.yml
 └── assets/
     └── icons/
 ```
@@ -116,7 +121,7 @@ En `data/carreteras.json`, cada registro admite `carretera`, `tramo`, `estado`, 
 
 ### Meteorología y precipitación útil
 
-`data/meteo.json` separa `prevision` de `observacion`. La estación y la hora pertenecen a `meta`; no mezcles una observación de Jaca con una predicción municipal.
+`data/meteo.json` separa `prevision` de `observacion`. La previsión horaria corresponde al municipio y la observación procede de la estación AEMET de Bailo-Puyalto, identificada con su distancia, altitud y hora. La actualización automática no presenta esa medición como si se hubiera tomado dentro del incendio.
 
 Los registros manuales de `precipitacion_efecto_operativo` usan:
 
@@ -151,7 +156,18 @@ Usa `null` cuando falte un valor. La gráfica separa los segmentos y no interpol
 
 La capa del Paisaje Protegido de San Juan de la Peña y Monte Oroel funciona igual en `data/espacios-protegidos.geojson`. Ambas se entregan vacías para evitar representar aproximaciones como cartografía real.
 
-Las capas para focos térmicos, precipitación y perímetros históricos ya aparecen preparadas en `js/map.js`, pero vacías.
+El flujo automático consulta cada hora la capa de ICEARAGON y solo incorpora una geometría de 2026 cuyo nombre contenga “Riglos”. Hasta que exista, el GeoJSON permanece vacío. El mapa ofrece además la capa diaria EFFIS/Copernicus como estimación satelital de área quemada; no se etiqueta como perímetro operativo ni como porcentaje consolidado.
+
+## Actualización automática
+
+GitHub Actions ejecuta `scripts/update_public_data.py` cada hora y también puede lanzarse manualmente desde **Actions → Actualizar datos y publicar el panel → Run workflow**. El proceso:
+
+1. descarga la predicción horaria oficial de AEMET;
+2. incorpora la observación más reciente de Bailo-Puyalto y los acumulados del día;
+3. consulta si ICEARAGON ya ha publicado el perímetro de 2026;
+4. valida los JSON, guarda únicamente los valores que han cambiado y vuelve a publicar GitHub Pages.
+
+No requiere claves ni secretos. La situación general, las evacuaciones, los cortes y el porcentaje consolidado siguen necesitando revisión humana de los partes del Gobierno de Aragón.
 
 ## Publicar en GitHub Pages
 
@@ -207,14 +223,17 @@ El código no solicita nombre, correo, teléfono, dirección, geolocalización n
 
 - Leaflet se descarga desde `unpkg.com`.
 - Las teselas del mapa se solicitan a `tile.openstreetmap.org` y, como en cualquier petición web, el servidor puede recibir la dirección IP.
+- La capa satelital se solicita al servicio WMS de EFFIS/Copernicus y el enlace complementario abre Google Maps en otra pestaña.
 - GitHub procesa las visitas cuando aloja el sitio.
 
 Para reducir todavía más las conexiones externas, puede descargarse Leaflet al repositorio y sustituirse el mapa base por teselas de un proveedor con condiciones adecuadas. No almacenes teselas masivamente: respeta la [política de uso de teselas de OpenStreetMap](https://operations.osmfoundation.org/policies/tiles/).
 
 ## Limitaciones
 
-- Los datos se actualizan manualmente y pueden quedar desfasados.
-- El panel no consulta APIs en tiempo real ni envía alertas.
+- La meteorología y la comprobación cartográfica se actualizan automáticamente cada hora; el resto requiere revisión humana y puede quedar desfasado entre partes.
+- La observación AEMET más cercana está fuera del perímetro y puede no representar las condiciones del frente.
+- EFFIS es una estimación satelital de actualización diaria y puede tardar en mostrar un incendio o diferir de la cartografía oficial.
+- El panel no envía alertas.
 - El mapa es informativo y depende de servicios externos para el fondo cartográfico.
 - Una ausencia en el panel significa “no incorporado”, no “inexistente”.
 - La disponibilidad de fuentes, enlaces y formatos oficiales puede cambiar.
@@ -225,4 +244,3 @@ Para reducir todavía más las conexiones externas, puede descargarse Leaflet al
 El código original de este repositorio se distribuye bajo licencia MIT; consulta `LICENSE`.
 
 La licencia MIT **no** se extiende automáticamente a datos, mapas, geometrías, teselas, logotipos, marcas, publicaciones oficiales ni otros contenidos de terceros. Esos materiales mantienen sus propias licencias y condiciones de reutilización. Leaflet se distribuye bajo licencia BSD-2-Clause y los datos de OpenStreetMap bajo ODbL; revisa siempre las condiciones vigentes de cada proveedor.
-

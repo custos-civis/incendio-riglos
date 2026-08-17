@@ -1,5 +1,5 @@
 {
-  "ultima_revision": "2026-08-17T05:37:11+02:00",
+  "ultima_revision": "2026-08-17T06:10:37+02:00",
   "fuentes": [
     {
       "id": "aragon-hoy-ultimo-parte",
@@ -22,16 +22,24 @@
       "nombre": "AEMET — Las Peñas de Riglos",
       "url": "https://www.aemet.es/es/eltiempo/prediccion/municipios/penas-de-riglos-las-id22173",
       "tipo": "oficial",
-      "ultima_consulta": "2026-08-17T05:37:11+02:00",
-      "alcance": "Predicción municipal y estaciones cercanas"
+      "ultima_consulta": "2026-08-17T06:10:37+02:00",
+      "alcance": "Predicción horaria municipal y observación de Bailo-Puyalto"
     },
     {
       "id": "icearagon-perimetros",
       "nombre": "ICEARAGON — perímetros de incendios forestales",
       "url": "https://idearagon.aragon.es/Visor2D?service=WFS&version=1.0.0&request=GetFeature&typeName=VISOR2D%3APerimetros_activos&outputFormat=application%2Fjson&srsName=EPSG%3A4326&CQL_FILTER=anio%3D2026",
       "tipo": "oficial",
-      "ultima_consulta": "2026-08-17T05:37:11+02:00",
+      "ultima_consulta": "2026-08-17T06:10:37+02:00",
       "alcance": "Perímetro oficial; sin registro de 2026 en la consulta realizada"
+    },
+    {
+      "id": "effis",
+      "nombre": "EFFIS / Copernicus — área quemada satelital",
+      "url": "https://forest-fire.emergency.copernicus.eu/apps/effis_current_situation/",
+      "tipo": "oficial",
+      "ultima_consulta": "2026-08-17T06:10:37+02:00",
+      "alcance": "Estimación satelital diaria; no equivale al perímetro operativo consolidado"
     },
     {
       "id": "aragon-open-data-enp",

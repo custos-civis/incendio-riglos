@@ -1,0 +1,69 @@
+name: Actualizar datos y publicar el panel
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: actualizar-datos-publicos
+  cancel-in-progress: true
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Consultar AEMET e ICEARAGON
+        run: python scripts/update_public_data.py
+
+      - name: Validar los archivos
+        run: |
+          python -m json.tool data/meteo.json > /dev/null
+          python -m json.tool data/perimetro.geojson > /dev/null
+          git diff --check
+
+      - name: Publicar solo si hay datos nuevos
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/meteo.json data/perimetro.geojson
+          if git diff --cached --quiet; then
+            echo "No hay cambios"
+          else
+            git commit -m "Actualizar meteorología y cartografía"
+            git push
+          fi
+
+      - name: Preparar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Empaquetar el panel
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  desplegar:
+    needs: actualizar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

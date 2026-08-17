@@ -1,35 +1,182 @@
 {
-  "ultima_revision": "2026-08-17T05:37:11+02:00",
+  "ultima_revision": "2026-08-17T05:00:00+02:00",
   "prevision": {
-    "temperatura_c": { "value": 33, "tipo": "máxima diaria" },
-    "viento_kmh": { "value": 20, "periodo": "12–24 h" },
-    "direccion": { "value": "N", "periodo": "12–24 h" },
-    "prob_precipitacion_pct": { "value": 0, "periodo": "00–24 h" },
-    "tormentas": { "value": "No previstas", "probabilidad_pct": 0 },
+    "temperatura_maxima_c": {
+      "value": 33,
+      "periodo": "16–17 h"
+    },
+    "temperatura_minima_c": {
+      "value": 17,
+      "periodo": "07 h"
+    },
+    "humedad_minima_pct": {
+      "value": 21
+    },
+    "humedad_maxima_pct": {
+      "value": 88
+    },
+    "viento_maximo_kmh": {
+      "value": 23,
+      "periodo": "23 h"
+    },
+    "direccion_viento_maximo": {
+      "value": "N",
+      "periodo": "23 h"
+    },
+    "racha_maxima_kmh": {
+      "value": 41,
+      "periodo": "15–16 h"
+    },
+    "prob_precipitacion_pct": {
+      "value": 0
+    },
+    "precipitacion_total_mm": {
+      "value": 0
+    },
+    "prob_tormenta_pct": {
+      "value": 0
+    },
+    "cielo": {
+      "value": "Despejado"
+    },
+    "horaria": [
+      {
+        "hora": "08:00",
+        "temperatura_c": 18,
+        "humedad_pct": 82,
+        "viento_kmh": 6,
+        "direccion": "E",
+        "racha_kmh": 8,
+        "precipitacion_mm": 0,
+        "cielo": "Despejado"
+      },
+      {
+        "hora": "11:00",
+        "temperatura_c": 27,
+        "humedad_pct": 46,
+        "viento_kmh": 7,
+        "direccion": "SO",
+        "racha_kmh": 20,
+        "precipitacion_mm": 0,
+        "cielo": "Despejado"
+      },
+      {
+        "hora": "14:00",
+        "temperatura_c": 32,
+        "humedad_pct": 34,
+        "viento_kmh": 12,
+        "direccion": "O",
+        "racha_kmh": 33,
+        "precipitacion_mm": 0,
+        "cielo": "Poco nuboso"
+      },
+      {
+        "hora": "17:00",
+        "temperatura_c": 33,
+        "humedad_pct": 22,
+        "viento_kmh": 22,
+        "direccion": "O",
+        "racha_kmh": 40,
+        "precipitacion_mm": 0,
+        "cielo": "Nubes altas"
+      },
+      {
+        "hora": "20:00",
+        "temperatura_c": 30,
+        "humedad_pct": 21,
+        "viento_kmh": 20,
+        "direccion": "N",
+        "racha_kmh": 33,
+        "precipitacion_mm": 0,
+        "cielo": "Poco nuboso"
+      },
+      {
+        "hora": "23:00",
+        "temperatura_c": 22,
+        "humedad_pct": 46,
+        "viento_kmh": 23,
+        "direccion": "N",
+        "racha_kmh": 39,
+        "precipitacion_mm": 0,
+        "cielo": "Poco nuboso"
+      }
+    ],
     "meta": {
       "fecha_hora": "2026-08-16T21:03:11+02:00",
       "periodo": "2026-08-17",
       "fiabilidad": "oficial",
       "fuente": {
-        "nombre": "AEMET — predicción municipal de Las Peñas de Riglos",
-        "url": "https://www.aemet.es/es/eltiempo/prediccion/municipios/penas-de-riglos-las-id22173"
+        "nombre": "AEMET — predicción horaria de Las Peñas de Riglos",
+        "url": "https://www.aemet.es/es/eltiempo/prediccion/municipios/horas/penas-de-riglos-las-id22173"
       }
     }
   },
   "observacion": {
-    "precipitacion_mm": { "value": null },
-    "racha_maxima_kmh": { "value": null },
-    "humedad_relativa_pct": { "value": null },
-    "temperatura_c": { "value": null },
-    "viento_kmh": { "value": null },
-    "direccion": { "value": null },
-    "meta": null
+    "precipitacion_ultima_hora_mm": {
+      "value": 0
+    },
+    "precipitacion_desde_00_mm": {
+      "value": 0
+    },
+    "racha_actual_kmh": {
+      "value": 7
+    },
+    "racha_maxima_desde_00_kmh": {
+      "value": 10
+    },
+    "humedad_relativa_pct": {
+      "value": 79
+    },
+    "temperatura_c": {
+      "value": 16.2
+    },
+    "viento_kmh": {
+      "value": 6
+    },
+    "direccion": {
+      "value": "Noroeste"
+    },
+    "meta": {
+      "fecha_hora": "2026-08-17T05:00:00+02:00",
+      "fiabilidad": "oficial",
+      "estacion": {
+        "idema": "9211F",
+        "nombre": "Bailo, Puyalto",
+        "distancia_capital_municipal_km": 19.79,
+        "altitud_m": 722,
+        "coordenadas": [
+          42.5141666667,
+          -0.8172222222
+        ]
+      },
+      "control_calidad": "Controles automáticos de calidad en tiempo real de AEMET",
+      "fuente": {
+        "nombre": "AEMET — estación Bailo, Puyalto",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9211F"
+      }
+    }
   },
   "estaciones": [
-    { "nombre": "Bailo, Puyalto", "distancia_capital_municipal_km": 19.79, "coordenadas": null },
-    { "nombre": "Jaca", "distancia_capital_municipal_km": 29.6, "coordenadas": null },
-    { "nombre": "Sabiñánigo", "distancia_capital_municipal_km": 35.41, "coordenadas": null },
-    { "nombre": "Huesca", "distancia_capital_municipal_km": 35.92, "coordenadas": null }
+    {
+      "idema": "9211F",
+      "nombre": "Bailo, Puyalto",
+      "distancia_capital_municipal_km": 19.79,
+      "altitud_m": 722,
+      "coordenadas": [
+        42.5141666667,
+        -0.8172222222
+      ]
+    },
+    {
+      "idema": "9201X",
+      "nombre": "Jaca",
+      "distancia_capital_municipal_km": 29.6,
+      "altitud_m": 832,
+      "coordenadas": [
+        42.5797222222,
+        -0.545
+      ]
+    }
   ],
   "precipitacion_efecto_operativo": [],
   "observaciones_permitidas": [
@@ -39,5 +186,5 @@
     "Tormenta con rachas erráticas",
     "Pendiente de confirmar"
   ],
-  "aviso": "La predicción corresponde a la capital municipal de Las Peñas de Riglos, no al perímetro completo. AEMET no dispone de una estación dentro del municipio; por eso no se publica una observación como si fuera local."
+  "aviso": "La predicción corresponde a la capital municipal. La observación procede de Bailo, Puyalto, a 19,79 km de la capital municipal, y no representa necesariamente las condiciones en todo el incendio."
 }
