@@ -9,10 +9,10 @@
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin>
   <link rel="stylesheet" href="css/leaflet.css?v=1.9.4-local">
-  <link rel="stylesheet" href="css/style.css?v=20260817-clear-map">
+  <link rel="stylesheet" href="css/style.css?v=20260817-map-points">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
   <script src="js/charts.js?v=20260817-satellite" defer></script>
-  <script src="js/map.js?v=20260817-clear-map" defer></script>
+  <script src="js/map.js?v=20260817-map-points" defer></script>
   <script src="js/app.js?v=20260817-perimeter100" defer></script>
 </head>
 <body>
@@ -73,12 +73,15 @@
       <div class="map-layer-key" aria-label="Leyenda de capas cartográficas">
         <span><i class="map-key-line official" aria-hidden="true"></i>Perímetro oficial</span>
         <span><i class="map-key-line approximate" aria-hidden="true"></i>Área satelital aproximada</span>
+        <span><i class="map-key-marker evacuated" aria-hidden="true">E</i>Población o establecimiento evacuado</span>
+        <span><i class="map-key-marker road" aria-hidden="true">!</i>Tramo de carretera cortado</span>
+        <span><i class="map-key-marker station" aria-hidden="true">°</i>Estación meteorológica AEMET</span>
         <span><i class="map-key-dot" aria-hidden="true"></i>Foco térmico VIIRS (capa opcional)</span>
       </div>
       <div class="map-notes">
         <p><strong>Perímetro:</strong> <span id="perimeter-note">No hay un GeoJSON oficial incorporado.</span></p>
         <p id="perimeter-history"><strong>Últimas cifras explícitas:</strong> cargando referencias fechadas…</p>
-        <p><strong>Capas:</strong> el perímetro operativo oficial, el área quemada estimada y los focos térmicos son productos distintos. EFFIS se actualiza diariamente y puede diferir del último parte.</p>
+        <p><strong>Capas:</strong> el perímetro operativo oficial, el área quemada estimada y los focos térmicos son productos distintos. Los marcadores de carreteras son referencias orientativas del tramo comunicado.</p>
         <p><strong>Seguridad informativa:</strong> este mapa no muestra ubicaciones de equipos, maquinaria, UME, rutas de ataque, maniobras ni posiciones de voluntariado.</p>
       </div>
     </section>
@@ -137,7 +140,7 @@
 
     <section class="section info-grid" aria-label="Información del proyecto">
       <article class="info-card"><h2>Privacidad</h2><p>Este sitio no solicita datos personales, no usa formularios, cookies, analítica ni sistemas propios de seguimiento. El mapa base y las bibliotecas externas pueden recibir la dirección IP como parte técnica de la conexión; consulta sus políticas enlazadas en el README.</p></article>
-      <article class="info-card"><h2>Criterio editorial</h2><p>Solo se incorporan fuentes públicas oficiales. No se usan publicaciones de particulares como confirmación y toda actualización requiere revisión humana.</p></article>
+      <article class="info-card"><h2>Criterio editorial</h2><p>Los hechos y cifras se apoyan en fuentes públicas oficiales o se identifican expresamente como provisionales. OpenStreetMap se usa solo como referencia cartográfica. No se usan publicaciones de particulares como confirmación.</p></article>
       <article class="info-card"><h2>Emergencias</h2><p>Este panel es informativo. Ante una emergencia llama al <a href="tel:112">112</a> y sigue las instrucciones de las autoridades. No acudas a la zona afectada.</p></article>
     </section>
   </main>

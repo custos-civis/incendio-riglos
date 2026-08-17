@@ -9,7 +9,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
-      }
+      },
+      "coordenadas": [
+        42.4258022,
+        -0.6269305
+      ],
+      "ubicacion_aproximada": true
     },
     {
       "carretera": "A-132",
@@ -19,7 +24,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
-      }
+      },
+      "coordenadas": [
+        42.3981902,
+        -0.7550811
+      ],
+      "ubicacion_aproximada": true
     },
     {
       "carretera": "N-240",
@@ -29,7 +39,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
-      }
+      },
+      "coordenadas": [
+        42.5577012,
+        -0.7123532
+      ],
+      "ubicacion_aproximada": true
     },
     {
       "carretera": "A-1603",
@@ -39,7 +54,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
-      }
+      },
+      "coordenadas": [
+        42.49,
+        -0.66
+      ],
+      "ubicacion_aproximada": true
     },
     {
       "carretera": "A-2602",
@@ -49,7 +69,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
-      }
+      },
+      "coordenadas": [
+        42.5170978,
+        -0.8478855
+      ],
+      "ubicacion_aproximada": true
     },
     {
       "carretera": "HU-V-3001",
@@ -59,7 +84,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
-      }
+      },
+      "coordenadas": [
+        42.3712182,
+        -0.6309061
+      ],
+      "ubicacion_aproximada": true
     },
     {
       "carretera": "HU-V-3003",
@@ -69,7 +99,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
-      }
+      },
+      "coordenadas": [
+        42.4079018,
+        -0.5279721
+      ],
+      "ubicacion_aproximada": true
     },
     {
       "carretera": "HF-0262-BA",
@@ -79,8 +114,13 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
-      }
+      },
+      "coordenadas": [
+        42.5275,
+        -0.6305
+      ],
+      "ubicacion_aproximada": true
     }
   ],
-  "nota_edicion": "Relación extraída del último parte oficial que enumera expresamente las vías cortadas. Verificar de nuevo antes de desplazarse."
+  "nota_edicion": "Relación extraída del último parte oficial que enumera expresamente las vías cortadas. Los marcadores son referencias orientativas del entorno del tramo, no el punto exacto del corte. Verificar de nuevo en DGT o 112 antes de desplazarse."
 }

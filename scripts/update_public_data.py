@@ -42,6 +42,47 @@ STATION = {
     "altitud_m": 722,
     "coordenadas": [42.5141666667, -0.8172222222],
 }
+# Coordenadas de referencia de núcleos y establecimientos públicos. Se fijan
+# aquí para que las actualizaciones automáticas no eliminen los marcadores.
+# Formato Leaflet: [latitud, longitud]. Localización contrastada con
+# OpenStreetMap/Nominatim; no representa domicilios ni posiciones operativas.
+EVACUATION_COORDINATES = {
+    "Villalangua": [42.4190976, -0.8026854],
+    "Salinas de Jaca": [42.4124840, -0.7890940],
+    "Ena": [42.4471445, -0.6928043],
+    "Centenero": [42.4257012, -0.6679114],
+    "Santa María de la Peña": [42.3933908, -0.7426006],
+    "Triste": [42.3866520, -0.7184828],
+    "La Peña Estación": [42.3813638, -0.6961110],
+    "Yeste": [42.3862128, -0.6913218],
+    "Bailo": [42.5095870, -0.8117949],
+    "Larués": [42.5166028, -0.8483146],
+    "Arbués": [42.5071151, -0.7840507],
+    "Alastuey": [42.5208359, -0.7602318],
+    "Botaya": [42.4932554, -0.6522858],
+    "Osia": [42.4522522, -0.6362717],
+    "Santa Cruz de la Serós": [42.5239494, -0.6741522],
+    "Binacua": [42.5470272, -0.6983497],
+    "Atarés": [42.5323732, -0.6242681],
+    "Anzánigo": [42.4032036, -0.6430785],
+    "Bernués": [42.4781362, -0.5859853],
+    "Camping Pirineos": [42.5563413, -0.7557998],
+    "Campamento de Anzánigo": [42.4070208, -0.6468327],
+    "Camping Anzánigo": [42.4070208, -0.6468327],
+}
+
+# Punto orientativo situado en el entorno del tramo indicado en el parte. No
+# pretende sustituir una geometría lineal ni la información de tráfico de DGT.
+ROAD_REFERENCE_COORDINATES = {
+    "A-1205": [42.4258022, -0.6269305],
+    "A-132": [42.3981902, -0.7550811],
+    "N-240": [42.5577012, -0.7123532],
+    "A-1603": [42.4900, -0.6600],
+    "A-2602": [42.5170978, -0.8478855],
+    "HU-V-3001": [42.3712182, -0.6309061],
+    "HU-V-3003": [42.4079018, -0.5279721],
+    "HF-0262-BA": [42.5275, -0.6305],
+}
 INCIDENT_BBOX = (-1.15, 42.10, -0.25, 42.72)
 INCIDENT_START = "2026-08-09"
 EFFIS_WFS = "https://maps.effis.emergency.copernicus.eu/effis"
@@ -267,13 +308,17 @@ def parse_closed_roads(article: dict) -> list[dict] | None:
         road = match.group(0).upper()
         section = item[match.end():].strip(" ,.;")
         section = re.sub(r"\s+(?:y\s+)?(?:la\s+)?(?:carretera\s+local\s+)?$", "", section, flags=re.I).strip(" ,.;")
-        records.append({
+        record = {
             "carretera": road,
             "tramo": section or "Tramo indicado en el parte oficial",
             "estado": "Cortada",
             "fecha_hora": article["published_at"],
             "fuente": source,
-        })
+        }
+        if road in ROAD_REFERENCE_COORDINATES:
+            record["coordenadas"] = ROAD_REFERENCE_COORDINATES[road]
+            record["ubicacion_aproximada"] = True
+        records.append(record)
     unique = {item["carretera"]: item for item in records}
     return list(unique.values()) if 3 <= len(unique) <= 30 else None
 
@@ -454,9 +499,15 @@ def update_official_incident_data() -> bool:
     evacuations_path = DATA / "evacuaciones.json"
     evacuations = read_json(evacuations_path)
     evacuations["ultima_revision"] = article["published_at"]
+    for record in evacuations.get("registros", []):
+        coordinates = EVACUATION_COORDINATES.get(record.get("poblacion"))
+        if coordinates:
+            record["coordenadas"] = coordinates
+            record["coordenadas_fuente"] = "OpenStreetMap/Nominatim"
     evacuations["nota_edicion"] = (
         "El total procede del último parte oficial. La relación nominal conserva la última fuente que enumeró "
-        "cada núcleo; no se infieren retornos ni nuevas evacuaciones."
+        "cada núcleo; no se infieren retornos ni nuevas evacuaciones. Las coordenadas identifican el núcleo o "
+        "establecimiento y no posiciones operativas."
     )
     changed = write_json_if_changed(evacuations_path, evacuations) or changed
 
@@ -467,7 +518,8 @@ def update_official_incident_data() -> bool:
         road_data["registros"] = roads
         road_data["nota_edicion"] = (
             "Relación extraída del último parte oficial que enumera expresamente las vías cortadas. "
-            "Verificar de nuevo antes de desplazarse."
+            "Los marcadores son referencias orientativas del entorno del tramo, no el punto exacto del corte. "
+            "Verificar de nuevo en DGT o 112 antes de desplazarse."
         )
         changed = write_json_if_changed(roads_path, road_data) or changed
 

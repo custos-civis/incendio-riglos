@@ -8,7 +8,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.4190976,
+        -0.8026854
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Salinas de Jaca",
@@ -17,7 +22,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.412484,
+        -0.789094
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Ena",
@@ -26,7 +36,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.4471445,
+        -0.6928043
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Centenero",
@@ -35,7 +50,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.4257012,
+        -0.6679114
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Santa María de la Peña",
@@ -44,7 +64,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.3933908,
+        -0.7426006
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Triste",
@@ -53,7 +78,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.386652,
+        -0.7184828
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "La Peña Estación",
@@ -62,7 +92,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.3813638,
+        -0.696111
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Yeste",
@@ -71,7 +106,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.3862128,
+        -0.6913218
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Bailo",
@@ -80,7 +120,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.509587,
+        -0.8117949
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Larués",
@@ -89,7 +134,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.5166028,
+        -0.8483146
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Arbués",
@@ -98,7 +148,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.5071151,
+        -0.7840507
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Alastuey",
@@ -107,7 +162,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.5208359,
+        -0.7602318
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Botaya",
@@ -116,7 +176,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.4932554,
+        -0.6522858
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Osia",
@@ -125,7 +190,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.4522522,
+        -0.6362717
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Santa Cruz de la Serós",
@@ -134,7 +204,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.5239494,
+        -0.6741522
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Binacua",
@@ -143,7 +218,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.5470272,
+        -0.6983497
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Atarés",
@@ -152,7 +232,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.5323732,
+        -0.6242681
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Anzánigo",
@@ -161,7 +246,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
-      }
+      },
+      "coordenadas": [
+        42.4032036,
+        -0.6430785
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Bernués",
@@ -170,7 +260,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113"
-      }
+      },
+      "coordenadas": [
+        42.4781362,
+        -0.5859853
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Camping Pirineos",
@@ -179,7 +274,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113"
-      }
+      },
+      "coordenadas": [
+        42.5563413,
+        -0.7557998
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Campamento de Anzánigo",
@@ -188,7 +288,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113"
-      }
+      },
+      "coordenadas": [
+        42.4070208,
+        -0.6468327
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     },
     {
       "poblacion": "Camping Anzánigo",
@@ -197,7 +302,12 @@
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113"
-      }
+      },
+      "coordenadas": [
+        42.4070208,
+        -0.6468327
+      ],
+      "coordenadas_fuente": "OpenStreetMap/Nominatim"
     }
   ],
   "estados_permitidos": [
@@ -206,5 +316,5 @@
     "Retorno autorizado",
     "Sin actualización"
   ],
-  "nota_edicion": "El total procede del último parte oficial. La relación nominal conserva la última fuente que enumeró cada núcleo; no se infieren retornos ni nuevas evacuaciones."
+  "nota_edicion": "El total procede del último parte oficial. La relación nominal conserva la última fuente que enumeró cada núcleo; no se infieren retornos ni nuevas evacuaciones. Las coordenadas identifican el núcleo o establecimiento y no posiciones operativas."
 }

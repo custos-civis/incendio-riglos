@@ -113,11 +113,11 @@ Añade objetos en `data/evacuaciones.json`:
 }
 ```
 
-Estados admitidos: `Evacuada`, `Confinada`, `Retorno autorizado` y `Sin actualización`. Las coordenadas son opcionales. No incluyas nombres ni datos personales.
+Estados admitidos: `Evacuada`, `Confinada`, `Retorno autorizado` y `Sin actualización`. Las coordenadas son opcionales. En este panel se conservan en `scripts/update_public_data.py`, contrastadas con OpenStreetMap/Nominatim, para que la actualización automática no borre los marcadores. Identifican el núcleo o establecimiento, nunca domicilios o posiciones operativas. No incluyas nombres ni datos personales.
 
 ### Carreteras
 
-En `data/carreteras.json`, cada registro admite `carretera`, `tramo`, `estado`, `fecha_hora`, `fuente` y, opcionalmente, `coordenadas`. Verifica el estado en DGT o en la autoridad vial competente antes de publicarlo.
+En `data/carreteras.json`, cada registro admite `carretera`, `tramo`, `estado`, `fecha_hora`, `fuente` y, opcionalmente, `coordenadas`. Los puntos del mapa son referencias orientativas del entorno del tramo comunicado: no representan el lugar exacto del corte ni sustituyen al mapa de tráfico. Verifica siempre el estado en DGT, 112 o la autoridad vial competente antes de desplazarte.
 
 ### Meteorología y precipitación útil
 
