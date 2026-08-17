@@ -34,7 +34,7 @@ window.RiglosMap = (() => {
     const approximate = await addGeoJson("data/perimetro-aproximado.geojson", layers["Área quemada aproximada EFFIS"], { color: "#d97706", weight: 3, dashArray: "9 7", fillColor: "#f59e0b", fillOpacity: .18 });
     await addGeoJson("data/espacios-protegidos.geojson", layers["Espacio protegido"], { color: "#397454", weight: 2, fillColor: "#67a47d", fillOpacity: .12 });
     addEvacuationMarkers(data.evacuaciones?.registros, layers["Poblaciones evacuadas"]);
-    addMarkers(data.carreteras?.registros, layers["Carreteras cortadas"], "road", "!", roadPopup, item => `${item.carretera}: ${item.tramo}`);
+    addRoadClosures(data.carreteras?.registros, layers["Carreteras cortadas"]);
     addMarkers(data.meteo?.estaciones, layers["Estaciones meteorológicas"], "station", "°", item => stationPopup(item, data.meteo), item => `Estación meteorológica AEMET: ${item.nombre}`);
 
     const defaultLayers = ["Perímetro oficial ICEARAGON", "Área quemada aproximada EFFIS", "Espacio protegido", "Poblaciones evacuadas", "Carreteras cortadas", "Estaciones meteorológicas"];
@@ -103,7 +103,31 @@ window.RiglosMap = (() => {
   function roadPopup(item) {
     const source = safeSourceLink(item.fuente);
     const direction = item.sentido ? `<br>Sentido: ${escapeHtml(item.sentido)}` : "";
-    return `<strong>Carretera cortada: ${escapeHtml(item.carretera)}</strong><br>${escapeHtml(item.tramo)}${direction}<br><small>Marcador orientativo del tramo; no señala el punto exacto del corte. Confirma el estado en DGT o llamando al 011.</small>${source}`;
+    const trace = Array.isArray(item.trazado) && item.trazado.length > 1;
+    const reference = item.trazado_pk_referencia;
+    const mappedPks = reference ? `<br>PK cartográficos de referencia: ${escapeHtml(formatNumber(reference.inicio))}–${escapeHtml(formatNumber(reference.fin))}` : "";
+    const note = trace
+      ? "Línea aproximada sobre el eje viario oficial de ICEARAGON entre los PK georreferenciados disponibles."
+      : "Marcador orientativo; no hay correspondencia suficiente de PK georreferenciados para dibujar una línea fiable.";
+    const traceSource = trace ? safeSourceLink(item.trazado_fuente) : "";
+    return `<strong>Carretera cortada: ${escapeHtml(item.carretera)}</strong><br>${escapeHtml(item.tramo)}${direction}${mappedPks}<br><small>${note} Confirma el estado en DGT o llamando al 011.</small>${source}${traceSource}`;
+  }
+
+  function addRoadClosures(records = [], group) {
+    records.forEach(item => {
+      const title = `${item.carretera}: ${item.tramo}`;
+      const popup = roadPopup(item);
+      if (Array.isArray(item.trazado) && item.trazado.length > 1) {
+        L.polyline(item.trazado, {
+          color: "#7a1f5d",
+          weight: 7,
+          opacity: .9,
+          lineCap: "round",
+          lineJoin: "round"
+        }).bindPopup(popup).bindTooltip(title, { sticky: true }).addTo(group);
+      }
+      if (hasCoordinates(item)) addMarker(item.coordenadas, group, "road", "!", popup, title);
+    });
   }
 
   function evacuationPopup(items) {

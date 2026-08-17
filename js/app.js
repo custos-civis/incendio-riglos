@@ -57,7 +57,10 @@ function renderMapSummary() {
     ["Evacuados", e.nucleos_evacuados?.value == null ? "—" : `${formatNumber(e.nucleos_evacuados.value)} núcleos`],
     ["Cortes", `${roads.length} vías`]
   ];
-  document.getElementById("map-summary").innerHTML = values.map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
+  document.getElementById("map-summary").innerHTML = values.map(([label, value]) => {
+    const fullText = `${label}: ${value}`;
+    return `<div title="${escapeHtml(fullText)}"><span>${escapeHtml(label)}</span><strong title="${escapeHtml(value)}">${escapeHtml(value)}</strong></div>`;
+  }).join("");
   document.getElementById("perimeter-history").innerHTML = `<strong>Cifras de perímetro:</strong> ${historicalPerimeterLinks(lastPercentage, lastLength)}. La longitud es aproximada y el porcentaje es una referencia histórica fechada.`;
 }
 

@@ -119,7 +119,7 @@ Estados admitidos: `Evacuada`, `Confinada`, `Retorno autorizado` y `Sin actualiz
 
 ### Carreteras
 
-En `data/carreteras.json`, cada registro admite `carretera`, `tramo`, `sentido`, `localizacion`, `estado`, `fecha_hora`, `fuente` y, opcionalmente, `coordenadas`. La automatización contrasta las vías enumeradas por el último parte con el cuadro vigente de carreteras cortadas por incendio de DGT; si DGT no está disponible, conserva la relación del parte. Los puntos del mapa son referencias orientativas del entorno del tramo comunicado: no representan el lugar exacto del corte ni sustituyen al mapa de tráfico. Verifica siempre el estado en DGT, 011 o la autoridad vial competente antes de desplazarte.
+En `data/carreteras.json`, cada registro admite `carretera`, `pk_inicio`, `pk_fin`, `tramo`, `sentido`, `localizacion`, `estado`, `fecha_hora`, `fuente` y, opcionalmente, `coordenadas` y `trazado`. La automatización contrasta las vías enumeradas por el último parte con el cuadro vigente de carreteras cortadas por incendio de DGT; si DGT no está disponible, conserva la relación del parte. Para cada intervalo con PK georreferenciados compatibles, enlaza esos puntos sobre el eje viario oficial de ICEARAGON y publica una línea aproximada. Si no existe correspondencia suficiente mantiene solo el marcador. Ninguna representación sustituye al mapa de tráfico: verifica siempre el estado en DGT, 011 o la autoridad vial competente antes de desplazarte.
 
 ### Meteorología y precipitación diaria
 
@@ -171,11 +171,13 @@ El flujo automático consulta cada media hora ICEARAGON y solo incorpora una geo
 GitHub Actions ejecuta `scripts/update_public_data.py` cada media hora y también puede lanzarse manualmente desde **Actions → Actualizar datos y publicar el panel → Run workflow**. El proceso:
 
 1. localiza y lee el último parte oficial de Aragón Hoy sobre Las Peñas de Riglos;
-2. actualiza estado, superficie, perímetro aproximado publicado, totales de evacuación, carreteras contrastadas con DGT, cronología y fuentes cuando las fuentes publican datos explícitos;
+2. actualiza estado, superficie, perímetro aproximado publicado, totales de evacuación, carreteras contrastadas con DGT y sus trazados por PK disponibles en ICEARAGON, cronología y fuentes cuando las fuentes publican datos explícitos;
 3. descarga la predicción horaria oficial de AEMET, la observación más reciente de Bailo-Puyalto y la precipitación diaria de Bailo-Puyalto y Jaca;
 4. consulta si ICEARAGON ya ha publicado el perímetro de 2026;
 5. descarga el área quemada EFFIS atribuida a Las Peñas de Riglos y aplica controles automáticos de coherencia;
 6. valida todos los JSON y GeoJSON, conserva los datos anteriores si una fuente falla y vuelve a publicar GitHub Pages.
+
+Antes de cada publicación, `scripts/validate_public_data.py` comprueba además que las fechas no sean futuras, que las fuentes usen HTTPS, que no haya vías duplicadas, que los PK sean numéricos y que cada marcador o trazado permanezca dentro del ámbito territorial del incendio. Un trazado se rechaza si sus PK cartográficos se separan más de 1,5 km de los PK comunicados por DGT.
 
 No requiere claves ni secretos. La extracción es deliberadamente conservadora: no interpreta expresiones ambiguas, no inventa retornos o evacuaciones y mantiene vacío el porcentaje consolidado vigente si el último parte no lo publica expresamente.
 

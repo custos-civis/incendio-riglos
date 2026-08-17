@@ -14,11 +14,11 @@
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin>
   <link rel="stylesheet" href="css/leaflet.css?v=1.9.4-local">
-  <link rel="stylesheet" href="css/style.css?v=20260817-map-points">
+  <link rel="stylesheet" href="css/style.css?v=20260817-road-lines">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
   <script src="js/charts.js?v=20260817-continuous-surface" defer></script>
-  <script src="js/map.js?v=20260817-station-context" defer></script>
-  <script src="js/app.js?v=20260817-station-context" defer></script>
+  <script src="js/map.js?v=20260817-road-lines" defer></script>
+  <script src="js/app.js?v=20260817-summary-tooltips" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
@@ -79,14 +79,15 @@
         <span><i class="map-key-line official" aria-hidden="true"></i>Perímetro oficial</span>
         <span><i class="map-key-line approximate" aria-hidden="true"></i>Área satelital aproximada</span>
         <span><i class="map-key-marker evacuated" aria-hidden="true">E</i>Población o establecimiento evacuado</span>
-        <span><i class="map-key-marker road" aria-hidden="true">!</i>Tramo de carretera cortado</span>
+        <span><i class="map-key-line road-closure" aria-hidden="true"></i>Tramo cortado trazable por PK</span>
+        <span><i class="map-key-marker road" aria-hidden="true">!</i>Corte sin trazado PK suficiente</span>
         <span><i class="map-key-marker station" aria-hidden="true">°</i>Estación meteorológica AEMET</span>
         <span><i class="map-key-dot" aria-hidden="true"></i>Foco térmico VIIRS (capa opcional)</span>
       </div>
       <div class="map-notes">
         <p><strong>Perímetro:</strong> <span id="perimeter-note">No hay un GeoJSON oficial incorporado.</span></p>
         <p id="perimeter-history"><strong>Últimas cifras explícitas:</strong> cargando referencias fechadas…</p>
-        <p><strong>Capas:</strong> el perímetro operativo oficial, el área quemada estimada y los focos térmicos son productos distintos. Los marcadores de carreteras son referencias orientativas del tramo comunicado.</p>
+        <p><strong>Capas:</strong> el perímetro operativo oficial, el área quemada estimada y los focos térmicos son productos distintos. Las líneas de carretera siguen el eje oficial entre PK georreferenciados disponibles; los cortes sin correspondencia suficiente conservan un marcador orientativo.</p>
         <p><strong>Seguridad informativa:</strong> este mapa no muestra ubicaciones de equipos, maquinaria, UME, rutas de ataque, maniobras ni posiciones de voluntariado.</p>
       </div>
     </section>

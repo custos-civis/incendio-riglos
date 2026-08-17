@@ -17,8 +17,10 @@ y las estimaciones satelitales publicadas por sus proveedores.
 from __future__ import annotations
 
 import csv
+import heapq
 import io
 import json
+import math
 import re
 import time
 import unicodedata
@@ -107,6 +109,10 @@ INCIDENT_BBOX = (-1.15, 42.10, -0.25, 42.72)
 INCIDENT_START = "2026-08-09"
 EFFIS_WFS = "https://maps.effis.emergency.copernicus.eu/effis"
 DGT_FIRE_ROADS_PDF = "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
+ICEARAGON_PK_ARCGIS = "https://idearagon.aragon.es/servicios/rest/services/CARRETERAS/PK_ARAGON/MapServer/0/query"
+ICEARAGON_ROADS_WFS = "https://idearagon.aragon.es/Visor2D"
+ICEARAGON_PK_INFO = "https://idearagon.aragon.es/servicios/rest/services/CARRETERAS/PK_ARAGON/MapServer"
+ICEARAGON_ROADS_INFO = "https://opendata.aragon.es/ckan/dataset/carreteras"
 ARAGON_HOY = "https://www.aragonhoy.es"
 CADENA_SER_ARAGON = "https://cadenaser.com/aragon/"
 CADENA_SER_PERIMETER_SEED = (
@@ -378,6 +384,188 @@ def format_pk(value: float) -> str:
     return str(int(value)) if value.is_integer() else str(value).replace(".", ",")
 
 
+def geographic_distance_m(first: tuple[float, float], second: tuple[float, float]) -> float:
+    """Distancia aproximada entre dos coordenadas GeoJSON (longitud, latitud)."""
+    lon1, lat1 = map(math.radians, first)
+    lon2, lat2 = map(math.radians, second)
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    value = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+    return 6_371_000 * 2 * math.atan2(math.sqrt(value), math.sqrt(1 - value))
+
+
+def fetch_icearagon_pk(road: str) -> list[dict]:
+    params = {
+        "where": f"CODIGO_VIA='{road}'",
+        "outFields": "CODIGO_VIA,PK",
+        "returnGeometry": "true",
+        "outSR": "4326",
+        "f": "geojson",
+    }
+    data = json.loads(fetch_bytes(f"{ICEARAGON_PK_ARCGIS}?{urlencode(params)}"))
+    return sorted(
+        (
+            {
+                "pk": float(feature["properties"]["PK"]),
+                "coordenadas": tuple(map(float, feature["geometry"]["coordinates"][:2])),
+            }
+            for feature in data.get("features", [])
+            if feature.get("geometry", {}).get("type") == "Point"
+            and feature.get("properties", {}).get("PK") is not None
+        ),
+        key=lambda item: item["pk"],
+    )
+
+
+def fetch_icearagon_road(road: str) -> list[dict]:
+    code = DGT_ROAD_ALIASES.get(road, road)
+    params = {
+        "service": "WFS",
+        "version": "1.0.0",
+        "request": "GetFeature",
+        "typeName": "VISOR2D:RedCarCod",
+        "outputFormat": "application/json",
+        "srsName": "EPSG:4326",
+        "CQL_FILTER": f"codigo='{code}'",
+    }
+    data = json.loads(fetch_bytes(f"{ICEARAGON_ROADS_WFS}?{urlencode(params)}"))
+    return data.get("features", [])
+
+
+def road_graph(features: list[dict]) -> tuple[dict, dict]:
+    graph: dict[tuple[float, float], list[tuple[tuple[float, float], float]]] = {}
+    coordinates: dict[tuple[float, float], tuple[float, float]] = {}
+    for feature in features:
+        geometry = feature.get("geometry") or {}
+        raw_lines = [geometry.get("coordinates", [])] if geometry.get("type") == "LineString" else geometry.get("coordinates", [])
+        if geometry.get("type") not in {"LineString", "MultiLineString"}:
+            continue
+        for raw_line in raw_lines:
+            line = [tuple(map(float, coordinate[:2])) for coordinate in raw_line]
+            for first, second in zip(line, line[1:]):
+                first_key = (round(first[0], 6), round(first[1], 6))
+                second_key = (round(second[0], 6), round(second[1], 6))
+                if first_key == second_key:
+                    continue
+                coordinates.setdefault(first_key, first)
+                coordinates.setdefault(second_key, second)
+                distance = geographic_distance_m(first, second)
+                graph.setdefault(first_key, []).append((second_key, distance))
+                graph.setdefault(second_key, []).append((first_key, distance))
+    return graph, coordinates
+
+
+def shortest_road_path(features: list[dict], start: tuple[float, float], end: tuple[float, float]) -> tuple[list[list[float]], float]:
+    graph, coordinates = road_graph(features)
+    if not coordinates:
+        raise RuntimeError("ICEARAGON no ha devuelto una geometría lineal utilizable")
+    start_key = min(coordinates, key=lambda key: geographic_distance_m(coordinates[key], start))
+    end_key = min(coordinates, key=lambda key: geographic_distance_m(coordinates[key], end))
+    if geographic_distance_m(coordinates[start_key], start) > 500 or geographic_distance_m(coordinates[end_key], end) > 500:
+        raise RuntimeError("los PK no encajan con el eje oficial de la carretera")
+
+    distances = {start_key: 0.0}
+    previous: dict[tuple[float, float], tuple[float, float]] = {}
+    pending = [(0.0, start_key)]
+    while pending:
+        current_distance, current = heapq.heappop(pending)
+        if current == end_key:
+            break
+        if current_distance != distances.get(current):
+            continue
+        for neighbor, edge_distance in graph.get(current, []):
+            candidate = current_distance + edge_distance
+            if candidate < distances.get(neighbor, math.inf):
+                distances[neighbor] = candidate
+                previous[neighbor] = current
+                heapq.heappush(pending, (candidate, neighbor))
+    if end_key not in distances:
+        raise RuntimeError("los PK pertenecen a componentes inconexas del eje viario")
+
+    keys = [end_key]
+    while keys[-1] != start_key:
+        keys.append(previous[keys[-1]])
+    keys.reverse()
+    path = [[round(coordinates[key][1], 7), round(coordinates[key][0], 7)] for key in keys]
+    return simplify_leaflet_path(path), distances[end_key]
+
+
+def simplify_leaflet_path(path: list[list[float]], tolerance_m: float = 6) -> list[list[float]]:
+    """Reduce el peso del JSON manteniendo la forma del eje viario al aproximar el mapa."""
+    if len(path) < 3:
+        return path
+    mean_latitude = math.radians(sum(point[0] for point in path) / len(path))
+
+    def projected(point: list[float]) -> tuple[float, float]:
+        return point[1] * 111_320 * math.cos(mean_latitude), point[0] * 110_540
+
+    projected_path = [projected(point) for point in path]
+
+    def segment_distance(point, start, end) -> float:
+        dx, dy = end[0] - start[0], end[1] - start[1]
+        if dx == 0 and dy == 0:
+            return math.hypot(point[0] - start[0], point[1] - start[1])
+        fraction = max(0.0, min(1.0, ((point[0] - start[0]) * dx + (point[1] - start[1]) * dy) / (dx * dx + dy * dy)))
+        nearest = start[0] + fraction * dx, start[1] + fraction * dy
+        return math.hypot(point[0] - nearest[0], point[1] - nearest[1])
+
+    keep = {0, len(path) - 1}
+    pending = [(0, len(path) - 1)]
+    while pending:
+        first, last = pending.pop()
+        maximum, selected = 0.0, None
+        for index in range(first + 1, last):
+            distance = segment_distance(projected_path[index], projected_path[first], projected_path[last])
+            if distance > maximum:
+                maximum, selected = distance, index
+        if selected is not None and maximum > tolerance_m:
+            keep.add(selected)
+            pending.extend(((first, selected), (selected, last)))
+    return [path[index] for index in sorted(keep)]
+
+
+def attach_official_road_traces(records: list[dict]) -> list[dict]:
+    """Añade trazados solo cuando ICEARAGON publica PK y eje viario compatibles."""
+    for record in records:
+        start = record.get("pk_inicio")
+        end = record.get("pk_fin")
+        if start is None or end is None or math.isclose(float(start), float(end)):
+            continue
+        road = record["carretera"]
+        try:
+            markers = fetch_icearagon_pk(road)
+            if len(markers) < 2:
+                continue
+            start_marker = min(markers, key=lambda item: abs(item["pk"] - float(start)))
+            end_marker = min(markers, key=lambda item: abs(item["pk"] - float(end)))
+            if abs(start_marker["pk"] - float(start)) > 1.5 or abs(end_marker["pk"] - float(end)) > 1.5:
+                continue
+            path, length_m = shortest_road_path(
+                fetch_icearagon_road(road), start_marker["coordenadas"], end_marker["coordenadas"]
+            )
+            expected_m = abs(float(end) - float(start)) * 1_000
+            if not 0.65 * expected_m <= length_m <= 1.35 * expected_m:
+                raise RuntimeError(f"longitud cartográfica incoherente ({length_m / 1000:.1f} km para {expected_m / 1000:.1f} km)")
+            record["trazado"] = path
+            record["trazado_aproximado"] = True
+            record["trazado_pk_referencia"] = {
+                "inicio": start_marker["pk"],
+                "fin": end_marker["pk"],
+            }
+            record["trazado_fuente"] = {
+                "nombre": "ICEARAGON — red viaria y puntos kilométricos",
+                "url": ICEARAGON_PK_INFO,
+                "catalogo": ICEARAGON_ROADS_INFO,
+            }
+            print(
+                f"ICEARAGON: trazado {road} PK {format_pk(start_marker['pk'])}–{format_pk(end_marker['pk'])} "
+                f"({length_m / 1000:.1f} km)"
+            )
+        except Exception as error:
+            print(f"AVISO: no se dibuja el tramo de {road}: {error}")
+    return records
+
+
 def fetch_dgt_fire_road_closures(official_roads: list[dict] | None) -> list[dict] | None:
     """Contrasta las vías del parte con el cuadro vigente de cortes por incendio de DGT.
 
@@ -442,6 +630,8 @@ def fetch_dgt_fire_road_closures(official_roads: list[dict] | None) -> list[dict
         location = DGT_ROAD_LOCATIONS.get(road, "Tramo indicado por DGT")
         record = {
             "carretera": road,
+            "pk_inicio": start,
+            "pk_fin": end,
             "tramo": f"entre los pk {format_pk(start)} y {format_pk(end)} · {location}",
             "sentido": direction,
             "localizacion": location,
@@ -671,6 +861,8 @@ def update_official_incident_data() -> bool:
             )
     except Exception as error:
         print(f"AVISO: no se pudieron contrastar los cortes con DGT: {error}")
+    if roads:
+        roads = attach_official_road_traces(roads)
     status = explicit_fire_status(normalized)
     consolidated = first_integer(normalized, (
         r"([0-9]{1,3})\s*%\s+del\s+perimetro\s+consolidado",
@@ -757,7 +949,9 @@ def update_official_incident_data() -> bool:
         if roads and roads[0].get("fuente", {}).get("nombre", "").startswith("DGT"):
             road_data["nota_edicion"] = (
                 "Relación contrastada con el cuadro vigente de carreteras cortadas por incendio de DGT. "
-                "Los marcadores son referencias orientativas del tramo, no el punto exacto del corte. "
+                "Los trazados se dibujan únicamente cuando ICEARAGON permite enlazar el eje oficial con "
+                "puntos kilométricos georreferenciados; son aproximaciones cartográficas entre esos PK. "
+                "Cuando no existe esa correspondencia se conserva un marcador orientativo. "
                 "Verificar de nuevo en DGT o 011 antes de desplazarse."
             )
         else:

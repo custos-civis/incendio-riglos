@@ -18,10 +18,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Descargar el repositorio
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Preparar Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -34,9 +34,11 @@ jobs:
       - name: Validar los archivos
         run: |
           python -m py_compile scripts/update_public_data.py
+          python -m py_compile scripts/validate_public_data.py
           for file in data/*.json data/*.geojson; do
             python -m json.tool "$file" > /dev/null
           done
+          python scripts/validate_public_data.py
           git diff --check
 
       - name: Publicar solo si hay datos nuevos
