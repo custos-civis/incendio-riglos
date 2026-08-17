@@ -1,5 +1,5 @@
 {
-  "ultima_comprobacion_panel": "2026-08-17T20:59:27+02:00",
+  "ultima_comprobacion_panel": "2026-08-17T21:20:12+02:00",
   "ultima_actualizacion_oficial": "2026-08-17T20:51:25+02:00",
   "estado": {
     "value": "Activo",
@@ -43,23 +43,11 @@
     "value": 100,
     "meta": {
       "fecha_hora": "2026-08-17T20:51:25+02:00",
-      "fiabilidad": "historico",
+      "fiabilidad": "provisional",
+      "vigencia": "Perímetro aproximado publicado en el último parte oficial.",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
-      },
-      "vigencia": "Última longitud explícita publicada; puede no ser el valor vigente."
-    }
-  },
-  "perimetro_longitud_secundaria_km": {
-    "value": 100,
-    "meta": {
-      "fecha_hora": "2026-08-17T08:45:02+02:00",
-      "fiabilidad": "fuente_secundaria",
-      "vigencia": "Referencia periodística aproximada; no publicada en un parte oficial ni incorporada a la serie oficial.",
-      "fuente": {
-        "nombre": "Cadena SER — entrevista a Miguel Ángel Clavero",
-        "url": "https://cadenaser.com/aragon/2026/08/17/miguel-angel-clavero-en-hoy-por-hoy-hemos-podido-estabilizar-diferentes-frentes-del-incendio-de-las-penas-de-riglos-radio-zaragoza/"
       }
     }
   },

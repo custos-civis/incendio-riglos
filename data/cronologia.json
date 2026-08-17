@@ -237,7 +237,16 @@
       "fecha": "2026-08-17T20:51:25+02:00",
       "superficie_ha": 17500,
       "perimetro_consolidado_pct": null,
-      "precipitacion_mm": null
+      "precipitacion_mm": null,
+      "perimetro_longitud_km": 100,
+      "perimetro_longitud_meta": {
+        "fecha_hora": "2026-08-17T20:51:25+02:00",
+        "fiabilidad": "provisional",
+        "fuente": {
+          "nombre": "Gobierno de Aragón / Aragón Hoy",
+          "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
+        }
+      }
     }
   ],
   "nota_edicion": "Las superficies, los porcentajes y las longitudes son cifras explícitas publicadas por fuentes oficiales. La línea une los puntos oficiales disponibles sin inventar valores intermedios; una cifra difundida únicamente por medios de comunicación no se incorpora."

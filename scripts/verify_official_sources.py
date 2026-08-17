@@ -149,9 +149,11 @@ def verify_perimeter_history(chronology: dict) -> tuple[int, int]:
     return percentages, lengths
 
 
-def verify_secondary_perimeter_reference(state: dict) -> None:
+def verify_secondary_perimeter_reference(state: dict) -> bool:
     """Comprueba la referencia periodística sin confundirla con la serie oficial."""
-    datum = state.get("perimetro_longitud_secundaria_km") or {}
+    datum = state.get("perimetro_longitud_secundaria_km")
+    if not datum:
+        return False
     meta = datum.get("meta") or {}
     source = meta.get("fuente") or {}
     url = str(source.get("url") or "")
@@ -164,6 +166,7 @@ def verify_secondary_perimeter_reference(state: dict) -> None:
         raise RuntimeError("la publicación periodística ya no contiene la referencia de 100 km")
     if not re.search(r"Miguel\s+.ngel\s+Clavero", visible, re.I):
         raise RuntimeError("la publicación no identifica al responsable entrevistado")
+    return True
 
 
 def main() -> None:
@@ -173,11 +176,12 @@ def main() -> None:
     verify_dgt(roads)
     verify_cecopi(state)
     percentages, lengths = verify_perimeter_history(chronology)
-    verify_secondary_perimeter_reference(state)
+    has_secondary = verify_secondary_perimeter_reference(state)
     print(
         "Verificación externa completa: "
         f"DGT ({len(roads)} cortes), último informe CECOPI y serie de perímetro "
-        f"({percentages} porcentaje, {lengths} longitudes) coinciden; referencia periodística de 100 km contrastada"
+        f"({percentages} porcentaje, {lengths} longitudes) coinciden"
+        + ("; referencia periodística contrastada" if has_secondary else "")
     )
 
 

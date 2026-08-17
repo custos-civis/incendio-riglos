@@ -868,6 +868,7 @@ def update_chronology(
     people: int | None,
     roads: list[dict] | None,
     consolidated: int | None,
+    perimeter_length: float | int | None,
 ) -> bool:
     path = DATA / "cronologia.json"
     data = read_json(path)
@@ -885,6 +886,8 @@ def update_chronology(
             details.append(f"{len(roads)} vías cortadas")
         if consolidated is not None:
             details.append(f"{consolidated} % del perímetro consolidado")
+        if perimeter_length is not None:
+            details.append(f"{str(perimeter_length).replace('.', ',')} km de perímetro")
         description = article["title"] + (". El parte comunica " + ", ".join(details) + "." if details else ".")
         data.setdefault("eventos", []).insert(0, {
             "fecha_hora": article["published_at"],
@@ -894,7 +897,7 @@ def update_chronology(
             "fuente": {"nombre": "Gobierno de Aragón / Aragón Hoy", "url": article["url"]},
         })
     point = next((item for item in data.get("series", []) if item.get("fecha") == article["published_at"]), None)
-    if point is None and (area is not None or consolidated is not None):
+    if point is None and (area is not None or consolidated is not None or perimeter_length is not None):
         point = {
             "fecha": article["published_at"],
             "superficie_ha": None,
@@ -908,6 +911,11 @@ def update_chronology(
         if consolidated is not None:
             point["perimetro_consolidado_pct"] = consolidated
             point["perimetro_consolidado_meta"] = official_meta(
+                article["published_at"], article["url"], reliability="provisional"
+            )
+        if perimeter_length is not None:
+            point["perimetro_longitud_km"] = perimeter_length
+            point["perimetro_longitud_meta"] = official_meta(
                 article["published_at"], article["url"], reliability="provisional"
             )
         data["series"].sort(key=lambda item: item["fecha"])
@@ -960,6 +968,8 @@ def update_official_incident_data() -> bool:
     perimeter_length = first_decimal(normalized, (
         r"perimetro.{0,50}?(?:de|alcanza|asciende a)\s*([0-9][0-9.,]*)\s*kilometros",
     ))
+    if perimeter_length is not None and not 1 <= perimeter_length <= 2_000:
+        perimeter_length = None
     verified_consolidated = verify_consolidated_history()
     verified_lengths = verify_perimeter_length_history()
 
@@ -997,25 +1007,54 @@ def update_official_incident_data() -> bool:
         }
     else:
         state["perimetro_consolidado_ultimo_pct"] = {"value": None, "meta": None}
-    if perimeter_length is not None and 1 <= perimeter_length <= 2_000:
-        state["perimetro_longitud_ultima_km"] = {
-            "value": perimeter_length,
-            "meta": {
-                **official_meta(article["published_at"], article["url"], reliability="historico"),
-                "vigencia": "Última longitud explícita publicada; puede no ser el valor vigente.",
-            },
+    length_candidates = [
+        {
+            "fecha": item["fecha"], "value": item["value"],
+            "nombre": item["nombre"], "url": item["url"],
         }
-    elif verified_lengths:
-        latest_length = max(verified_lengths, key=lambda item: item["fecha"])
+        for item in verified_lengths
+    ]
+    for point in read_json(DATA / "cronologia.json").get("series", []):
+        value = point.get("perimetro_longitud_km")
+        meta = point.get("perimetro_longitud_meta") or {}
+        source = meta.get("fuente") or {}
+        if (
+            isinstance(value, (int, float)) and 1 <= value <= 2_000
+            and "aragonhoy.es" in str(source.get("url") or "")
+        ):
+            length_candidates.append({
+                "fecha": point["fecha"], "value": value,
+                "nombre": source.get("nombre") or "Gobierno de Aragón / Aragón Hoy",
+                "url": source["url"],
+            })
+    if perimeter_length is not None:
+        length_candidates.append({
+            "fecha": article["published_at"], "value": perimeter_length,
+            "nombre": "Gobierno de Aragón / Aragón Hoy", "url": article["url"],
+        })
+    if length_candidates:
+        latest_length = max(length_candidates, key=lambda item: item["fecha"])
+        is_current = latest_length["fecha"] == article["published_at"] and perimeter_length is not None
         state["perimetro_longitud_ultima_km"] = {
             "value": latest_length["value"],
             "meta": {
                 "fecha_hora": latest_length["fecha"],
-                "fiabilidad": "historico",
-                "vigencia": "Última longitud explícita publicada; puede no ser el valor vigente.",
+                "fiabilidad": "provisional" if is_current else "historico",
+                "vigencia": (
+                    "Perímetro aproximado publicado en el último parte oficial."
+                    if is_current else
+                    "Última longitud explícita localizada en una publicación oficial; puede no ser el valor vigente."
+                ),
                 "fuente": {"nombre": latest_length["nombre"], "url": latest_length["url"]},
             },
         }
+        secondary = state.get("perimetro_longitud_secundaria_km") or {}
+        secondary_meta = secondary.get("meta") or {}
+        if (
+            secondary.get("value") == latest_length["value"]
+            and latest_length["fecha"] >= str(secondary_meta.get("fecha_hora") or "")
+        ):
+            state.pop("perimetro_longitud_secundaria_km", None)
     elif "aragonhoy.es" not in str(((state.get("perimetro_longitud_ultima_km", {}).get("meta") or {}).get("fuente") or {}).get("url") or ""):
         state["perimetro_longitud_ultima_km"] = {"value": None, "meta": None}
     state["nota_edicion"] = (
@@ -1060,7 +1099,7 @@ def update_official_incident_data() -> bool:
             )
         changed = write_json_if_changed(roads_path, road_data) or changed
 
-    changed = update_chronology(article, area, nuclei, people, roads, consolidated) or changed
+    changed = update_chronology(article, area, nuclei, people, roads, consolidated, perimeter_length) or changed
     changed = update_perimeter_history(verified_consolidated, verified_lengths) or changed
     changed = update_sources(article, checked_at) or changed
     print(f"Aragón Hoy: {article['published_at']} · {article['url']}")

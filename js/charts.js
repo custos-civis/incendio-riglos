@@ -24,23 +24,40 @@ window.RiglosCharts = (() => {
       return;
     }
     const chart = chartGeometry(valid);
-    const paths = buildSegments(series, key, ["superficie_ha", "perimetro_consolidado_pct", "perimetro_longitud_km"].includes(key)).map(segment => segment
-      .filter(item => item[key] != null)
-      .map(item => `${chart.x(new Date(item.fecha))},${chart.y(item[key])}`).join(" "))
-      .filter(Boolean)
-      .map(points => `<polyline class="chart-line" points="${points}" />`).join("");
+    const officialValid = valid.filter(item => !item.perimetro_longitud_secundaria);
+    const secondaryValid = valid.filter(item => item.perimetro_longitud_secundaria);
+    let paths;
+    if (key === "perimetro_longitud_km" && secondaryValid.length) {
+      const officialPoints = officialValid.map(item => `${chart.x(item.date)},${chart.y(item.value)}`).join(" ");
+      const secondarySegment = [...officialValid.slice(-1), ...secondaryValid]
+        .map(item => `${chart.x(item.date)},${chart.y(item.value)}`).join(" ");
+      paths = `${officialPoints ? `<polyline class="chart-line" points="${officialPoints}" />` : ""}${secondarySegment ? `<polyline class="chart-line secondary-perimeter" points="${secondarySegment}" />` : ""}`;
+    } else {
+      paths = buildSegments(series, key, ["superficie_ha", "perimetro_consolidado_pct", "perimetro_longitud_km"].includes(key)).map(segment => segment
+        .filter(item => item[key] != null)
+        .map(item => `${chart.x(new Date(item.fecha))},${chart.y(item[key])}`).join(" "))
+        .filter(Boolean)
+        .map(points => `<polyline class="chart-line" points="${points}" />`).join("");
+    }
     const points = valid.map(item => {
       const meta = key === "perimetro_longitud_km" ? item.perimetro_longitud_meta : item.perimetro_consolidado_meta;
       const source = meta?.fuente?.nombre ? ` · ${meta.fuente.nombre}` : "";
+      const secondary = key === "perimetro_longitud_km" && item.perimetro_longitud_secundaria;
+      const display = `${secondary ? "≈ " : ""}${format(item.value)} ${config[key].unit}`;
       const label = ["perimetro_consolidado_pct", "perimetro_longitud_km"].includes(key)
-        ? `<text class="chart-value" x="${chart.x(item.date)}" y="${chart.y(item.value) - 13}" text-anchor="middle">${format(item.value)} ${config[key].unit}</text>`
+        ? `<text class="chart-value${secondary ? " secondary-perimeter" : ""}" x="${chart.x(item.date)}" y="${chart.y(item.value) - 13}" text-anchor="middle">${display}</text>`
         : "";
-      return `${label}<circle class="chart-point" cx="${chart.x(item.date)}" cy="${chart.y(item.value)}" r="5"><title>${formatDate(item.date)}: ${format(item.value)} ${config[key].unit}${source}</title></circle>`;
+      return `${label}<circle class="chart-point${secondary ? " secondary-perimeter" : ""}" cx="${chart.x(item.date)}" cy="${chart.y(item.value)}" r="5"><title>${formatDate(item.date)}: ${display}${source}${secondary ? " (fuente periodística; no oficial)" : ""}</title></circle>`;
     }).join("");
     const description = key === "superficie_ha"
       ? `${valid.length} valores fechados representados. La línea une las cifras publicadas consecutivas y omite los registros sin superficie.`
-      : `${valid.length} valores oficiales fechados representados. La línea une los puntos disponibles sin inventar valores intermedios.`;
-    container.innerHTML = svgFrame(chart, valid, config[key], paths + points, description);
+      : key === "perimetro_longitud_km" && secondaryValid.length
+        ? `${officialValid.length} longitudes oficiales y ${secondaryValid.length} referencia periodística fechada. El tramo discontinuo diferencia la fuente secundaria.`
+        : `${valid.length} valores oficiales fechados representados. La línea une los puntos disponibles sin inventar valores intermedios.`;
+    const legend = key === "perimetro_longitud_km" && secondaryValid.length
+      ? `<div class="chart-legend"><span><i></i>Partes oficiales</span><span><i class="secondary-perimeter"></i>Referencia periodística</span></div>`
+      : "";
+    container.innerHTML = legend + svgFrame(chart, valid, config[key], paths + points, description);
   }
 
   function renderPrecipitation(container, records) {

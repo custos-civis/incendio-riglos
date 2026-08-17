@@ -269,14 +269,27 @@ function selectChartTab(selected, tabs) {
 }
 
 function renderChart() {
-  const series = state.chartKey === "precipitacion_mm"
+  const secondaryLength = normalizeDatum(state.data.estado.perimetro_longitud_secundaria_km);
+  let series = state.chartKey === "precipitacion_mm"
     ? state.data.meteo.precipitacion_diaria || []
     : state.data.cronologia.series || [];
+  if (state.chartKey === "perimetro_longitud_km") {
+    if (secondaryLength.value != null && secondaryLength.meta?.fecha_hora) {
+      series = [...series, {
+        fecha: secondaryLength.meta.fecha_hora,
+        perimetro_longitud_km: secondaryLength.value,
+        perimetro_longitud_meta: secondaryLength.meta,
+        perimetro_longitud_secundaria: true
+      }].sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+    }
+  }
   window.RiglosCharts?.render(document.getElementById("evolution-chart"), series, state.chartKey);
   const notes = {
     superficie_ha: "Las superficies son estimaciones publicadas en partes fechados; la línea permite ver la evolución de esas cifras.",
     perimetro_consolidado_pct: "Cada punto es un porcentaje explícito, fechado y publicado por una fuente oficial. La línea une todos los puntos oficiales disponibles sin inventar valores intermedios; si solo existe uno, se muestra aislado.",
-    perimetro_longitud_km: "Longitud total publicada en partes oficiales: 41,9 km el 12 de agosto y 58 km el 14 de agosto. No equivale al porcentaje consolidado ni al área quemada.",
+    perimetro_longitud_km: secondaryLength.value != null
+      ? "La línea continua une las longitudes publicadas en partes oficiales. El tramo discontinuo identifica una referencia periodística y no la presenta como dato oficial."
+      : "La línea une todas las longitudes explícitas localizadas en partes oficiales: 41,9 km, 58 km y 100 km. La serie se actualizará automáticamente cuando un nuevo parte publique otra longitud.",
     precipitacion_mm: "Precipitación diaria 00–24 h registrada por AEMET en Jaca y Bailo-Puyalto. El último día puede estar incompleto y se actualiza cada 30 minutos."
   };
   document.getElementById("chart-note").textContent = notes[state.chartKey];
