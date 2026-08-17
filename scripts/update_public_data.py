@@ -15,6 +15,7 @@ import csv
 import io
 import json
 import re
+import time
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
@@ -37,10 +38,18 @@ STATION = {
 }
 
 
-def fetch_bytes(url: str) -> bytes:
-    request = Request(url, headers={"User-Agent": "incendio-riglos-panel/1.0"})
-    with urlopen(request, timeout=60) as response:
-        return response.read()
+def fetch_bytes(url: str, attempts: int = 2) -> bytes:
+    last_error = None
+    for attempt in range(attempts):
+        request = Request(url, headers={"User-Agent": "incendio-riglos-panel/1.0"})
+        try:
+            with urlopen(request, timeout=20) as response:
+                return response.read()
+        except Exception as error:  # La fuente externa puede fallar temporalmente.
+            last_error = error
+            if attempt + 1 < attempts:
+                time.sleep(2)
+    raise RuntimeError(f"No se pudo consultar {url}: {last_error}") from last_error
 
 
 def decode_xml(payload: bytes) -> str:
@@ -264,8 +273,22 @@ def update_perimeter() -> bool:
         "srsName": "EPSG:4326",
         "CQL_FILTER": f"anio={year} AND nombre ILIKE '%RIGLOS%'",
     }
-    url = "https://idearagon.aragon.es/Visor2D?" + urlencode(params)
-    payload = json.loads(fetch_bytes(url).decode("utf-8"))
+    urls = [
+        "https://icearagon.aragon.es/Visor2D?" + urlencode(params),
+        "https://idearagon.aragon.es/Visor2D?" + urlencode(params),
+    ]
+    payload = None
+    source_url = None
+    errors = []
+    for url in urls:
+        try:
+            payload = json.loads(fetch_bytes(url).decode("utf-8"))
+            source_url = url
+            break
+        except Exception as error:
+            errors.append(str(error))
+    if payload is None:
+        raise RuntimeError("; ".join(errors))
     features = payload.get("features") or []
     if not features:
         print("ICEARAGON: todavía no existe un perímetro 2026 de Riglos")
@@ -279,7 +302,7 @@ def update_perimeter() -> bool:
             "estado": "oficial",
             "es_ficticio": False,
             "aviso": "Perímetro incorporado desde la capa oficial de ICEARAGON.",
-            "fuente": {"nombre": "ICEARAGON — perímetros de incendios forestales", "url": url},
+            "fuente": {"nombre": "ICEARAGON — perímetros de incendios forestales", "url": source_url},
             "fecha_hora": max(dates) if dates else datetime.now(TZ).isoformat(timespec="seconds"),
         },
         "features": features,
@@ -298,8 +321,14 @@ def write_json_if_changed(path: Path, data: dict) -> bool:
 
 if __name__ == "__main__":
     changed = []
-    if update_weather():
-        changed.append("meteo")
-    if update_perimeter():
-        changed.append("perímetro")
+    try:
+        if update_weather():
+            changed.append("meteo")
+    except Exception as error:
+        print(f"AVISO: no se pudo actualizar AEMET; se conservan los datos anteriores: {error}")
+    try:
+        if update_perimeter():
+            changed.append("perímetro")
+    except Exception as error:
+        print(f"AVISO: no se pudo consultar ICEARAGON; se conserva el perímetro anterior: {error}")
     print("Actualizados: " + (", ".join(changed) if changed else "sin cambios"))
