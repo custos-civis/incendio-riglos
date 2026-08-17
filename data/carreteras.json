@@ -1,5 +1,5 @@
 {
-  "ultima_revision": "2026-08-17T23:40:00+02:00",
+  "ultima_revision": "2026-08-18T00:00:00+02:00",
   "registros": [
     {
       "carretera": "A-1205",
@@ -9,7 +9,7 @@
       "sentido": "Sentido creciente de la kilometración",
       "localizacion": "Jaca – Santa María",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T23:40:00+02:00",
+      "fecha_hora": "2026-08-18T00:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -29,7 +29,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Murillo de Gállego – Puente la Reina de Jaca",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T23:40:00+02:00",
+      "fecha_hora": "2026-08-18T00:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -49,7 +49,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Abay – Puente la Reina de Jaca",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T23:40:00+02:00",
+      "fecha_hora": "2026-08-18T00:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -69,7 +69,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Bernués – Botaya",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T23:40:00+02:00",
+      "fecha_hora": "2026-08-18T00:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -89,7 +89,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Bailo",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T23:40:00+02:00",
+      "fecha_hora": "2026-08-18T00:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -109,7 +109,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Yeste – Rasal",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T23:40:00+02:00",
+      "fecha_hora": "2026-08-18T00:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -129,7 +129,7 @@
       "sentido": "Sentido creciente de la kilometración",
       "localizacion": "Javierrelatre – Osia",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T23:40:00+02:00",
+      "fecha_hora": "2026-08-18T00:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -149,7 +149,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Áscara – Atarés",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T23:40:00+02:00",
+      "fecha_hora": "2026-08-18T00:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"

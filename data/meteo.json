@@ -2,30 +2,30 @@
   "ultima_revision": "2026-08-17T23:00:00+02:00",
   "prevision": {
     "temperatura_maxima_c": {
-      "value": 27,
-      "periodo": "21 h"
+      "value": 36,
+      "periodo": "17 h"
     },
     "temperatura_minima_c": {
-      "value": 22,
-      "periodo": "23 h"
+      "value": 15,
+      "periodo": "07 h"
     },
     "humedad_minima_pct": {
-      "value": 31
+      "value": 14
     },
     "humedad_maxima_pct": {
-      "value": 48
+      "value": 68
     },
     "viento_maximo_kmh": {
-      "value": 21,
-      "periodo": "23 h"
+      "value": 23,
+      "periodo": "02 h"
     },
     "direccion_viento_maximo": {
       "value": "N",
-      "periodo": "23 h"
+      "periodo": "02 h"
     },
     "racha_maxima_kmh": {
-      "value": 33,
-      "periodo": "22–23 h"
+      "value": 37,
+      "periodo": "02 h"
     },
     "prob_precipitacion_pct": {
       "value": 0
@@ -37,23 +37,73 @@
       "value": 0
     },
     "cielo": {
-      "value": "Nubes altas"
+      "value": "Despejado"
     },
     "horaria": [
       {
-        "hora": "23:00",
-        "temperatura_c": 22,
-        "humedad_pct": 48,
-        "viento_kmh": 21,
+        "hora": "08:00",
+        "temperatura_c": 16,
+        "humedad_pct": 67,
+        "viento_kmh": 12,
         "direccion": "N",
-        "racha_kmh": 33,
+        "racha_kmh": 27,
         "precipitacion_mm": 0,
         "cielo": "Nubes altas"
+      },
+      {
+        "hora": "11:00",
+        "temperatura_c": 25,
+        "humedad_pct": 35,
+        "viento_kmh": 1,
+        "direccion": "SE",
+        "racha_kmh": 19,
+        "precipitacion_mm": 0,
+        "cielo": "Despejado"
+      },
+      {
+        "hora": "14:00",
+        "temperatura_c": 33,
+        "humedad_pct": 17,
+        "viento_kmh": 10,
+        "direccion": "O",
+        "racha_kmh": 31,
+        "precipitacion_mm": 0,
+        "cielo": "Despejado"
+      },
+      {
+        "hora": "17:00",
+        "temperatura_c": 36,
+        "humedad_pct": 14,
+        "viento_kmh": 18,
+        "direccion": "O",
+        "racha_kmh": 35,
+        "precipitacion_mm": 0,
+        "cielo": "Despejado"
+      },
+      {
+        "hora": "20:00",
+        "temperatura_c": 32,
+        "humedad_pct": 22,
+        "viento_kmh": 18,
+        "direccion": "N",
+        "racha_kmh": 30,
+        "precipitacion_mm": 0,
+        "cielo": "Despejado"
+      },
+      {
+        "hora": "23:00",
+        "temperatura_c": 25,
+        "humedad_pct": 37,
+        "viento_kmh": 15,
+        "direccion": "N",
+        "racha_kmh": 25,
+        "precipitacion_mm": 0,
+        "cielo": "Despejado"
       }
     ],
     "meta": {
       "fecha_hora": "2026-08-17T20:57:10+02:00",
-      "periodo": "2026-08-17",
+      "periodo": "2026-08-18",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "AEMET — predicción horaria de Las Peñas de Riglos",
