@@ -3,9 +3,12 @@
   "metadata": {
     "estado": "vacio",
     "es_ficticio": false,
-    "aviso": "No hay un perímetro oficial incorporado. Esta capa está preparada pero vacía.",
-    "fuente": null,
-    "fecha_hora": null
+    "aviso": "No se ha incorporado un perímetro del incendio: la capa oficial de perímetros consultada no devuelve ningún registro de 2026. No se dibuja una aproximación.",
+    "fuente": {
+      "nombre": "ICEARAGON — WFS Perímetros de incendios forestales",
+      "url": "https://idearagon.aragon.es/Visor2D?service=WFS&version=1.0.0&request=GetFeature&typeName=VISOR2D%3APerimetros_activos&outputFormat=application%2Fjson&srsName=EPSG%3A4326&CQL_FILTER=anio%3D2026"
+    },
+    "fecha_hora": "2026-08-17T05:37:11+02:00"
   },
   "features": []
 }

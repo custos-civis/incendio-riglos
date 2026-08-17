@@ -1,12 +1,20 @@
 {
-  "ultima_revision": "2026-08-16T20:00:00+02:00",
+  "ultima_revision": "2026-08-17T05:37:11+02:00",
   "prevision": {
-    "temperatura_c": { "value": null },
-    "viento_kmh": { "value": null },
-    "direccion": { "value": null },
-    "prob_precipitacion_pct": { "value": null },
-    "tormentas": { "value": null },
-    "meta": null
+    "temperatura_c": { "value": 33, "tipo": "máxima diaria" },
+    "viento_kmh": { "value": 20, "periodo": "12–24 h" },
+    "direccion": { "value": "N", "periodo": "12–24 h" },
+    "prob_precipitacion_pct": { "value": 0, "periodo": "00–24 h" },
+    "tormentas": { "value": "No previstas", "probabilidad_pct": 0 },
+    "meta": {
+      "fecha_hora": "2026-08-16T21:03:11+02:00",
+      "periodo": "2026-08-17",
+      "fiabilidad": "oficial",
+      "fuente": {
+        "nombre": "AEMET — predicción municipal de Las Peñas de Riglos",
+        "url": "https://www.aemet.es/es/eltiempo/prediccion/municipios/penas-de-riglos-las-id22173"
+      }
+    }
   },
   "observacion": {
     "precipitacion_mm": { "value": null },
@@ -17,7 +25,12 @@
     "direccion": { "value": null },
     "meta": null
   },
-  "estaciones": [],
+  "estaciones": [
+    { "nombre": "Bailo, Puyalto", "distancia_capital_municipal_km": 19.79, "coordenadas": null },
+    { "nombre": "Jaca", "distancia_capital_municipal_km": 29.6, "coordenadas": null },
+    { "nombre": "Sabiñánigo", "distancia_capital_municipal_km": 35.41, "coordenadas": null },
+    { "nombre": "Huesca", "distancia_capital_municipal_km": 35.92, "coordenadas": null }
+  ],
   "precipitacion_efecto_operativo": [],
   "observaciones_permitidas": [
     "Sin lluvia significativa",
@@ -26,5 +39,5 @@
     "Tormenta con rachas erráticas",
     "Pendiente de confirmar"
   ],
-  "aviso": "La lluvia registrada en Jaca no implica necesariamente lluvia sobre el perímetro del incendio. No automatizar interpretaciones meteorológicas."
+  "aviso": "La predicción corresponde a la capital municipal de Las Peñas de Riglos, no al perímetro completo. AEMET no dispone de una estación dentro del municipio; por eso no se publica una observación como si fuera local."
 }

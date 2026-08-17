@@ -1,5 +1,86 @@
 {
-  "ultima_revision": "2026-08-16T20:00:00+02:00",
-  "registros": [],
-  "nota_edicion": "Comprobar cada corte en DGT o en una autoridad vial competente antes de publicarlo. Las coordenadas son opcionales y deben corresponder al tramo publicado, no a posiciones operativas."
+  "ultima_revision": "2026-08-17T05:37:11+02:00",
+  "registros": [
+    {
+      "carretera": "A-132",
+      "tramo": "PK 38–71, entre Murillo de Gállego y Puente la Reina",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    },
+    {
+      "carretera": "N-240",
+      "tramo": "PK 287,9–303, entre Jaca y Puente la Reina de Jaca",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    },
+    {
+      "carretera": "Pista N-240–Alastuey",
+      "tramo": "Pista asfaltada entre la N-240 y Alastuey",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    },
+    {
+      "carretera": "A-1603",
+      "tramo": "PK 0–18",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    },
+    {
+      "carretera": "HUV-3001",
+      "tramo": "PK 0–9, desde Rasal hasta el cruce con la A-1205",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    },
+    {
+      "carretera": "A-1205",
+      "tramo": "Todo el trazado: PK 0 (Jaca)–41,5 (Santa María de la Peña, cruce con A-132)",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    },
+    {
+      "carretera": "HF-0262-BA",
+      "tramo": "PK 0–4, tramo Jaca–Atarés",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    },
+    {
+      "carretera": "A-2602",
+      "tramo": "Término municipal de Bailo",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    }
+  ],
+  "nota_edicion": "Relación publicada por el CECOPI en el último parte oficial localizado. Verificar de nuevo antes de desplazarse porque los cortes pueden cambiar entre partes."
 }

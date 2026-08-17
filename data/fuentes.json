@@ -1,40 +1,69 @@
 {
-  "ultima_revision": "2026-08-16T20:00:00+02:00",
+  "ultima_revision": "2026-08-17T05:37:11+02:00",
   "fuentes": [
     {
-      "id": "gobierno-aragon",
-      "nombre": "Gobierno de Aragón / Aragón Hoy",
-      "url": "https://www.aragonhoy.es/",
+      "id": "aragon-hoy-ultimo-parte",
+      "nombre": "Gobierno de Aragón / Aragón Hoy — último parte",
+      "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116",
       "tipo": "oficial",
-      "ultima_consulta": "2026-08-16T20:00:00+02:00"
+      "ultima_consulta": "2026-08-17T05:37:11+02:00",
+      "alcance": "Estado, superficie, evacuaciones y carreteras"
+    },
+    {
+      "id": "aragon-hoy-busqueda",
+      "nombre": "Aragón Hoy — histórico de partes de Las Peñas de Riglos",
+      "url": "https://www.aragonhoy.es/search/?q=penas-de-riglos",
+      "tipo": "oficial",
+      "ultima_consulta": "2026-08-17T05:37:11+02:00",
+      "alcance": "Cronología oficial"
+    },
+    {
+      "id": "aemet",
+      "nombre": "AEMET — Las Peñas de Riglos",
+      "url": "https://www.aemet.es/es/eltiempo/prediccion/municipios/penas-de-riglos-las-id22173",
+      "tipo": "oficial",
+      "ultima_consulta": "2026-08-17T05:37:11+02:00",
+      "alcance": "Predicción municipal y estaciones cercanas"
+    },
+    {
+      "id": "icearagon-perimetros",
+      "nombre": "ICEARAGON — perímetros de incendios forestales",
+      "url": "https://idearagon.aragon.es/Visor2D?service=WFS&version=1.0.0&request=GetFeature&typeName=VISOR2D%3APerimetros_activos&outputFormat=application%2Fjson&srsName=EPSG%3A4326&CQL_FILTER=anio%3D2026",
+      "tipo": "oficial",
+      "ultima_consulta": "2026-08-17T05:37:11+02:00",
+      "alcance": "Perímetro oficial; sin registro de 2026 en la consulta realizada"
+    },
+    {
+      "id": "aragon-open-data-enp",
+      "nombre": "Aragón Open Data — Espacios Naturales Protegidos",
+      "url": "https://opendata.aragon.es/datos/catalogo/dataset/espacios-naturales-protegidos-en-aragon_rednat_enp",
+      "tipo": "oficial",
+      "ultima_consulta": "2026-08-17T05:37:11+02:00",
+      "alcance": "Geometría del Paisaje Protegido de San Juan de la Peña y Monte Oroel"
     },
     {
       "id": "infoar",
       "nombre": "INFOAR",
       "url": "https://www.aragon.es/prevencion-y-extincion-de-incendios-forestales/operativo",
       "tipo": "oficial",
-      "ultima_consulta": "2026-08-16T20:00:00+02:00"
+      "ultima_consulta": "2026-08-17T05:37:11+02:00",
+      "alcance": "Información institucional del operativo"
     },
     {
       "id": "112-aragon",
       "nombre": "112 Aragón",
       "url": "https://112aragon.aragon.es/",
       "tipo": "oficial",
-      "ultima_consulta": "2026-08-16T20:00:00+02:00"
-    },
-    {
-      "id": "aemet",
-      "nombre": "AEMET",
-      "url": "https://www.aemet.es/es/eltiempo/prediccion/municipios/penas-de-riglos-las-id22173",
-      "tipo": "oficial",
-      "ultima_consulta": "2026-08-16T20:00:00+02:00"
+      "ultima_consulta": "2026-08-17T05:37:11+02:00",
+      "alcance": "Protección civil y emergencias"
     },
     {
       "id": "dgt",
       "nombre": "Dirección General de Tráfico",
       "url": "https://www.dgt.es/conoce-el-estado-del-trafico/",
       "tipo": "oficial",
-      "ultima_consulta": "2026-08-16T20:00:00+02:00"
+      "ultima_consulta": "2026-08-17T05:37:11+02:00",
+      "alcance": "Consulta complementaria del estado del tráfico"
     }
   ]
 }

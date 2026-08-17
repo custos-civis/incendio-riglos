@@ -1,10 +1,10 @@
 {
-  "ultima_comprobacion_panel": "2026-08-17T10:00:00+02:00",
-  "ultima_actualizacion_oficial": "2026-08-16T21:01:00+02:00",
+  "ultima_comprobacion_panel": "2026-08-17T05:37:11+02:00",
+  "ultima_actualizacion_oficial": "2026-08-16T21:01:41+02:00",
   "estado": {
     "value": "Activo",
     "meta": {
-      "fecha_hora": "2026-08-16T21:01:00+02:00",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
@@ -15,7 +15,7 @@
   "superficie_ha": {
     "value": 17500,
     "meta": {
-      "fecha_hora": "2026-08-16T21:01:00+02:00",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
       "fiabilidad": "provisional",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
@@ -30,7 +30,7 @@
   "nucleos_evacuados": {
     "value": 19,
     "meta": {
-      "fecha_hora": "2026-08-16T21:01:00+02:00",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
@@ -41,7 +41,7 @@
   "personas_evacuadas": {
     "value": 1046,
     "meta": {
-      "fecha_hora": "2026-08-16T21:01:00+02:00",
+      "fecha_hora": "2026-08-16T21:01:41+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
@@ -49,5 +49,5 @@
       }
     }
   },
-  "nota_edicion": "Datos obtenidos del último comunicado oficial disponible. La superficie es provisional. No se muestra porcentaje de perímetro consolidado porque el último comunicado no aporta una cifra actualizada."
+  "nota_edicion": "Último parte oficial localizado en Aragón Hoy. La superficie es provisional. El porcentaje de perímetro consolidado permanece en null porque el último parte no publica un valor vigente."
 }
