@@ -1,28 +1,204 @@
 {
-  "ultima_revision": "2026-08-17T05:37:11+02:00",
+  "ultima_revision": "2026-08-17T10:01:28+02:00",
   "registros": [
-    { "poblacion": "Villalangua", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Salinas de Jaca", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Ena", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Centenero", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Santa María de la Peña", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Triste", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "La Peña Estación", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Yeste", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Bailo", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Larués", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Arbués", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Alastuey", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Botaya", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Osia", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Santa Cruz de la Serós", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Binacua", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Atarés", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Anzánigo", "estado": "Evacuada", "fecha_hora": "2026-08-14T20:59:45+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" } },
-    { "poblacion": "Bernués", "estado": "Evacuada", "fecha_hora": "2026-08-15T20:40:49+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113" } },
-    { "poblacion": "Camping Pirineos", "estado": "Evacuada", "fecha_hora": "2026-08-15T20:40:49+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113" } },
-    { "poblacion": "Campamento de Anzánigo", "estado": "Evacuada", "fecha_hora": "2026-08-15T20:40:49+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113" } },
-    { "poblacion": "Camping Anzánigo", "estado": "Evacuada", "fecha_hora": "2026-08-15T20:40:49+02:00", "fuente": { "nombre": "Gobierno de Aragón / CECOPI", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113" } }
+    {
+      "poblacion": "Villalangua",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Salinas de Jaca",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Ena",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Centenero",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Santa María de la Peña",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Triste",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "La Peña Estación",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Yeste",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Bailo",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Larués",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Arbués",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Alastuey",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Botaya",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Osia",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Santa Cruz de la Serós",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Binacua",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Atarés",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Anzánigo",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-14T20:59:45+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
+    },
+    {
+      "poblacion": "Bernués",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-15T20:40:49+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113"
+      }
+    },
+    {
+      "poblacion": "Camping Pirineos",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-15T20:40:49+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113"
+      }
+    },
+    {
+      "poblacion": "Campamento de Anzánigo",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-15T20:40:49+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113"
+      }
+    },
+    {
+      "poblacion": "Camping Anzánigo",
+      "estado": "Evacuada",
+      "fecha_hora": "2026-08-15T20:40:49+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113"
+      }
+    }
   ],
   "estados_permitidos": [
     "Evacuada",
@@ -30,5 +206,5 @@
     "Retorno autorizado",
     "Sin actualización"
   ],
-  "nota_edicion": "El último parte confirma 19 poblaciones y tres campings o campamentos evacuados. Los nombres proceden de las relaciones oficiales de los días 14 y 15; no se incluyen coordenadas ni datos personales."
+  "nota_edicion": "El total procede del último parte oficial. La relación nominal conserva la última fuente que enumeró cada núcleo; no se infieren retornos ni nuevas evacuaciones."
 }

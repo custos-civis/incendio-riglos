@@ -1,86 +1,86 @@
 {
-  "ultima_revision": "2026-08-17T05:37:11+02:00",
+  "ultima_revision": "2026-08-17T10:01:28+02:00",
   "registros": [
     {
-      "carretera": "A-132",
-      "tramo": "PK 38–71, entre Murillo de Gállego y Puente la Reina",
+      "carretera": "A-1205",
+      "tramo": "entre los puntos kilométricos 0 y 41",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+      }
+    },
+    {
+      "carretera": "A-132",
+      "tramo": "entre los pk 38,8 y 70,8",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
       }
     },
     {
       "carretera": "N-240",
-      "tramo": "PK 287,9–303, entre Jaca y Puente la Reina de Jaca",
+      "tramo": "entre los pk 287,9 y 303",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
-      }
-    },
-    {
-      "carretera": "Pista N-240–Alastuey",
-      "tramo": "Pista asfaltada entre la N-240 y Alastuey",
-      "estado": "Cortada",
-      "fecha_hora": "2026-08-16T21:01:41+02:00",
-      "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
       }
     },
     {
       "carretera": "A-1603",
-      "tramo": "PK 0–18",
+      "tramo": "entre los pk 0 y 10, en los accesos al Monasterio de San Juan de la Peña",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
-      }
-    },
-    {
-      "carretera": "HUV-3001",
-      "tramo": "PK 0–9, desde Rasal hasta el cruce con la A-1205",
-      "estado": "Cortada",
-      "fecha_hora": "2026-08-16T21:01:41+02:00",
-      "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
-      }
-    },
-    {
-      "carretera": "A-1205",
-      "tramo": "Todo el trazado: PK 0 (Jaca)–41,5 (Santa María de la Peña, cruce con A-132)",
-      "estado": "Cortada",
-      "fecha_hora": "2026-08-16T21:01:41+02:00",
-      "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
-      }
-    },
-    {
-      "carretera": "HF-0262-BA",
-      "tramo": "PK 0–4, tramo Jaca–Atarés",
-      "estado": "Cortada",
-      "fecha_hora": "2026-08-16T21:01:41+02:00",
-      "fuente": {
-        "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
       }
     },
     {
       "carretera": "A-2602",
-      "tramo": "Término municipal de Bailo",
+      "tramo": "en el acceso a Bailo",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
       "fuente": {
         "nombre": "Gobierno de Aragón / CECOPI",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+      }
+    },
+    {
+      "carretera": "HU-V-3001",
+      "tramo": "de acceso a Rasal",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+      }
+    },
+    {
+      "carretera": "HU-V-3003",
+      "tramo": "de acceso a Javierrelatre",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+      }
+    },
+    {
+      "carretera": "HF-0262-BA",
+      "tramo": "de acceso a Atarés",
+      "estado": "Cortada",
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / CECOPI",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
       }
     }
   ],
-  "nota_edicion": "Relación publicada por el CECOPI en el último parte oficial localizado. Verificar de nuevo antes de desplazarse porque los cortes pueden cambiar entre partes."
+  "nota_edicion": "Relación extraída del último parte oficial que enumera expresamente las vías cortadas. Verificar de nuevo antes de desplazarse."
 }

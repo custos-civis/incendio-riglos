@@ -2,6 +2,8 @@
 """Actualiza datos públicos que pueden obtenerse sin credenciales.
 
 Fuentes:
+- Aragón Hoy: último parte oficial, estado, superficie, evacuaciones,
+  carreteras y cronología.
 - AEMET: predicción horaria municipal y observación de Bailo, Puyalto.
 - ICEARAGON: perímetro oficial, únicamente cuando exista un registro de 2026
   cuyo nombre contenga "Riglos".
@@ -21,8 +23,9 @@ import time
 import unicodedata
 from collections import Counter
 from datetime import datetime
+from html import unescape
 from pathlib import Path
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urljoin
 from urllib.request import Request, urlopen
 from xml.etree import ElementTree
 from zoneinfo import ZoneInfo
@@ -42,6 +45,11 @@ STATION = {
 INCIDENT_BBOX = (-1.15, 42.10, -0.25, 42.72)
 INCIDENT_START = "2026-08-09"
 EFFIS_WFS = "https://maps.effis.emergency.copernicus.eu/effis"
+ARAGON_HOY = "https://www.aragonhoy.es"
+ARAGON_HOY_PAGES = (
+    f"{ARAGON_HOY}/",
+    f"{ARAGON_HOY}/hacienda-interior-administracion-publica",
+)
 
 
 def fetch_bytes(url: str, attempts: int = 2) -> bytes:
@@ -63,6 +71,284 @@ def decode_xml(payload: bytes) -> str:
     match = re.search(r"encoding=['\"]([^'\"]+)", declaration, re.I)
     encoding = match.group(1) if match else "utf-8"
     return payload.decode(encoding)
+
+
+def read_json(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def clean_html(fragment: str) -> str:
+    text = re.sub(r"<[^>]+>", " ", fragment)
+    return " ".join(unescape(text).split())
+
+
+def spanish_integer(value: str | None) -> int | None:
+    if not value:
+        return None
+    digits = re.sub(r"\D", "", value)
+    return int(digits) if digits else None
+
+
+def first_integer(text: str, patterns: tuple[str, ...]) -> int | None:
+    for pattern in patterns:
+        match = re.search(pattern, text, re.I)
+        if match:
+            return spanish_integer(match.group(1))
+    return None
+
+
+def official_meta(published_at: str, url: str, *, reliability: str = "oficial") -> dict:
+    return {
+        "fecha_hora": published_at,
+        "fiabilidad": reliability,
+        "fuente": {"nombre": "Gobierno de Aragón / Aragón Hoy", "url": url},
+    }
+
+
+def find_latest_official_article() -> dict:
+    links = set()
+    errors = []
+    try:
+        sources = read_json(DATA / "fuentes.json")
+        previous = next(
+            (item.get("url") for item in sources.get("fuentes", []) if item.get("id") == "aragon-hoy-ultimo-parte"),
+            None,
+        )
+        if previous:
+            links.add(previous.rstrip("/"))
+    except Exception as error:
+        errors.append(f"fuente anterior: {error}")
+    for page_url in ARAGON_HOY_PAGES:
+        try:
+            page = fetch_bytes(page_url).decode("utf-8")
+        except Exception as error:
+            errors.append(str(error))
+            continue
+        for href in re.findall(r'href=["\']([^"\']+)["\']', page, re.I):
+            url = urljoin(ARAGON_HOY, unescape(href))
+            normalized = normalize_text(url)
+            if (
+                "/hacienda-interior-administracion-publica/" in url
+                and "incendio" in normalized
+                and "riglos" in normalized
+                and re.search(r"-\d{5,}/?$", url)
+            ):
+                links.add(url.rstrip("/"))
+    if not links:
+        raise RuntimeError("No se localizaron partes de Riglos en Aragón Hoy: " + "; ".join(errors))
+
+    articles = []
+    for url in sorted(links, key=lambda item: int(item.rsplit("-", 1)[-1]), reverse=True)[:8]:
+        try:
+            raw = fetch_bytes(url).decode("utf-8")
+            published_match = re.search(r'"datePublished"\s*:\s*"([^"]+)"', raw)
+            title_match = re.search(r'"headline"\s*:\s*"([^"]+)"', raw)
+            paragraphs = [clean_html(item) for item in re.findall(
+                r'<p\b[^>]*class=["\'][^"\']*\bparagraph\b[^"\']*["\'][^>]*>(.*?)</p>',
+                raw,
+                re.I | re.S,
+            )]
+            body = " ".join(item for item in paragraphs if item)
+            if not published_match or "penas de riglos" not in normalize_text(body):
+                continue
+            published_at = datetime.fromisoformat(published_match.group(1)).astimezone(TZ).isoformat()
+            if published_at[:10] < INCIDENT_START:
+                continue
+            articles.append({
+                "url": url,
+                "title": clean_html(title_match.group(1)) if title_match else "Parte oficial de Aragón Hoy",
+                "published_at": published_at,
+                "paragraphs": paragraphs,
+                "body": body,
+                "normalized": normalize_text(body),
+            })
+        except Exception as error:
+            errors.append(f"{url}: {error}")
+    if not articles:
+        raise RuntimeError("No se pudo leer un parte oficial verificable: " + "; ".join(errors))
+    return max(articles, key=lambda item: item["published_at"])
+
+
+def explicit_fire_status(normalized: str) -> str | None:
+    checks = (
+        ("Extinguido", r"incendio.{0,80}(?:queda|se da por|esta) extinguido"),
+        ("Controlado", r"incendio.{0,80}(?:queda|se da por|esta) controlado"),
+        ("Estabilizado", r"incendio.{0,80}(?:queda|se da por|esta) estabilizado"),
+        ("Activo", r"incendio.{0,80}(?:permanece|continua|sigue) activo"),
+    )
+    return next((label for label, pattern in checks if re.search(pattern, normalized)), None)
+
+
+def parse_closed_roads(article: dict) -> list[dict] | None:
+    road_pattern = re.compile(r"\b(?:[A-Z]{1,3}(?:-[A-Z])?-\d+(?:-[A-Z]{2})?|N-\d+)\b", re.I)
+    paragraph = next((
+        item for item in article["paragraphs"]
+        if "cortad" in normalize_text(item) and len(road_pattern.findall(item)) >= 3
+    ), None)
+    if not paragraph:
+        return None
+    sentence = paragraph.split(".", 1)[0]
+    source = {"nombre": "Gobierno de Aragón / CECOPI", "url": article["url"]}
+    records = []
+    for item in re.split(r";", sentence):
+        match = road_pattern.search(item)
+        if not match:
+            continue
+        road = match.group(0).upper()
+        section = item[match.end():].strip(" ,.;")
+        section = re.sub(r"\s+(?:y\s+)?(?:la\s+)?(?:carretera\s+local\s+)?$", "", section, flags=re.I).strip(" ,.;")
+        records.append({
+            "carretera": road,
+            "tramo": section or "Tramo indicado en el parte oficial",
+            "estado": "Cortada",
+            "fecha_hora": article["published_at"],
+            "fuente": source,
+        })
+    unique = {item["carretera"]: item for item in records}
+    return list(unique.values()) if 3 <= len(unique) <= 30 else None
+
+
+def update_sources(article: dict, checked_at: str) -> bool:
+    path = DATA / "fuentes.json"
+    data = read_json(path)
+    data["ultima_revision"] = checked_at
+    for source in data.get("fuentes", []):
+        if source.get("id") == "aragon-hoy-ultimo-parte":
+            source["url"] = article["url"]
+            source["ultima_consulta"] = checked_at
+        elif source.get("id") in {"aragon-hoy-busqueda", "aemet", "icearagon-perimetros", "effis"}:
+            source["ultima_consulta"] = checked_at
+    return write_json_if_changed(path, data)
+
+
+def update_chronology(
+    article: dict,
+    area: int | None,
+    nuclei: int | None,
+    people: int | None,
+    roads: list[dict] | None,
+    consolidated: int | None,
+) -> bool:
+    path = DATA / "cronologia.json"
+    data = read_json(path)
+    data["ultima_revision"] = article["published_at"]
+    known_urls = {item.get("fuente", {}).get("url") for item in data.get("eventos", [])}
+    if article["url"] not in known_urls:
+        details = []
+        if area is not None:
+            details.append(f"{area:n} hectáreas provisionales".replace(",", "."))
+        if nuclei is not None:
+            details.append(f"{nuclei} núcleos evacuados")
+        if people is not None:
+            details.append(f"{people:n} personas evacuadas".replace(",", "."))
+        if roads is not None:
+            details.append(f"{len(roads)} vías cortadas")
+        if consolidated is not None:
+            details.append(f"{consolidated} % del perímetro consolidado")
+        description = article["title"] + (". El parte comunica " + ", ".join(details) + "." if details else ".")
+        data.setdefault("eventos", []).insert(0, {
+            "fecha_hora": article["published_at"],
+            "categoria": "Situación general",
+            "descripcion": description,
+            "fiabilidad": "provisional",
+            "fuente": {"nombre": "Gobierno de Aragón / Aragón Hoy", "url": article["url"]},
+        })
+    if area is not None and not any(item.get("fecha") == article["published_at"] for item in data.get("series", [])):
+        data.setdefault("series", []).append({
+            "fecha": article["published_at"],
+            "superficie_ha": area,
+            "perimetro_consolidado_pct": consolidated,
+            "precipitacion_mm": None,
+        })
+        data["series"].sort(key=lambda item: item["fecha"])
+    return write_json_if_changed(path, data)
+
+
+def update_official_incident_data() -> bool:
+    article = find_latest_official_article()
+    checked_at = datetime.now(TZ).isoformat(timespec="seconds")
+    normalized = article["normalized"]
+    area = first_integer(normalized, (
+        r"superficie.{0,120}?(?:mantiene|asciende|alcanza|estima|supera|afecta)[^0-9]{0,40}([0-9][0-9.\s]*)\s*hectareas",
+        r"([0-9][0-9.\s]*)\s*hectareas.{0,80}?superficie",
+    ))
+    people = first_integer(normalized, (
+        r"(?:evacuad|desalojad)[^.]{0,100}?([0-9][0-9.\s]*)\s+personas",
+        r"([0-9][0-9.\s]*)\s+personas[^.]{0,80}?(?:evacuad|desalojad)",
+    ))
+    nuclei = first_integer(normalized, (
+        r"([0-9][0-9.\s]*)\s+nucleos(?:\s+de\s+poblacion)?\s+(?:desalojad|evacuad)",
+        r"(?:evacuad|desalojad)[^.]{0,100}?([0-9][0-9.\s]*)\s+nucleos",
+    ))
+    roads = parse_closed_roads(article)
+    status = explicit_fire_status(normalized)
+    consolidated = first_integer(normalized, (
+        r"([0-9]{1,3})\s*%\s+del\s+perimetro\s+consolidado",
+        r"perimetro.{0,60}?consolidad[oa].{0,30}?([0-9]{1,3})\s*%",
+        r"consolidad[oa].{0,50}?([0-9]{1,3})\s*%\s+del\s+perimetro",
+    ))
+    perimeter_length = first_integer(normalized, (
+        r"perimetro.{0,50}?(?:de|alcanza|asciende a)\s*([0-9][0-9.]*)\s*kilometros",
+    ))
+
+    state_path = DATA / "estado.json"
+    state = read_json(state_path)
+    state["ultima_comprobacion_panel"] = checked_at
+    if article["published_at"] >= (state.get("ultima_actualizacion_oficial") or ""):
+        state["ultima_actualizacion_oficial"] = article["published_at"]
+    if status:
+        state["estado"] = {"value": status, "meta": official_meta(article["published_at"], article["url"])}
+    if area is not None and 100 <= area <= 250_000:
+        state["superficie_ha"] = {"value": area, "meta": official_meta(article["published_at"], article["url"], reliability="provisional")}
+    if nuclei is not None and 0 <= nuclei <= 500:
+        state["nucleos_evacuados"] = {"value": nuclei, "meta": official_meta(article["published_at"], article["url"])}
+    if people is not None and 0 <= people <= 100_000:
+        state["personas_evacuadas"] = {"value": people, "meta": official_meta(article["published_at"], article["url"])}
+    if consolidated is not None and 0 <= consolidated <= 100:
+        state["perimetro_consolidado_pct"] = {
+            "value": consolidated,
+            "meta": official_meta(article["published_at"], article["url"], reliability="provisional"),
+        }
+    else:
+        state["perimetro_consolidado_pct"] = {"value": None, "meta": None}
+    if perimeter_length is not None and 1 <= perimeter_length <= 2_000:
+        state["perimetro_longitud_ultima_km"] = {
+            "value": perimeter_length,
+            "meta": {
+                **official_meta(article["published_at"], article["url"], reliability="historico"),
+                "vigencia": "Última longitud explícita publicada; puede no ser el valor vigente.",
+            },
+        }
+    state["nota_edicion"] = (
+        "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. "
+        "Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización."
+    )
+    changed = write_json_if_changed(state_path, state)
+
+    evacuations_path = DATA / "evacuaciones.json"
+    evacuations = read_json(evacuations_path)
+    evacuations["ultima_revision"] = article["published_at"]
+    evacuations["nota_edicion"] = (
+        "El total procede del último parte oficial. La relación nominal conserva la última fuente que enumeró "
+        "cada núcleo; no se infieren retornos ni nuevas evacuaciones."
+    )
+    changed = write_json_if_changed(evacuations_path, evacuations) or changed
+
+    if roads is not None:
+        roads_path = DATA / "carreteras.json"
+        road_data = read_json(roads_path)
+        road_data["ultima_revision"] = article["published_at"]
+        road_data["registros"] = roads
+        road_data["nota_edicion"] = (
+            "Relación extraída del último parte oficial que enumera expresamente las vías cortadas. "
+            "Verificar de nuevo antes de desplazarse."
+        )
+        changed = write_json_if_changed(roads_path, road_data) or changed
+
+    changed = update_chronology(article, area, nuclei, people, roads, consolidated) or changed
+    changed = update_sources(article, checked_at) or changed
+    print(f"Aragón Hoy: {article['published_at']} · {article['url']}")
+    return changed
 
 
 def number(value: str | None, *, integer: bool = False):
@@ -523,6 +809,11 @@ def write_json_if_changed(path: Path, data: dict) -> bool:
 
 if __name__ == "__main__":
     changed = []
+    try:
+        if update_official_incident_data():
+            changed.append("parte oficial, estado, evacuaciones, carreteras, cronología y fuentes")
+    except Exception as error:
+        print(f"AVISO: no se pudo actualizar Aragón Hoy; se conservan los datos anteriores: {error}")
     try:
         if update_weather():
             changed.append("meteo")

@@ -162,13 +162,14 @@ El flujo automático consulta cada hora ICEARAGON y solo incorpora una geometrí
 
 GitHub Actions ejecuta `scripts/update_public_data.py` cada hora y también puede lanzarse manualmente desde **Actions → Actualizar datos y publicar el panel → Run workflow**. El proceso:
 
-1. descarga la predicción horaria oficial de AEMET;
-2. incorpora la observación más reciente de Bailo-Puyalto y los acumulados del día;
-3. consulta si ICEARAGON ya ha publicado el perímetro de 2026;
-4. descarga el área quemada EFFIS atribuida a Las Peñas de Riglos y aplica controles automáticos de coherencia;
-5. valida los JSON, guarda únicamente los valores que han cambiado y vuelve a publicar GitHub Pages.
+1. localiza y lee el último parte oficial de Aragón Hoy sobre Las Peñas de Riglos;
+2. actualiza estado, superficie, totales de evacuación, carreteras, cronología y fuentes cuando el parte publica datos explícitos;
+3. descarga la predicción horaria oficial de AEMET y la observación más reciente de Bailo-Puyalto;
+4. consulta si ICEARAGON ya ha publicado el perímetro de 2026;
+5. descarga el área quemada EFFIS atribuida a Las Peñas de Riglos y aplica controles automáticos de coherencia;
+6. valida todos los JSON y GeoJSON, conserva los datos anteriores si una fuente falla y vuelve a publicar GitHub Pages.
 
-No requiere claves ni secretos. La situación general, las evacuaciones, los cortes y el porcentaje consolidado siguen necesitando revisión humana de los partes del Gobierno de Aragón.
+No requiere claves ni secretos. La extracción es deliberadamente conservadora: no interpreta expresiones ambiguas, no inventa retornos o evacuaciones y mantiene vacío el porcentaje consolidado vigente si el último parte no lo publica expresamente.
 
 ## Publicar en GitHub Pages
 
@@ -215,14 +216,14 @@ Reglas obligatorias para cualquier actualización:
 - No publicar rutas de ataque, maniobras o movimientos de extinción.
 - No usar información de redes sociales particulares como confirmación.
 - Priorizar siempre fuentes oficiales y enlazar la publicación original.
-- Mantener revisión humana antes de actualizar datos.
+- Revisar manualmente cualquier cambio sensible que no pueda extraerse de forma inequívoca de una fuente oficial.
 - No inferir perímetros operativos, porcentajes consolidados, evacuaciones ni efectos meteorológicos. Las estimaciones satelitales deben permanecer identificadas como tales.
 
 ## Privacidad
 
 El código no solicita nombre, correo, teléfono, dirección, geolocalización ni identificadores; tampoco crea cookies, formularios, perfiles o analítica. GitHub Pages y los proveedores externos pueden procesar datos técnicos de conexión conforme a sus propias políticas:
 
-- Leaflet se descarga desde `unpkg.com`.
+- La hoja de estilos de Leaflet se sirve desde este repositorio; su biblioteca JavaScript se descarga desde `unpkg.com`.
 - Las teselas del mapa se solicitan a `tile.openstreetmap.org` y, como en cualquier petición web, el servidor puede recibir la dirección IP.
 - El área satelital se obtiene por WFS y los focos térmicos se solicitan al WMS de EFFIS/Copernicus; el enlace complementario abre Google Maps en otra pestaña.
 - GitHub procesa las visitas cuando aloja el sitio.
@@ -231,7 +232,7 @@ Para reducir todavía más las conexiones externas, puede descargarse Leaflet al
 
 ## Limitaciones
 
-- La meteorología y la comprobación cartográfica se actualizan automáticamente cada hora; el resto requiere revisión humana y puede quedar desfasado entre partes.
+- Todos los conjuntos de datos se comprueban automáticamente cada hora. Los valores solo cambian cuando la fuente oficial publica información inequívoca, por lo que algunos campos pueden conservar su dato anterior entre partes.
 - La observación AEMET más cercana está fuera del perímetro y puede no representar las condiciones del frente.
 - EFFIS es una estimación satelital de actualización diaria y puede tardar en mostrar un incendio o diferir de la cartografía oficial.
 - El panel no envía alertas.

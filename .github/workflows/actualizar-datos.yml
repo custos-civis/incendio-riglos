@@ -1,8 +1,6 @@
 name: Actualizar datos y publicar el panel
 
 on:
-  push:
-    branches: [main]
   schedule:
     - cron: "17 * * * *"
   workflow_dispatch:
@@ -17,6 +15,7 @@ concurrency:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Descargar el repositorio
         uses: actions/checkout@v4
@@ -26,25 +25,25 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Consultar AEMET e ICEARAGON
+      - name: Consultar Aragón Hoy, AEMET, ICEARAGON y EFFIS
         run: python scripts/update_public_data.py
 
       - name: Validar los archivos
         run: |
-          python -m json.tool data/meteo.json > /dev/null
-          python -m json.tool data/perimetro.geojson > /dev/null
-          python -m json.tool data/perimetro-aproximado.geojson > /dev/null
+          for file in data/*.json data/*.geojson; do
+            python -m json.tool "$file" > /dev/null
+          done
           git diff --check
 
       - name: Publicar solo si hay datos nuevos
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/meteo.json data/perimetro.geojson data/perimetro-aproximado.geojson
+          git add data/*.json data/*.geojson
           if git diff --cached --quiet; then
             echo "No hay cambios"
           else
-            git commit -m "Actualizar meteorología y cartografía"
+            git commit -m "Actualizar todos los datos públicos"
             git push
           fi
 

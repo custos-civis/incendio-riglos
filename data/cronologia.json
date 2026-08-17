@@ -1,89 +1,190 @@
 {
-  "ultima_revision": "2026-08-17T05:37:11+02:00",
+  "ultima_revision": "2026-08-17T10:01:28+02:00",
   "eventos": [
+    {
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
+      "categoria": "Situación general",
+      "descripcion": "Una noche de trabajo favorable permite avanzar en la extinción del incendio de Las Peñas de Riglos. El parte comunica 17500 hectáreas provisionales, 19 núcleos evacuados, 1046 personas evacuadas, 8 vías cortadas.",
+      "fiabilidad": "provisional",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
+      }
+    },
     {
       "fecha_hora": "2026-08-16T21:01:41+02:00",
       "categoria": "Situación general",
       "descripcion": "El incendio continúa activo con 17.500 hectáreas provisionales. Permanecen evacuadas 19 poblaciones y tres campings o campamentos, con 1.046 personas afectadas.",
       "fiabilidad": "provisional",
-      "fuente": { "nombre": "Gobierno de Aragón / Aragón Hoy", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116" }
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
     },
     {
       "fecha_hora": "2026-08-16T10:05:15+02:00",
       "categoria": "Evolución",
       "descripcion": "La superficie provisional se mantiene en 16.600 hectáreas; el parte conserva 19 núcleos y 1.046 personas afectadas por los desalojos.",
       "fiabilidad": "provisional",
-      "fuente": { "nombre": "Gobierno de Aragón / Aragón Hoy", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-contencion-incendio-penas-riglos-106114" }
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-contencion-incendio-penas-riglos-106114"
+      }
     },
     {
       "fecha_hora": "2026-08-15T20:40:49+02:00",
       "categoria": "Evacuaciones",
       "descripcion": "La superficie provisional alcanza 16.600 hectáreas. Se evacua Bernués y el balance sube a 19 núcleos, tres campings o campamentos y 1.046 personas.",
       "fiabilidad": "provisional",
-      "fuente": { "nombre": "Gobierno de Aragón / Aragón Hoy", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113" }
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-supera-16-600-hectareas-operativo-refuerza-proteccion-monte-oroel-106113"
+      }
     },
     {
       "fecha_hora": "2026-08-15T09:41:55+02:00",
       "categoria": "Evolución",
       "descripcion": "El incendio continúa activo y supera las 15.000 hectáreas. Permanecen desalojadas 18 poblaciones, con 1.021 personas afectadas.",
       "fiabilidad": "provisional",
-      "fuente": { "nombre": "Gobierno de Aragón / Aragón Hoy", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-logra-frenar-noche-avance-incendio-penas-riglos-nucleos-poblacion-106110" }
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-logra-frenar-noche-avance-incendio-penas-riglos-nucleos-poblacion-106110"
+      }
     },
     {
       "fecha_hora": "2026-08-14T20:59:45+02:00",
       "categoria": "Situación general",
       "descripcion": "El incendio continúa activo y afecta a alrededor de 12.000 hectáreas, con un perímetro de 58 kilómetros. Los desalojos afectan a 1.021 personas de 18 núcleos.",
       "fiabilidad": "provisional",
-      "fuente": { "nombre": "Gobierno de Aragón / Aragón Hoy", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107" }
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-mantiene-activo-operativo-600-efectivos-luchar-incendio-penas-riglos-106107"
+      }
     },
     {
       "fecha_hora": "2026-08-14T10:42:50+02:00",
       "categoria": "Evacuaciones",
       "descripcion": "El fuego supera las 10.000 hectáreas y se ordenan cuatro nuevas evacuaciones: Santa María de la Peña, Triste, La Peña Estación y Yeste.",
       "fiabilidad": "provisional",
-      "fuente": { "nombre": "Gobierno de Aragón / Aragón Hoy", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-obliga-evacuar-cuatro-nuevos-nucleos-mantiene-defensa-san-juan-pena-106105" }
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-obliga-evacuar-cuatro-nuevos-nucleos-mantiene-defensa-san-juan-pena-106105"
+      }
     },
     {
       "fecha_hora": "2026-08-13T21:47:47+02:00",
       "categoria": "Situación general",
       "descripcion": "La superficie afectada supera las 9.000 hectáreas. El balance oficial alcanza 709 personas desalojadas de 12 núcleos, incluido el Camping Pirineos.",
       "fiabilidad": "provisional",
-      "fuente": { "nombre": "Gobierno de Aragón / Aragón Hoy", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-protege-san-juan-pena-jornadas-complejas-incendio-penas-riglos-106104" }
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/aragon-protege-san-juan-pena-jornadas-complejas-incendio-penas-riglos-106104"
+      }
     },
     {
       "fecha_hora": "2026-08-12T10:39:19+02:00",
       "categoria": "Perímetro",
       "descripcion": "El incendio continúa activo, con 5.200 hectáreas estimadas y trabajos afianzados en aproximadamente la mitad del perímetro.",
       "fiabilidad": "provisional",
-      "fuente": { "nombre": "Gobierno de Aragón / Aragón Hoy", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-logra-perimetrar-50-incendio-penas-riglos-106081" }
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-logra-perimetrar-50-incendio-penas-riglos-106081"
+      }
     },
     {
       "fecha_hora": "2026-08-11T21:46:45+02:00",
       "categoria": "Situación general",
       "descripcion": "La superficie alcanza unas 4.200 hectáreas y se mantienen evacuadas 440 personas de ocho localidades.",
       "fiabilidad": "provisional",
-      "fuente": { "nombre": "Gobierno de Aragón / Aragón Hoy", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-afecta-4-200-hectareas-mantiene-evacuadas-440-personas-106080" }
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-afecta-4-200-hectareas-mantiene-evacuadas-440-personas-106080"
+      }
     },
     {
       "fecha_hora": "2026-08-10T22:18:15+02:00",
       "categoria": "Inicio de la emergencia",
       "descripcion": "El incendio continúa fuera de capacidad de extinción, con casi 2.000 hectáreas y unas 120 personas evacuadas de cuatro localidades.",
       "fiabilidad": "provisional",
-      "fuente": { "nombre": "Gobierno de Aragón / Aragón Hoy", "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/200-efectivos-frenar-incendio-forestal-declarado-penas-riglos-106066" }
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/200-efectivos-frenar-incendio-forestal-declarado-penas-riglos-106066"
+      }
     }
   ],
   "series": [
-    { "fecha": "2026-08-10T22:18:15+02:00", "superficie_ha": 2000, "perimetro_consolidado_pct": null, "precipitacion_mm": null },
-    { "fecha": "2026-08-11T11:11:57+02:00", "superficie_ha": 3500, "perimetro_consolidado_pct": null, "precipitacion_mm": null },
-    { "fecha": "2026-08-11T21:46:45+02:00", "superficie_ha": 4200, "perimetro_consolidado_pct": null, "precipitacion_mm": null },
-    { "fecha": "2026-08-12T10:39:19+02:00", "superficie_ha": 5200, "perimetro_consolidado_pct": 50, "precipitacion_mm": null },
-    { "fecha": "2026-08-13T21:47:47+02:00", "superficie_ha": 9000, "perimetro_consolidado_pct": null, "precipitacion_mm": null },
-    { "fecha": "2026-08-14T10:42:50+02:00", "superficie_ha": 10000, "perimetro_consolidado_pct": null, "precipitacion_mm": null },
-    { "fecha": "2026-08-14T20:59:45+02:00", "superficie_ha": 12000, "perimetro_consolidado_pct": null, "precipitacion_mm": null },
-    { "fecha": "2026-08-15T09:41:55+02:00", "superficie_ha": 15000, "perimetro_consolidado_pct": null, "precipitacion_mm": null },
-    { "fecha": "2026-08-15T20:40:49+02:00", "superficie_ha": 16600, "perimetro_consolidado_pct": null, "precipitacion_mm": null },
-    { "fecha": "2026-08-16T10:05:15+02:00", "superficie_ha": 16600, "perimetro_consolidado_pct": null, "precipitacion_mm": null },
-    { "fecha": "2026-08-16T21:01:41+02:00", "superficie_ha": 17500, "perimetro_consolidado_pct": null, "precipitacion_mm": null }
+    {
+      "fecha": "2026-08-10T22:18:15+02:00",
+      "superficie_ha": 2000,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-11T11:11:57+02:00",
+      "superficie_ha": 3500,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-11T21:46:45+02:00",
+      "superficie_ha": 4200,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-12T10:39:19+02:00",
+      "superficie_ha": 5200,
+      "perimetro_consolidado_pct": 50,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-13T21:47:47+02:00",
+      "superficie_ha": 9000,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-14T10:42:50+02:00",
+      "superficie_ha": 10000,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-14T20:59:45+02:00",
+      "superficie_ha": 12000,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-15T09:41:55+02:00",
+      "superficie_ha": 15000,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-15T20:40:49+02:00",
+      "superficie_ha": 16600,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-16T10:05:15+02:00",
+      "superficie_ha": 16600,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-16T21:01:41+02:00",
+      "superficie_ha": 17500,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-17T10:01:28+02:00",
+      "superficie_ha": 17500,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    }
   ],
   "nota_edicion": "Las superficies de la serie son las cifras nominales comunicadas oficialmente y deben leerse como estimaciones o valores provisionales cuando el parte usa expresiones como 'casi', 'unas', 'alrededor de' o 'más de'. El 50 % corresponde solo al parte del 12 de agosto y no se presenta como valor actual."
 }

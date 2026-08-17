@@ -1,6 +1,6 @@
 {
-  "ultima_comprobacion_panel": "2026-08-17T06:10:37+02:00",
-  "ultima_actualizacion_oficial": "2026-08-16T21:01:41+02:00",
+  "ultima_comprobacion_panel": "2026-08-17T15:14:57+02:00",
+  "ultima_actualizacion_oficial": "2026-08-17T10:01:28+02:00",
   "estado": {
     "value": "Activo",
     "meta": {
@@ -15,11 +15,11 @@
   "superficie_ha": {
     "value": 17500,
     "meta": {
-      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
       "fiabilidad": "provisional",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
       }
     }
   },
@@ -54,24 +54,24 @@
   "nucleos_evacuados": {
     "value": 19,
     "meta": {
-      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
       }
     }
   },
   "personas_evacuadas": {
     "value": 1046,
     "meta": {
-      "fecha_hora": "2026-08-16T21:01:41+02:00",
+      "fecha_hora": "2026-08-17T10:01:28+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118"
       }
     }
   },
-  "nota_edicion": "Último parte oficial localizado en Aragón Hoy. La superficie es provisional. El porcentaje vigente de perímetro consolidado permanece en null porque el último parte no publica una cifra. Se conservan como referencias históricas el 40 % y los 58 km publicados el 14 de agosto; el perímetro aumentó después. ICEARAGON y EFFIS todavía no muestran una geometría oficial de este incendio en la comprobación realizada."
+  "nota_edicion": "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización."
 }
