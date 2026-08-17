@@ -34,7 +34,7 @@
         <div>
           <span class="update-label">Última comprobación del panel</span>
           <time id="panel-checked" datetime="">Pendiente de cargar</time>
-          <small>Revisión humana de las fuentes</small>
+          <small>Comprobación automática de fuentes públicas</small>
         </div>
         <div>
           <span class="update-label">Última actualización oficial utilizada</span>
@@ -114,9 +114,9 @@
       <div class="weather-warning" role="note"><strong>Importante</strong><p>La medición de Bailo-Puyalto no implica que existan las mismas condiciones o precipitación sobre todo el perímetro del incendio.</p></div>
 
       <article class="rain-panel" aria-labelledby="rain-title">
-        <div class="rain-heading"><div><p class="section-kicker">Registro manual, sin interpretación automática</p><h3 id="rain-title">Precipitación y efecto operativo</h3></div><span class="badge manual">Revisión humana</span></div>
+        <div class="rain-heading"><div><p class="section-kicker">Resúmenes diarios de estaciones AEMET</p><h3 id="rain-title">Precipitación registrada en Jaca y Bailo-Puyalto</h3></div><span class="badge official">Actualización automática</span></div>
         <div id="rain-records" class="rain-records"></div>
-        <p class="fine-print">Las observaciones se transcriben manualmente desde fuentes oficiales. El panel no infiere por sí solo si la lluvia resulta útil para la extinción.</p>
+        <p class="fine-print">La cifra de cada día procede del resumen 00–24 h de AEMET. El día en curso es provisional y se actualiza cada 30 minutos; la lluvia medida en una estación no representa todo el perímetro del incendio.</p>
       </article>
     </section>
 
@@ -128,7 +128,7 @@
         <button type="button" role="tab" aria-selected="false" aria-controls="chart-panel" data-chart="precipitacion_mm">Precipitación</button>
       </div>
       <div id="chart-panel" class="chart-panel" role="tabpanel"><div id="evolution-chart" class="chart" aria-live="polite"></div></div>
-      <p class="fine-print">Los puntos ausentes permanecen sin dibujar. El panel no interpola ni une tramos cuando falta un porcentaje oficial de perímetro consolidado.</p>
+      <p id="chart-note" class="fine-print">Los puntos ausentes permanecen sin dibujar. El panel no interpola ni une tramos cuando falta un porcentaje publicado de perímetro consolidado.</p>
     </section>
 
     <section id="cronologia" class="section" aria-labelledby="timeline-title">

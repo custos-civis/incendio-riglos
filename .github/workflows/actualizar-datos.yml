@@ -33,6 +33,7 @@ jobs:
 
       - name: Validar los archivos
         run: |
+          python -m py_compile scripts/update_public_data.py
           for file in data/*.json data/*.geojson; do
             python -m json.tool "$file" > /dev/null
           done

@@ -181,8 +181,8 @@ function renderWeather() {
   document.getElementById("observation-context").innerHTML = station
     ? `<strong>${escapeHtml(station.nombre)}</strong><span>${escapeHtml(formatNumber(station.distancia_capital_municipal_km, " km"))} de la capital municipal · ${escapeHtml(formatNumber(station.altitud_m, " m"))} de altitud</span><small>Datos sometidos a controles automáticos de calidad en tiempo real.</small>`
     : "";
-  const records = state.data.meteo.precipitacion_efecto_operativo || [];
-  document.getElementById("rain-records").innerHTML = records.length ? records.map(r => `<div class="rain-record"><div><span>Fecha</span><strong>${formatDate(r.fecha)}</strong></div><div><span>Estación</span><strong>${escapeHtml(r.estacion)}</strong></div><div><span>Precipitación</span><strong>${formatNumber(r.precipitacion_mm, " mm") ?? "—"}</strong></div><div><span>Observación</span><strong>${escapeHtml(r.observacion)}</strong></div></div>`).join("") : `<p class="empty-state">Sin registros manuales incorporados.</p>`;
+  const records = [...(state.data.meteo.precipitacion_diaria || [])].sort((a, b) => b.fecha.localeCompare(a.fecha) || a.estacion.localeCompare(b.estacion));
+  document.getElementById("rain-records").innerHTML = records.length ? records.map(r => `<div class="rain-record"><div><span>Fecha</span><strong>${formatDate(r.fecha)}</strong></div><div><span>Estación</span><strong>${escapeHtml(r.estacion)}</strong></div><div><span>Precipitación 00–24 h</span><strong>${formatNumber(r.precipitacion_mm, " mm") ?? "Sin dato"}</strong></div><div><span>Estado</span><strong>${escapeHtml(r.estado || (r.completo ? "Día completo" : "Día en curso"))}</strong></div></div>`).join("") : `<p class="empty-state">AEMET no ha devuelto resúmenes diarios utilizables para las estaciones seleccionadas.</p>`;
 }
 
 function renderHourlyForecast(records) {
@@ -242,7 +242,16 @@ function selectChartTab(selected, tabs) {
 }
 
 function renderChart() {
-  window.RiglosCharts?.render(document.getElementById("evolution-chart"), state.data.cronologia.series || [], state.chartKey);
+  const series = state.chartKey === "precipitacion_mm"
+    ? state.data.meteo.precipitacion_diaria || []
+    : state.data.cronologia.series || [];
+  window.RiglosCharts?.render(document.getElementById("evolution-chart"), series, state.chartKey);
+  const notes = {
+    superficie_ha: "Las superficies son estimaciones publicadas en partes fechados; la línea permite ver la evolución de esas cifras.",
+    perimetro_consolidado_pct: "Cada punto es un porcentaje explícito y fechado. El paso del 50 % al 40 % coincide con el crecimiento del perímetro total; no se rellenan los intervalos sin cifra publicada.",
+    precipitacion_mm: "Precipitación diaria 00–24 h registrada por AEMET en Jaca y Bailo-Puyalto. El último día puede estar incompleto y se actualiza cada 30 minutos."
+  };
+  document.getElementById("chart-note").textContent = notes[state.chartKey];
 }
 
 function renderLoadError() {

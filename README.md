@@ -15,7 +15,7 @@ Los datos incorporados enlazan su fuente y conservan su fecha de publicación. L
 - Tres estados de fiabilidad: `oficial`, `provisional` y `sin_actualizacion`.
 - Gráfica SVG propia, accesible y sin dependencias adicionales.
 - Diseño responsive, navegación por teclado y marcado semántico.
-- Actualización horaria automática de AEMET, ICEARAGON y del área quemada satelital EFFIS.
+- Actualización automática cada 30 minutos de Aragón Hoy, DGT, AEMET, ICEARAGON y del área quemada satelital EFFIS.
 - Sin cookies, formularios, autenticación, analítica, publicidad ni trackers propios.
 
 ## Ejecutar localmente
@@ -64,7 +64,7 @@ No hacen falta `npm install`, Node.js, base de datos ni variables de entorno.
 
 ### Reglas generales
 
-1. Haz una revisión humana de la publicación original.
+1. Comprueba la publicación original y conserva su enlace directo.
 2. Confirma que el emisor es una Administración u organismo oficial.
 3. Copia el dato sin redondear, completar ni extrapolar.
 4. Registra el enlace directo y la fecha/hora de la publicación.
@@ -119,29 +119,35 @@ Estados admitidos: `Evacuada`, `Confinada`, `Retorno autorizado` y `Sin actualiz
 
 En `data/carreteras.json`, cada registro admite `carretera`, `tramo`, `sentido`, `localizacion`, `estado`, `fecha_hora`, `fuente` y, opcionalmente, `coordenadas`. La automatización contrasta las vías enumeradas por el último parte con el cuadro vigente de carreteras cortadas por incendio de DGT; si DGT no está disponible, conserva la relación del parte. Los puntos del mapa son referencias orientativas del entorno del tramo comunicado: no representan el lugar exacto del corte ni sustituyen al mapa de tráfico. Verifica siempre el estado en DGT, 011 o la autoridad vial competente antes de desplazarte.
 
-### Meteorología y precipitación útil
+### Meteorología y precipitación diaria
 
 `data/meteo.json` separa `prevision` de `observacion`. La previsión horaria corresponde al municipio y la observación procede de la estación AEMET de Bailo-Puyalto, identificada con su distancia, altitud y hora. La actualización automática no presenta esa medición como si se hubiera tomado dentro del incendio.
 
-Los registros manuales de `precipitacion_efecto_operativo` usan:
+La automatización consulta también los resúmenes diarios públicos de AEMET para Bailo-Puyalto (9211F) y Jaca (9201X). Los almacena en `precipitacion_diaria` con este formato:
 
 ```json
 {
-  "fecha": "2026-08-16T09:00:00+02:00",
-  "estacion": "Nombre oficial de la estación",
-  "precipitacion_mm": 0.0,
-  "observacion": "Sin lluvia significativa"
+  "fecha": "2026-08-16",
+  "idema": "9201X",
+  "estacion": "Jaca",
+  "precipitacion_mm": 4.0,
+  "estado": "Día completo",
+  "completo": true,
+  "fuente": {
+    "nombre": "AEMET — resúmenes diarios de Jaca",
+    "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9201X&datos=det&w=2"
+  }
 }
 ```
 
-La observación solo puede ser: `Sin lluvia significativa`, `Lluvia local`, `Lluvia potencialmente útil`, `Tormenta con rachas erráticas` o `Pendiente de confirmar`. La aplicación no interpreta automáticamente el efecto de la lluvia.
+El día en curso se identifica como incompleto y se sustituye en cada ejecución. Los días anteriores se conservan para formar la serie histórica. Un valor ausente de AEMET permanece como `null`; la aplicación no lo convierte en cero ni interpreta automáticamente el efecto operativo de la lluvia.
 
 ### Cronología y gráfica
 
 `data/cronologia.json` contiene:
 
 - `eventos`: partes ordenados de más reciente a más antiguo;
-- `series`: puntos cronológicos con `fecha`, `superficie_ha`, `perimetro_consolidado_pct` y `precipitacion_mm`.
+- `series`: puntos cronológicos con `fecha`, `superficie_ha` y `perimetro_consolidado_pct`. La precipitación se representa desde `data/meteo.json` para mantener separadas las dos estaciones.
 
 Usa `null` cuando falte un valor. La gráfica separa los segmentos y no interpola huecos.
 
@@ -164,7 +170,7 @@ GitHub Actions ejecuta `scripts/update_public_data.py` cada media hora y tambié
 
 1. localiza y lee el último parte oficial de Aragón Hoy sobre Las Peñas de Riglos;
 2. actualiza estado, superficie, perímetro aproximado publicado, totales de evacuación, carreteras contrastadas con DGT, cronología y fuentes cuando las fuentes publican datos explícitos;
-3. descarga la predicción horaria oficial de AEMET y la observación más reciente de Bailo-Puyalto;
+3. descarga la predicción horaria oficial de AEMET, la observación más reciente de Bailo-Puyalto y la precipitación diaria de Bailo-Puyalto y Jaca;
 4. consulta si ICEARAGON ya ha publicado el perímetro de 2026;
 5. descarga el área quemada EFFIS atribuida a Las Peñas de Riglos y aplica controles automáticos de coherencia;
 6. valida todos los JSON y GeoJSON, conserva los datos anteriores si una fuente falla y vuelve a publicar GitHub Pages.

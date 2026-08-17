@@ -92,7 +92,7 @@
       }
     ],
     "meta": {
-      "fecha_hora": "2026-08-17T12:43:11+02:00",
+      "fecha_hora": "2026-08-17T14:55:12+02:00",
       "periodo": "2026-08-17",
       "fiabilidad": "oficial",
       "fuente": {
@@ -168,13 +168,199 @@
       ]
     }
   ],
-  "precipitacion_efecto_operativo": [],
-  "observaciones_permitidas": [
-    "Sin lluvia significativa",
-    "Lluvia local",
-    "Lluvia potencialmente útil",
-    "Tormenta con rachas erráticas",
-    "Pendiente de confirmar"
+  "precipitacion_diaria": [
+    {
+      "fecha": "2026-08-10",
+      "idema": "9211F",
+      "estacion": "Bailo, Puyalto",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Bailo, Puyalto",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9211F&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-10",
+      "idema": "9201X",
+      "estacion": "Jaca",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Jaca",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9201X&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-11",
+      "idema": "9211F",
+      "estacion": "Bailo, Puyalto",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Bailo, Puyalto",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9211F&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-11",
+      "idema": "9201X",
+      "estacion": "Jaca",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Jaca",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9201X&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-12",
+      "idema": "9211F",
+      "estacion": "Bailo, Puyalto",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Bailo, Puyalto",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9211F&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-12",
+      "idema": "9201X",
+      "estacion": "Jaca",
+      "precipitacion_mm": null,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Jaca",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9201X&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-13",
+      "idema": "9211F",
+      "estacion": "Bailo, Puyalto",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Bailo, Puyalto",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9211F&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-13",
+      "idema": "9201X",
+      "estacion": "Jaca",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Jaca",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9201X&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-14",
+      "idema": "9211F",
+      "estacion": "Bailo, Puyalto",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Bailo, Puyalto",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9211F&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-14",
+      "idema": "9201X",
+      "estacion": "Jaca",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Jaca",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9201X&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-15",
+      "idema": "9211F",
+      "estacion": "Bailo, Puyalto",
+      "precipitacion_mm": 1.4,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Bailo, Puyalto",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9211F&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-15",
+      "idema": "9201X",
+      "estacion": "Jaca",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Jaca",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9201X&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-16",
+      "idema": "9211F",
+      "estacion": "Bailo, Puyalto",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Bailo, Puyalto",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9211F&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-16",
+      "idema": "9201X",
+      "estacion": "Jaca",
+      "precipitacion_mm": 4,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Jaca",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9201X&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-17",
+      "idema": "9211F",
+      "estacion": "Bailo, Puyalto",
+      "precipitacion_mm": 0,
+      "estado": "Día en curso",
+      "completo": false,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Bailo, Puyalto",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9211F&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-17",
+      "idema": "9201X",
+      "estacion": "Jaca",
+      "precipitacion_mm": 0,
+      "estado": "Día en curso",
+      "completo": false,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Jaca",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9201X&datos=det&w=2"
+      }
+    }
   ],
   "aviso": "La predicción corresponde a la capital municipal. La observación procede de Bailo, Puyalto, a 19,79 km de la capital municipal, y no representa necesariamente las condiciones en todo el incendio."
 }

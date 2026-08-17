@@ -4,7 +4,8 @@
 Fuentes:
 - Aragón Hoy: último parte oficial, estado, superficie, evacuaciones,
   carreteras y cronología.
-- AEMET: predicción horaria municipal y observación de Bailo, Puyalto.
+- AEMET: predicción horaria municipal, observación de Bailo-Puyalto y
+  precipitación diaria de Bailo-Puyalto y Jaca.
 - ICEARAGON: perímetro oficial, únicamente cuando exista un registro de 2026
   cuyo nombre contenga "Riglos".
 - EFFIS/Copernicus: área quemada satelital, separada del perímetro operativo.
@@ -35,13 +36,23 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 TZ = ZoneInfo("Europe/Madrid")
 MUNICIPALITY_ID = "22173"
-STATION = {
-    "idema": "9211F",
-    "nombre": "Bailo, Puyalto",
-    "distancia_capital_municipal_km": 19.79,
-    "altitud_m": 722,
-    "coordenadas": [42.5141666667, -0.8172222222],
-}
+STATIONS = (
+    {
+        "idema": "9211F",
+        "nombre": "Bailo, Puyalto",
+        "distancia_capital_municipal_km": 19.79,
+        "altitud_m": 722,
+        "coordenadas": [42.5141666667, -0.8172222222],
+    },
+    {
+        "idema": "9201X",
+        "nombre": "Jaca",
+        "distancia_capital_municipal_km": 29.6,
+        "altitud_m": 832,
+        "coordenadas": [42.5797222222, -0.545],
+    },
+)
+STATION = STATIONS[0]
 # Coordenadas de referencia de núcleos y establecimientos públicos. Se fijan
 # aquí para que las actualizaciones automáticas no eliminen los marcadores.
 # Formato Leaflet: [latitud, longitud]. Localización contrastada con
@@ -109,6 +120,36 @@ ARAGON_HOY_PAGES = (
     f"{ARAGON_HOY}/",
     f"{ARAGON_HOY}/hacienda-interior-administracion-publica",
 )
+CONSOLIDATED_HISTORY = (
+    {
+        "fecha": "2026-08-12T10:39:19+02:00",
+        "value": 50,
+        "fiabilidad": "oficial",
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": (
+            "https://www.aragonhoy.es/hacienda-interior-administracion-publica/"
+            "operativo-logra-perimetrar-50-incendio-penas-riglos-106081"
+        ),
+        "patron": r"(?:perimetrar\s+el\s+50|mitad\s+del\s+perimetro)",
+    },
+    {
+        "fecha": "2026-08-14T19:23:43+02:00",
+        "value": 40,
+        "fiabilidad": "provisional",
+        "nombre": "Cadena SER / Radio Huesca, con información del Gobierno de Aragón",
+        "url": (
+            "https://cadenaser.com/aragon/2026/08/14/el-incendio-de-las-penas-de-riglos-"
+            "sigue-activo-y-con-un-40-del-perimetro-consolidado-radio-huesca/"
+        ),
+        "patron": r"40\s*%\s+del\s+perimetro\s+consolidado",
+    },
+)
+SPANISH_MONTHS = {
+    "enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
+    "julio": 7, "agosto": 8, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12,
+    "ene": 1, "feb": 2, "mar": 3, "abr": 4, "may": 5, "jun": 6,
+    "jul": 7, "ago": 8, "sep": 9, "oct": 10, "nov": 11, "dic": 12,
+}
 
 
 def fetch_bytes(url: str, attempts: int = 2, user_agent: str = "incendio-riglos-panel/1.0") -> bytes:
@@ -417,6 +458,19 @@ def fetch_dgt_fire_road_closures(official_roads: list[dict] | None) -> list[dict
     return records
 
 
+def mark_sources_checked(source_ids: tuple[str, ...], checked_at: str, updates: dict | None = None) -> bool:
+    """Marca únicamente fuentes cuya respuesta se ha validado en esta ejecución."""
+    path = DATA / "fuentes.json"
+    data = read_json(path)
+    data["ultima_revision"] = max(data.get("ultima_revision") or "", checked_at)
+    for source in data.get("fuentes", []):
+        if source.get("id") in source_ids:
+            source["ultima_consulta"] = checked_at
+            if updates and source.get("id") in updates:
+                source.update(updates[source["id"]])
+    return write_json_if_changed(path, data)
+
+
 def update_sources(article: dict, checked_at: str, perimeter_report: dict | None = None) -> bool:
     path = DATA / "fuentes.json"
     data = read_json(path)
@@ -425,14 +479,8 @@ def update_sources(article: dict, checked_at: str, perimeter_report: dict | None
         if source.get("id") == "aragon-hoy-ultimo-parte":
             source["url"] = article["url"]
             source["ultima_consulta"] = checked_at
-        elif source.get("id") in {"aragon-hoy-busqueda", "aemet", "icearagon-perimetros", "effis", "dgt"}:
+        elif source.get("id") == "aragon-hoy-busqueda":
             source["ultima_consulta"] = checked_at
-            if source.get("id") == "dgt":
-                source.update({
-                    "nombre": "DGT — carreteras cortadas por incendio",
-                    "url": DGT_FIRE_ROADS_PDF,
-                    "alcance": "Estado, puntos kilométricos y sentido de los cortes vigentes por incendio",
-                })
     if perimeter_report:
         source = next((item for item in data.get("fuentes", []) if item.get("id") == "cadena-ser-perimetro"), None)
         values = {
@@ -473,6 +521,70 @@ def update_perimeter_report_chronology(report: dict | None) -> bool:
     return write_json_if_changed(path, data)
 
 
+def verify_consolidated_history() -> list[dict]:
+    """Revalida los porcentajes fechados antes de incorporarlos a la serie."""
+    verified = []
+    for item in CONSOLIDATED_HISTORY:
+        try:
+            raw = fetch_bytes(
+                item["url"],
+                user_agent="Mozilla/5.0 (compatible; incendio-riglos-panel/1.0)",
+            ).decode("utf-8", errors="replace")
+            if not re.search(item["patron"], normalize_text(clean_html(raw)), re.I):
+                raise RuntimeError("la cifra esperada ya no aparece en la publicación")
+            verified.append(item)
+        except Exception as error:
+            print(f"AVISO: no se pudo revalidar el {item['value']} % del {item['fecha'][:10]}: {error}")
+    return verified
+
+
+def update_consolidated_history(records: list[dict]) -> bool:
+    if not records:
+        return False
+    path = DATA / "cronologia.json"
+    data = read_json(path)
+    series = data.setdefault("series", [])
+    events = data.setdefault("eventos", [])
+    known_urls = {item.get("fuente", {}).get("url") for item in events}
+    for record in records:
+        point = next((item for item in series if item.get("fecha") == record["fecha"]), None)
+        if point is None:
+            point = {
+                "fecha": record["fecha"],
+                "superficie_ha": None,
+                "perimetro_consolidado_pct": None,
+                "precipitacion_mm": None,
+            }
+            series.append(point)
+        point["perimetro_consolidado_pct"] = record["value"]
+        point["perimetro_consolidado_meta"] = {
+            "fecha_hora": record["fecha"],
+            "fiabilidad": record["fiabilidad"],
+            "fuente": {"nombre": record["nombre"], "url": record["url"]},
+        }
+        event = next((item for item in events if item.get("fuente", {}).get("url") == record["url"]), None)
+        if event is not None:
+            event["fiabilidad"] = record["fiabilidad"]
+        else:
+            events.append({
+                "fecha_hora": record["fecha"],
+                "categoria": "Perímetro",
+                "descripcion": f"Se publica un {record['value']} % del perímetro consolidado.",
+                "fiabilidad": record["fiabilidad"],
+                "fuente": {"nombre": record["nombre"], "url": record["url"]},
+            })
+            known_urls.add(record["url"])
+    series.sort(key=lambda item: item["fecha"])
+    events.sort(key=lambda item: item["fecha_hora"], reverse=True)
+    data["nota_edicion"] = (
+        "Las superficies son cifras nominales comunicadas oficialmente. Los porcentajes de consolidación "
+        "son observaciones explícitas y fechadas: 50 % el 12 de agosto y 40 % el 14 de agosto. El descenso "
+        "no es una contradicción necesariamente, porque el perímetro total creció entre ambas publicaciones; "
+        "no se interpolan los periodos sin cifra."
+    )
+    return write_json_if_changed(path, data)
+
+
 def update_chronology(
     article: dict,
     area: int | None,
@@ -505,13 +617,23 @@ def update_chronology(
             "fiabilidad": "provisional",
             "fuente": {"nombre": "Gobierno de Aragón / Aragón Hoy", "url": article["url"]},
         })
-    if area is not None and not any(item.get("fecha") == article["published_at"] for item in data.get("series", [])):
-        data.setdefault("series", []).append({
+    point = next((item for item in data.get("series", []) if item.get("fecha") == article["published_at"]), None)
+    if point is None and (area is not None or consolidated is not None):
+        point = {
             "fecha": article["published_at"],
-            "superficie_ha": area,
-            "perimetro_consolidado_pct": consolidated,
+            "superficie_ha": None,
+            "perimetro_consolidado_pct": None,
             "precipitacion_mm": None,
-        })
+        }
+        data.setdefault("series", []).append(point)
+    if point is not None:
+        if area is not None:
+            point["superficie_ha"] = area
+        if consolidated is not None:
+            point["perimetro_consolidado_pct"] = consolidated
+            point["perimetro_consolidado_meta"] = official_meta(
+                article["published_at"], article["url"], reliability="provisional"
+            )
         data["series"].sort(key=lambda item: item["fecha"])
     return write_json_if_changed(path, data)
 
@@ -538,6 +660,17 @@ def update_official_incident_data() -> bool:
         if dgt_roads is not None:
             roads = dgt_roads
             print(f"DGT: {len(roads)} cortes del incendio vigentes en el cuadro de carreteras")
+            mark_sources_checked(
+                ("dgt",),
+                checked_at,
+                {
+                    "dgt": {
+                        "nombre": "DGT — carreteras cortadas por incendio",
+                        "url": DGT_FIRE_ROADS_PDF,
+                        "alcance": "Estado, puntos kilométricos y sentido de los cortes vigentes por incendio",
+                    }
+                },
+            )
     except Exception as error:
         print(f"AVISO: no se pudieron contrastar los cortes con DGT: {error}")
     status = explicit_fire_status(normalized)
@@ -638,6 +771,7 @@ def update_official_incident_data() -> bool:
         changed = write_json_if_changed(roads_path, road_data) or changed
 
     changed = update_chronology(article, area, nuclei, people, roads, consolidated) or changed
+    changed = update_consolidated_history(verify_consolidated_history()) or changed
     changed = update_perimeter_report_chronology(perimeter_report) or changed
     changed = update_sources(article, checked_at, perimeter_report) or changed
     print(f"Aragón Hoy: {article['published_at']} · {article['url']}")
@@ -692,6 +826,91 @@ def extreme(values: dict[str, object], mode=max) -> tuple[object | None, str | N
 
 def iso_local(value: str, pattern: str) -> str:
     return datetime.strptime(value, pattern).replace(tzinfo=TZ).isoformat()
+
+
+def parse_spanish_date(value: str) -> str | None:
+    match = re.search(r"(\d{1,2})\s+([a-záéíóú]+)\.?\s+(\d{4})", normalize_text(value))
+    if not match:
+        return None
+    month = SPANISH_MONTHS.get(match.group(2))
+    if not month:
+        return None
+    return datetime(int(match.group(3)), month, int(match.group(1))).date().isoformat()
+
+
+def aemet_csv_link(station_id: str, view: int, marker: str) -> str:
+    page_url = (
+        "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?"
+        f"datos=det&k=arn&l={station_id}&w={view}"
+    )
+    page = fetch_bytes(page_url, user_agent="Mozilla/5.0").decode("iso-8859-15", errors="replace")
+    links = [unescape(item) for item in re.findall(r'href=["\']([^"\']+\.csv\?[^"\']+)["\']', page, re.I)]
+    link = next((item for item in links if marker in item and f"l={station_id}" in item), None)
+    if not link:
+        raise RuntimeError(f"AEMET no publicó el CSV {marker} para {station_id}")
+    return urljoin(page_url, link)
+
+
+def precipitation_number(value: str | None):
+    if not value or not re.fullmatch(r"\s*\d+(?:[.,]\d+)?\s*", value):
+        return None
+    return number(value)
+
+
+def fetch_daily_precipitation(station: dict) -> list[dict]:
+    station_id = station["idema"]
+    source_url = f"https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l={station_id}&datos=det&w=2"
+    source = {"nombre": f"AEMET — resúmenes diarios de {station['nombre']}", "url": source_url}
+    records = []
+
+    current_url = aemet_csv_link(station_id, 1, "_resumen-")
+    current_text = fetch_bytes(current_url, user_agent="Mozilla/5.0").decode("iso-8859-15", errors="replace")
+    current_lines = current_text.splitlines()
+    current_date = next((parse_spanish_date(line) for line in current_lines if line.startswith("Actualizado:")), None)
+    header_index = next(index for index, line in enumerate(current_lines) if '"Estación"' in line)
+    current_rows = list(csv.DictReader(io.StringIO("\n".join(current_lines[header_index:]))))
+    if current_date and current_rows:
+        records.append({
+            "fecha": current_date,
+            "idema": station_id,
+            "estacion": station["nombre"],
+            "precipitacion_mm": precipitation_number(current_rows[0].get("Precipitación 00-24h (mm)")),
+            "estado": "Día en curso",
+            "completo": False,
+            "fuente": source,
+        })
+
+    history_url = aemet_csv_link(station_id, 2, "_resumenes-diarios-anteriores")
+    history_text = fetch_bytes(history_url, user_agent="Mozilla/5.0").decode("iso-8859-15", errors="replace")
+    history_lines = history_text.splitlines()
+    history_header = next(index for index, line in enumerate(history_lines) if '"Fecha y hora oficial"' in line)
+    for row in csv.DictReader(io.StringIO("\n".join(history_lines[history_header:]))):
+        date = parse_spanish_date(row.get("Fecha y hora oficial", ""))
+        if not date or date < INCIDENT_START:
+            continue
+        records.append({
+            "fecha": date,
+            "idema": station_id,
+            "estacion": station["nombre"],
+            "precipitacion_mm": precipitation_number(row.get("Precipitación 00-24h (mm)")),
+            "estado": "Día completo",
+            "completo": True,
+            "fuente": source,
+        })
+    if not records:
+        raise RuntimeError(f"AEMET no devolvió precipitación diaria para {station['nombre']}")
+    return records
+
+
+def merge_daily_precipitation(existing: list[dict], current: list[dict]) -> list[dict]:
+    merged = {
+        (item.get("fecha"), item.get("idema")): item
+        for item in existing
+        if item.get("fecha") and item.get("idema")
+    }
+    for item in current:
+        merged[(item["fecha"], item["idema"])] = item
+    return sorted(merged.values(), key=lambda item: (item["fecha"], item["estacion"]))
 
 
 def update_weather() -> bool:
@@ -795,6 +1014,20 @@ def update_weather() -> bool:
         "nombre": f"AEMET — estación {STATION['nombre']}",
         "url": f"https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l={STATION['idema']}",
     }
+    previous_weather = read_json(DATA / "meteo.json")
+    daily_precipitation = []
+    station_errors = []
+    for station in STATIONS:
+        try:
+            daily_precipitation.extend(fetch_daily_precipitation(station))
+        except Exception as error:
+            station_errors.append(f"{station['nombre']}: {error}")
+    if station_errors:
+        raise RuntimeError("No se validó la precipitación diaria de ambas estaciones: " + "; ".join(station_errors))
+    daily_precipitation = merge_daily_precipitation(
+        previous_weather.get("precipitacion_diaria", []), daily_precipitation
+    )
+
     result = {
         "ultima_revision": max(filter(None, [forecast_time, observed_at.isoformat()])),
         "prevision": {
@@ -834,30 +1067,28 @@ def update_weather() -> bool:
                 "fuente": observation_source,
             },
         },
-        "estaciones": [
-            STATION,
-            {
-                "idema": "9201X",
-                "nombre": "Jaca",
-                "distancia_capital_municipal_km": 29.6,
-                "altitud_m": 832,
-                "coordenadas": [42.5797222222, -0.545],
-            },
-        ],
-        "precipitacion_efecto_operativo": [],
-        "observaciones_permitidas": [
-            "Sin lluvia significativa",
-            "Lluvia local",
-            "Lluvia potencialmente útil",
-            "Tormenta con rachas erráticas",
-            "Pendiente de confirmar",
-        ],
+        "estaciones": list(STATIONS),
+        "precipitacion_diaria": daily_precipitation,
         "aviso": (
             "La predicción corresponde a la capital municipal. La observación procede de Bailo, Puyalto, "
             "a 19,79 km de la capital municipal, y no representa necesariamente las condiciones en todo el incendio."
         ),
     }
-    return write_json_if_changed(DATA / "meteo.json", result)
+    checked_at = datetime.now(TZ).isoformat(timespec="seconds")
+    changed = write_json_if_changed(DATA / "meteo.json", result)
+    changed = mark_sources_checked(
+        ("aemet",),
+        checked_at,
+        {
+            "aemet": {
+                "alcance": (
+                    "Predicción horaria municipal, observación de Bailo-Puyalto y "
+                    "precipitación diaria registrada en Bailo-Puyalto y Jaca"
+                )
+            }
+        },
+    ) or changed
+    return changed
 
 
 def update_perimeter() -> bool:
@@ -887,10 +1118,12 @@ def update_perimeter() -> bool:
             errors.append(str(error))
     if payload is None:
         raise RuntimeError("; ".join(errors))
+    checked_at = datetime.now(TZ).isoformat(timespec="seconds")
+    source_changed = mark_sources_checked(("icearagon-perimetros",), checked_at)
     features = payload.get("features") or []
     if not features:
         print("ICEARAGON: todavía no existe un perímetro 2026 de Riglos")
-        return False
+        return source_changed
 
     dates = [feature.get("properties", {}).get("fecha_mod") for feature in features]
     dates = [value for value in dates if value]
@@ -905,7 +1138,7 @@ def update_perimeter() -> bool:
         },
         "features": features,
     }
-    return write_json_if_changed(DATA / "perimetro.geojson", result)
+    return write_json_if_changed(DATA / "perimetro.geojson", result) or source_changed
 
 
 def xml_local_name(tag: str) -> str:
@@ -1025,9 +1258,11 @@ def update_effis_approximate_perimeter() -> bool:
             continue
         candidates.append((properties, geometry, area))
 
+    checked_at = datetime.now(TZ).isoformat(timespec="seconds")
+    source_changed = mark_sources_checked(("effis",), checked_at)
     if not candidates:
         print("EFFIS: todavía no existe un área quemada atribuible a Riglos")
-        return False
+        return source_changed
 
     properties, geometry, area = max(
         candidates,
@@ -1088,7 +1323,7 @@ def update_effis_approximate_perimeter() -> bool:
             }
         ],
     }
-    return write_json_if_changed(DATA / "perimetro-aproximado.geojson", result)
+    return write_json_if_changed(DATA / "perimetro-aproximado.geojson", result) or source_changed
 
 
 def write_json_if_changed(path: Path, data: dict) -> bool:
