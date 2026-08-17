@@ -1,25 +1,53 @@
 {
-  "ultima_comprobacion_panel": "2026-08-16T20:00:00+02:00",
-  "ultima_actualizacion_oficial": null,
+  "ultima_comprobacion_panel": "2026-08-17T10:00:00+02:00",
+  "ultima_actualizacion_oficial": "2026-08-16T21:01:00+02:00",
   "estado": {
-    "value": null,
-    "meta": null
+    "value": "Activo",
+    "meta": {
+      "fecha_hora": "2026-08-16T21:01:00+02:00",
+      "fiabilidad": "oficial",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    }
   },
   "superficie_ha": {
-    "value": null,
-    "meta": null
+    "value": 17500,
+    "meta": {
+      "fecha_hora": "2026-08-16T21:01:00+02:00",
+      "fiabilidad": "provisional",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    }
   },
   "perimetro_consolidado_pct": {
     "value": null,
     "meta": null
   },
   "nucleos_evacuados": {
-    "value": null,
-    "meta": null
+    "value": 19,
+    "meta": {
+      "fecha_hora": "2026-08-16T21:01:00+02:00",
+      "fiabilidad": "oficial",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    }
   },
   "personas_evacuadas": {
-    "value": null,
-    "meta": null
+    "value": 1046,
+    "meta": {
+      "fecha_hora": "2026-08-16T21:01:00+02:00",
+      "fiabilidad": "oficial",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116"
+      }
+    }
   },
-  "nota_edicion": "Plantilla segura: no publicar cifras hasta contrastarlas con una publicación oficial enlazable. Los valores del enunciado eran ejemplos y no se han tratado como hechos."
+  "nota_edicion": "Datos obtenidos del último comunicado oficial disponible. La superficie es provisional. No se muestra porcentaje de perímetro consolidado porque el último comunicado no aporta una cifra actualizada."
 }
