@@ -1,5 +1,5 @@
 {
-  "ultima_comprobacion_panel": "2026-08-17T18:47:33+02:00",
+  "ultima_comprobacion_panel": "2026-08-17T19:21:35+02:00",
   "ultima_actualizacion_oficial": "2026-08-17T10:01:28+02:00",
   "estado": {
     "value": "Activo",
@@ -67,9 +67,9 @@
   },
   "nota_edicion": "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización.",
   "ultimo_informe_cecopi": {
-    "titulo": "El Gobierno de Aragón traslada sus condolencias por la muerte de un militar de la UME durante las labores de extinción en Las Peñas de Riglos",
-    "fecha_hora": "2026-08-16T21:01:41+02:00",
-    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116",
+    "titulo": "Una noche de trabajo favorable permite avanzar en la extinción del incendio de Las Peñas de Riglos",
+    "fecha_hora": "2026-08-17T10:01:28+02:00",
+    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/noche-favorable-permite-avanzar-extincion-incendio-penas-riglos-106118",
     "fuente": "Gobierno de Aragón / Aragón Hoy"
   }
 }

@@ -6,8 +6,10 @@ from __future__ import annotations
 import io
 import json
 import re
+from html import unescape
 from datetime import datetime, timedelta
 from pathlib import Path
+from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
@@ -19,12 +21,57 @@ DATA = ROOT / "data"
 TZ = ZoneInfo("Europe/Madrid")
 DGT_PDF = "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
 ALIASES = {"HF-0262-BA": "HF0262BA"}
+ARAGON_HOY = "https://www.aragonhoy.es"
+ARAGON_HOY_CATEGORY = f"{ARAGON_HOY}/hacienda-interior-administracion-publica"
 
 
 def fetch(url: str) -> bytes:
     request = Request(url, headers={"User-Agent": "incendio-riglos-secondary-verifier/1.0"})
     with urlopen(request, timeout=30) as response:
         return response.read()
+
+
+def clean_html(fragment: str) -> str:
+    return " ".join(unescape(re.sub(r"<[^>]+>", " ", fragment)).split())
+
+
+def latest_cecopi_article() -> dict:
+    """Localiza de forma independiente el último parte oficial que identifica al CECOPI."""
+    category = fetch(ARAGON_HOY_CATEGORY).decode("utf-8", errors="replace")
+    links = set()
+    for href in re.findall(r'href=["\']([^"\']+)["\']', category, re.I):
+        url = urljoin(ARAGON_HOY, unescape(href)).rstrip("/")
+        normalized = clean_html(url).lower()
+        if (
+            urlparse(url).netloc == "www.aragonhoy.es"
+            and "/hacienda-interior-administracion-publica/" in url
+            and ("incendio" in normalized or "extincion" in normalized)
+            and "riglos" in normalized
+            and re.search(r"-\d{5,}$", url)
+        ):
+            links.add(url)
+
+    candidates = []
+    for url in sorted(links, key=lambda item: int(item.rsplit("-", 1)[-1]), reverse=True)[:20]:
+        raw = fetch(url).decode("utf-8", errors="replace")
+        published = re.search(r'"datePublished"\s*:\s*"([^"]+)"', raw)
+        paragraphs = [clean_html(item) for item in re.findall(
+            r'<p\b[^>]*class=["\'][^"\']*\bparagraph\b[^"\']*["\'][^>]*>(.*?)</p>',
+            raw,
+            re.I | re.S,
+        )]
+        captions = [clean_html(item) for item in re.findall(
+            r'<figcaption\b[^>]*>(.*?)</figcaption>', raw, re.I | re.S,
+        )]
+        article_text = " ".join((*paragraphs, *captions))
+        if published and re.search(r"Pe.as de Riglos", article_text, re.I) and re.search(r"\bCECOPI\b", article_text, re.I):
+            candidates.append({
+                "url": url,
+                "fecha_hora": datetime.fromisoformat(published.group(1)).astimezone(TZ).isoformat(),
+            })
+    if not candidates:
+        raise RuntimeError("no se localizó ningún parte CECOPI verificable en Aragón Hoy")
+    return max(candidates, key=lambda item: item["fecha_hora"])
 
 
 def verify_dgt(roads: list[dict]) -> None:
@@ -60,6 +107,12 @@ def verify_cecopi(state: dict) -> None:
         raise RuntimeError("la fecha del informe CECOPI no coincide con Aragón Hoy")
     if not re.search(r"Pe.as de Riglos", visible, re.I) or not re.search(r"\bCECOPI\b", visible, re.I):
         raise RuntimeError("el enlace guardado no es un informe CECOPI de Las Peñas de Riglos")
+    latest = latest_cecopi_article()
+    if latest["url"] != report["url"] or latest["fecha_hora"] != report["fecha_hora"]:
+        raise RuntimeError(
+            "el enlace guardado no es el último parte CECOPI oficial: "
+            f"{report['fecha_hora']} frente a {latest['fecha_hora']}"
+        )
 
 
 def main() -> None:

@@ -30,6 +30,8 @@ jobs:
 
       - name: Consultar Aragón Hoy, DGT, AEMET, ICEARAGON y EFFIS
         run: python scripts/update_public_data.py
+        env:
+          RIGLOS_STRICT_UPDATE: "1"
 
       - name: Validar los archivos
         run: |

@@ -23,6 +23,7 @@ import heapq
 import io
 import json
 import math
+import os
 import re
 import time
 import unicodedata
@@ -239,6 +240,11 @@ def find_latest_official_article() -> dict:
                 raw,
                 re.I | re.S,
             )]
+            captions = [clean_html(item) for item in re.findall(
+                r'<figcaption\b[^>]*>(.*?)</figcaption>',
+                raw,
+                re.I | re.S,
+            )]
             body = " ".join(item for item in paragraphs if item)
             if not published_match or "penas de riglos" not in normalize_text(body):
                 continue
@@ -252,7 +258,12 @@ def find_latest_official_article() -> dict:
                 "paragraphs": paragraphs,
                 "body": body,
                 "normalized": normalize_text(body),
-                "mentions_cecopi": bool(re.search(r"\bcecopi\b", normalize_text(body))),
+                # Aragón Hoy identifica algunas reuniones del CECOPI únicamente
+                # en el pie de la fotografía principal, no en los párrafos.
+                "mentions_cecopi": bool(re.search(
+                    r"\bcecopi\b",
+                    normalize_text(" ".join((body, *captions))),
+                )),
             })
         except Exception as error:
             errors.append(f"{url}: {error}")
@@ -1524,24 +1535,34 @@ def write_json_if_changed(path: Path, data: dict) -> bool:
 
 if __name__ == "__main__":
     changed = []
+    failures = []
     try:
         if update_official_incident_data():
             changed.append("parte oficial, estado, evacuaciones, carreteras, cronología y fuentes")
     except Exception as error:
         print(f"AVISO: no se pudo actualizar Aragón Hoy; se conservan los datos anteriores: {error}")
+        failures.append(f"Aragón Hoy: {error}")
     try:
         if update_weather():
             changed.append("meteo")
     except Exception as error:
         print(f"AVISO: no se pudo actualizar AEMET; se conservan los datos anteriores: {error}")
+        failures.append(f"AEMET: {error}")
     try:
         if update_perimeter():
             changed.append("perímetro")
     except Exception as error:
         print(f"AVISO: no se pudo consultar ICEARAGON; se conserva el perímetro anterior: {error}")
+        failures.append(f"ICEARAGON: {error}")
     try:
         if update_effis_approximate_perimeter():
             changed.append("área aproximada EFFIS")
     except Exception as error:
         print(f"AVISO: no se pudo actualizar EFFIS; se conserva la capa anterior: {error}")
+        failures.append(f"EFFIS: {error}")
     print("Actualizados: " + (", ".join(changed) if changed else "sin cambios"))
+    if failures and os.environ.get("RIGLOS_STRICT_UPDATE") == "1":
+        raise SystemExit(
+            "Actualización cancelada: no se publicará un resultado parcial.\n- "
+            + "\n- ".join(failures)
+        )

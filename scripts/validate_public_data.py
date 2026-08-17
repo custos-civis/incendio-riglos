@@ -7,6 +7,7 @@ import json
 import math
 from datetime import datetime, timedelta
 from pathlib import Path
+from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
 
 
@@ -36,6 +37,28 @@ def load(path: Path):
 def valid_https_source(source, context: str) -> None:
     if not isinstance(source, dict) or not str(source.get("url", "")).startswith("https://"):
         fail(f"{context}: falta una fuente HTTPS")
+
+
+def official_url(value: str) -> bool:
+    parsed = urlparse(value)
+    host = (parsed.hostname or "").lower()
+    return parsed.scheme == "https" and any(
+        host == allowed or host.endswith(f".{allowed}")
+        for allowed in OFFICIAL_SOURCE_HOSTS
+    )
+
+
+def validate_all_urls(value, context: str) -> None:
+    """Impide que cualquier archivo público introduzca enlaces ajenos a la lista oficial."""
+    if isinstance(value, dict):
+        for key, child in value.items():
+            validate_all_urls(child, f"{context}.{key}")
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            validate_all_urls(child, f"{context}[{index}]")
+    elif isinstance(value, str) and value.startswith(("http://", "https://")):
+        if not official_url(value):
+            fail(f"{context}: URL no oficial o sin HTTPS ({value})")
 
 
 def valid_date(value, context: str) -> None:
@@ -114,7 +137,7 @@ def validate_official_sources(documents: dict) -> None:
         if source.get("tipo") != "oficial":
             fail(f"fuentes.json: {source.get('id', '?')} no es una fuente oficial")
         url = str(source.get("url") or "")
-        if not any(host in url for host in OFFICIAL_SOURCE_HOSTS):
+        if not official_url(url):
             fail(f"fuentes.json: dominio no oficial en {source.get('id', '?')}")
     chronology = documents.get("cronologia.json", {})
     for point in chronology.get("series", []):
@@ -137,6 +160,7 @@ def main() -> None:
     validate_roads(documents.get("carreteras.json"))
     validate_official_sources(documents)
     for name, document in documents.items():
+        validate_all_urls(document, name)
         if name.endswith(".geojson"):
             validate_geojson(DATA / name, document)
     state = documents.get("estado.json")
