@@ -74,9 +74,9 @@ function evacuationsCard(e) {
   const people = normalizeDatum(e.personas_evacuadas);
   const known = nuclei.value != null || people.value != null;
   const main = known
-    ? `<div class="weather-brief"><div><span>Núcleos</span><strong>${escapeHtml(nuclei.value ?? "—")}</strong></div><div><span>Personas aprox.</span><strong>${escapeHtml(people.value ?? "—")}</strong></div></div>`
+    ? `<div class="weather-brief evacuation-brief"><div><span>Núcleos</span><strong>${escapeHtml(nuclei.value ?? "—")}</strong></div><div><span>Personas aprox.</span><strong>${escapeHtml(people.value ?? "—")}</strong></div></div>`
     : `<strong class="metric-value unavailable">Sin actualización oficial</strong>`;
-  return `<article class="metric-card"><span class="metric-label">Evacuaciones</span>${main}${sourceBlock(nuclei.meta || people.meta)}</article>`;
+  return `<article class="metric-card evacuation-card"><span class="metric-label">Evacuaciones</span>${main}${sourceBlock(nuclei.meta || people.meta)}</article>`;
 }
 
 function weatherCard(m) {
