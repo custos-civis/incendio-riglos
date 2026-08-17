@@ -94,6 +94,7 @@ function renderSummary() {
     metricCard("Superficie", e.superficie_ha, "ha", e.superficie_ha?.meta),
     perimeterCard(e),
     evacuationsCard(e),
+    resourcesCard(e),
     weatherCard(m)
   ];
   document.getElementById("status-cards").innerHTML = cards.join("");
@@ -151,7 +152,27 @@ function evacuationsCard(e) {
   const main = known
     ? `<div class="weather-brief evacuation-brief"><div><span>Núcleos</span><strong>${escapeHtml(nuclei.value ?? "—")}</strong></div><div><span>Personas aprox.</span><strong>${escapeHtml(people.value ?? "—")}</strong></div></div>`
     : `<strong class="metric-value unavailable">Sin actualización oficial</strong>`;
-  return `<article class="metric-card evacuation-card"><span class="metric-label">Evacuaciones</span>${main}${sourceBlock(nuclei.meta || people.meta)}</article>`;
+  return `<article class="metric-card evacuation-card"><span class="metric-label">Evacuaciones</span>${main}${sourceBlock(latestMeta(nuclei.meta, people.meta))}</article>`;
+}
+
+function resourcesCard(e) {
+  const deployment = e.efectivos_desplegados;
+  if (!deployment?.meta) {
+    return `<article class="metric-card resources-card"><span class="metric-label">Efectivos y medios del operativo</span><strong class="metric-value unavailable">Sin desglose oficial incorporado</strong>${sourceBlock(null)}</article>`;
+  }
+  const personnel = deployment.personal_jornada_aprox == null ? "—" : `≈ ${formatNumber(deployment.personal_jornada_aprox)}`;
+  const aircraft = deployment.medios_aereos_jornada == null ? "—" : formatNumber(deployment.medios_aereos_jornada);
+  const groups = Array.isArray(deployment.grupos) ? deployment.grupos : [];
+  const details = groups.length
+    ? `<details class="resources-details"><summary>Ver desglose del ${escapeHtml(String(deployment.desglose_contexto || "operativo").toLowerCase())}</summary><div class="resources-groups">${groups.map(group => `<section><h3>${escapeHtml(group.organismo)}</h3><ul>${(group.medios || []).map(item => `<li>${item.cantidad == null ? "" : `<strong>${escapeHtml(formatNumber(item.cantidad))}</strong> `}${escapeHtml(item.concepto)}</li>`).join("")}</ul></section>`).join("")}</div></details>`
+    : `<p class="resources-empty">El parte no publica un desglose por organismos.</p>`;
+  return `<article class="metric-card resources-card">
+    <span class="metric-label">Efectivos y medios del operativo</span>
+    <div class="resources-brief"><div><span>Personal durante la jornada</span><strong>${escapeHtml(personnel)}</strong></div><div><span>Medios aéreos durante la jornada</span><strong>${escapeHtml(aircraft)}</strong></div></div>
+    <p class="resources-context">${escapeHtml(deployment.resumen_contexto || "Periodo indicado en el parte oficial")}. Las cifras no representan necesariamente medios actuando de forma simultánea.</p>
+    ${details}
+    ${sourceBlock(deployment.meta)}
+  </article>`;
 }
 
 function weatherCard(m) {
@@ -306,6 +327,10 @@ function renderLoadError() {
 function normalizeDatum(datum, fallbackMeta = null) {
   if (datum && typeof datum === "object" && Object.prototype.hasOwnProperty.call(datum, "value")) return { value: datum.value, meta: datum.meta || fallbackMeta };
   return { value: datum ?? null, meta: fallbackMeta };
+}
+
+function latestMeta(...metas) {
+  return metas.filter(Boolean).sort((a, b) => String(b.fecha_hora || "").localeCompare(String(a.fecha_hora || "")))[0] || null;
 }
 
 function displayValue(value, unit = "") { return value == null || value === "" ? "Sin actualización oficial" : `${typeof value === "number" ? new Intl.NumberFormat("es-ES").format(value) : value}${unit ? ` ${unit}` : ""}`; }

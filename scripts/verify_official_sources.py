@@ -115,6 +115,67 @@ def verify_cecopi(state: dict) -> None:
         )
 
 
+def verify_status_and_resources(state: dict) -> tuple[int | None, int | None]:
+    """Contrasta estado y cifras operativas contra sus páginas oficiales."""
+    status = state.get("estado") or {}
+    status_meta = status.get("meta") or {}
+    status_url = str((status_meta.get("fuente") or {}).get("url") or "")
+    status_raw = fetch(status_url).decode("utf-8", errors="replace")
+    status_visible = clean_html(status_raw)
+    status_published = re.search(r'"datePublished"\s*:\s*"([^"]+)"', status_raw)
+    if not status_published or datetime.fromisoformat(status_published.group(1)).astimezone(TZ).isoformat() != status_meta.get("fecha_hora"):
+        raise RuntimeError("la fecha del estado del incendio no coincide con Aragón Hoy")
+    expected = str(status.get("value") or "").lower()
+    patterns = {
+        "activo": r"incendio(?:\s+forestal)?\s*,?\s+(?:(?:permanece|contin.a|sigue|est.)\s+)?activo\b",
+        "estabilizado": r"incendio.{0,80}(?:queda|se da por|est.) estabilizado",
+        "controlado": r"incendio.{0,80}(?:queda|se da por|est.) controlado",
+        "extinguido": r"incendio.{0,80}(?:queda|se da por|est.) extinguido",
+    }
+    if expected not in patterns or not re.search(patterns[expected], status_visible, re.I):
+        raise RuntimeError(f"el estado {status.get('value')} no aparece de forma explícita en su fuente")
+
+    deployment = state.get("efectivos_desplegados")
+    if not deployment:
+        return None, None
+    meta = deployment.get("meta") or {}
+    source_url = str((meta.get("fuente") or {}).get("url") or "")
+    raw = status_raw if source_url == status_url else fetch(source_url).decode("utf-8", errors="replace")
+    visible = clean_html(raw)
+    published = re.search(r'"datePublished"\s*:\s*"([^"]+)"', raw)
+    if not published or datetime.fromisoformat(published.group(1)).astimezone(TZ).isoformat() != meta.get("fecha_hora"):
+        raise RuntimeError("la fecha del despliegue no coincide con Aragón Hoy")
+    personnel = deployment.get("personal_jornada_aprox")
+    aircraft = deployment.get("medios_aereos_jornada")
+    if personnel == 1_000:
+        personnel_found = re.search(r"(?:1[.\s]?000|un\s+millar)\s+de?\s*efectivos", visible, re.I)
+    else:
+        personnel_found = personnel is None or re.search(rf"{re.escape(str(personnel))}\s+efectivos", visible, re.I)
+    if not personnel_found:
+        raise RuntimeError("el total de efectivos no aparece en la publicación oficial")
+    if aircraft is not None and not re.search(rf"{re.escape(str(aircraft))}\s+medios\s+a.reos", visible, re.I):
+        raise RuntimeError("el total de medios aéreos no aparece en la publicación oficial")
+    for group in deployment.get("grupos", []):
+        name = group.get("organismo", "")
+        markers = {
+            "Operativo INFOAR": r"\bINFOAR\b",
+            "Bomberos de Huesca y Zaragoza": r"bomberos.{0,80}Huesca.{0,80}Zaragoza",
+            "Ministerio para la Transición Ecológica": r"Ministerio para la Transici.n Ecol.gica",
+            "UME y Ejército de Tierra": r"Unidad Militar de Emergencias.{0,120}Ej.rcito de Tierra",
+            "Cataluña": r"Catalu.a",
+            "Navarra": r"Navarra",
+            "Comunidad de Madrid": r"Madrid",
+            "Francia · Mecanismo Europeo de Protección Civil": r"Mecanismo Europeo de Protecci.n Civil.{0,80}Francia",
+            "Seguridad": r"grupo de seguridad",
+            "Sanitario y social": r"grupo sanitario y social",
+            "Protección Civil y logística": r"Protecci.n Civil y log.stica",
+        }
+        marker = markers.get(name)
+        if not marker or not re.search(marker, visible, re.I):
+            raise RuntimeError(f"el grupo operativo {name!r} no aparece en la publicación oficial")
+    return personnel, aircraft
+
+
 def verify_perimeter_history(chronology: dict) -> tuple[int, int]:
     """Contrasta cada porcentaje y longitud de la serie con su publicación oficial."""
     cache: dict[str, str] = {}
@@ -175,12 +236,14 @@ def main() -> None:
     chronology = json.loads((DATA / "cronologia.json").read_text(encoding="utf-8"))
     verify_dgt(roads)
     verify_cecopi(state)
+    personnel, aircraft = verify_status_and_resources(state)
     percentages, lengths = verify_perimeter_history(chronology)
     has_secondary = verify_secondary_perimeter_reference(state)
     print(
         "Verificación externa completa: "
         f"DGT ({len(roads)} cortes), último informe CECOPI y serie de perímetro "
         f"({percentages} porcentaje, {lengths} longitudes) coinciden"
+        + (f"; estado y despliegue ({personnel} efectivos, {aircraft} medios aéreos) contrastados" if personnel or aircraft else "; estado contrastado")
         + ("; referencia periodística contrastada" if has_secondary else "")
     )
 

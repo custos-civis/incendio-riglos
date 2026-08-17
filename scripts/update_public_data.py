@@ -326,9 +326,159 @@ def explicit_fire_status(normalized: str) -> str | None:
         ("Extinguido", r"incendio.{0,80}(?:queda|se da por|esta) extinguido"),
         ("Controlado", r"incendio.{0,80}(?:queda|se da por|esta) controlado"),
         ("Estabilizado", r"incendio.{0,80}(?:queda|se da por|esta) estabilizado"),
-        ("Activo", r"incendio.{0,80}(?:permanece|continua|sigue) activo"),
+        (
+            "Activo",
+            r"\bincendio(?:\s+forestal)?\s*,?\s+(?:(?:permanece|continua|sigue|esta)\s+)?activo\b",
+        ),
     )
     return next((label for label, pattern in checks if re.search(pattern, normalized)), None)
+
+
+def spanish_quantity(value: str | None) -> int | None:
+    """Convierte cantidades numéricas o los artículos un/una usados en los partes."""
+    if not value:
+        return None
+    normalized = normalize_text(value).strip()
+    words = {
+        "un": 1, "una": 1, "dos": 2, "tres": 3, "cuatro": 4, "cinco": 5,
+        "seis": 6, "siete": 7, "ocho": 8, "nueve": 9, "diez": 10,
+    }
+    if normalized in words:
+        return words[normalized]
+    return spanish_integer(normalized)
+
+
+def resource_items(text: str, specs: tuple[tuple[str, str], ...]) -> list[dict]:
+    """Extrae únicamente cantidades explícitas, sin sumar categorías heterogéneas."""
+    items = []
+    for label, pattern in specs:
+        match = re.search(pattern, text, re.I)
+        if not match:
+            continue
+        quantity = spanish_quantity(match.group(1)) if match.lastindex else None
+        item = {"concepto": label}
+        if quantity is not None:
+            item["cantidad"] = quantity
+        items.append(item)
+    return items
+
+
+def parse_operational_resources(article: dict) -> dict | None:
+    """Obtiene el despliegue que el último parte publica de forma expresa.
+
+    El total de personal y los medios aéreos describen la jornada del parte. El
+    desglose, cuando existe, mantiene el periodo indicado por la fuente (en el
+    parte actual, el dispositivo nocturno) y no se presenta como una suma.
+    """
+    normalized = article["normalized"]
+    personnel = first_integer(normalized, (
+        r"([0-9][0-9.\s]*)\s+efectivos(?:\s+que\s+han\s+trabajado)?\s+durante\s+la\s+jornada",
+        r"durante\s+la\s+jornada.{0,80}?([0-9][0-9.\s]*)\s+efectivos",
+    ))
+    if personnel is None and re.search(r"\bun\s+millar\s+de\s+efectivos\b", normalized):
+        personnel = 1_000
+    aircraft = first_integer(normalized, (
+        r"(?:con|mantiene|despliega)[^.;]{0,50}?([0-9][0-9.\s]*)\s+medios\s+aereos",
+        r"([0-9][0-9.\s]*)\s+medios\s+aereos",
+    ))
+
+    paragraphs = [(item, normalize_text(item)) for item in article.get("paragraphs", [])]
+
+    def paragraph_containing(*terms: str) -> str:
+        return next((norm for _text, norm in paragraphs if all(term in norm for term in terms)), "")
+
+    groups = []
+
+    def add_group(name: str, text: str, specs: tuple[tuple[str, str], ...], extras: tuple[tuple[str, str], ...] = ()) -> None:
+        items = resource_items(text, specs)
+        for label, marker in extras:
+            if re.search(marker, text, re.I):
+                items.append({"concepto": label})
+        if items:
+            groups.append({"organismo": name, "medios": items})
+
+    infoar = paragraph_containing("operativo infoar", "cuadrillas terrestres")
+    add_group("Operativo INFOAR", infoar, (
+        ("cuadrillas terrestres", r"([0-9][0-9.\s]*|un|una)\s+cuadrillas?\s+terrestres?"),
+        ("autobombas", r"([0-9][0-9.\s]*|un|una)\s+autobombas?"),
+        ("bulldóceres", r"([0-9][0-9.\s]*|un|una)\s+bulldozer"),
+        ("vehículo de Puesto de Mando Avanzado", r"([0-9][0-9.\s]*|un|una)\s+vehiculo\s+de\s+puesto\s+de\s+mando\s+avanzado"),
+    ), (("personal técnico", r"personal\s+tecnico"),))
+
+    add_group("Bomberos de Huesca y Zaragoza", infoar, (
+        ("autobomba del Ayuntamiento de Huesca", r"ayuntamiento\s+de\s+huesca\s+aporta\s+([0-9][0-9.\s]*|un|una)\s+autobomba"),
+        ("nodriza del Ayuntamiento de Huesca", r"ayuntamiento\s+de\s+huesca[^.;]+?([0-9][0-9.\s]*|un|una)\s+nodriza"),
+        ("autobombas de la Diputación de Huesca", r"diputacion\s+de\s+huesca[^.;]+?([0-9][0-9.\s]*|un|una)\s+autobombas?"),
+        ("nodrizas de la Diputación de Huesca", r"diputacion\s+de\s+huesca[^.;]+?([0-9][0-9.\s]*|un|una)\s+nodrizas?"),
+        ("autobomba del Ayuntamiento de Zaragoza", r"ayuntamiento\s+de\s+zaragoza[^.;]+?([0-9][0-9.\s]*|un|una)\s+autobomba"),
+        ("nodriza del Ayuntamiento de Zaragoza", r"ayuntamiento\s+de\s+zaragoza[^.;]+?([0-9][0-9.\s]*|un|una)\s+nodriza"),
+        ("autobombas de la Diputación de Zaragoza", r"diputacion\s+de\s+zaragoza[^.;]+?([0-9][0-9.\s]*|un|una)\s+autobombas?"),
+        ("nodriza de la Diputación de Zaragoza", r"diputacion\s+de\s+zaragoza[^.;]+?([0-9][0-9.\s]*|un|una)\s+nodriza"),
+    ))
+
+    state_support = paragraph_containing("ministerio para la transicion ecologica", "unidad militar")
+    add_group("Ministerio para la Transición Ecológica", state_support, (
+        ("BRIF", r"([0-9][0-9.\s]*|un|una)\s+brif"),
+        ("helicópteros", r"brif\s+con\s+([0-9][0-9.\s]*|un|una)\s+helicopteros"),
+    ))
+    add_group("UME y Ejército de Tierra", state_support, (
+        ("secciones de la UME", r"([0-9][0-9.\s]*|un|una)\s+secciones?\s+de\s+la\s+unidad\s+militar"),
+        ("efectivos de la UME", r"con\s+([0-9][0-9.\s]*|un|una)\s+efectivos"),
+        ("bulldóceres de la UME", r"efectivos\s+y\s+([0-9][0-9.\s]*|un|una)\s+bulldozer"),
+        ("bulldóceres del Ejército de Tierra", r"([0-9][0-9.\s]*|un|una)\s+bulldozer\s+del\s+ejercito\s+de\s+tierra"),
+    ))
+
+    regional = paragraph_containing("cataluna", "navarra", "madrid", "francia")
+    add_group("Cataluña", regional, (
+        ("helicóptero bombardero", r"cataluna\s+aporta\s+([0-9][0-9.\s]*|un|una)\s+helicoptero\s+bombardero"),
+    ))
+    add_group("Navarra", regional, (
+        ("autobombas forestales", r"navarra[^.;]+?([0-9][0-9.\s]*|un|una)\s+autobombas?\s+forestales?"),
+        ("nodriza", r"navarra[^.;]+?([0-9][0-9.\s]*|un|una)\s+nodriza"),
+        ("vehículos ligeros", r"navarra[^.;]+?([0-9][0-9.\s]*|un|una)\s+vehiculos?\s+ligeros?"),
+        ("bomberos", r"navarra[^.;]+?([0-9][0-9.\s]*|un|una)\s+bomberos"),
+        ("helicóptero", r"navarra[^.;]+?([0-9][0-9.\s]*|un|una)\s+helicoptero"),
+        ("brigada", r"navarra[^.;]+?([0-9][0-9.\s]*|un|una)\s+brigada"),
+    ))
+    add_group("Comunidad de Madrid", regional, (
+        ("autobombas", r"madrid[^.;]+?([0-9][0-9.\s]*|un|una)\s+autobombas?"),
+        ("nodriza", r"madrid[^.;]+?([0-9][0-9.\s]*|un|una)\s+nodriza"),
+        ("vehículos todoterreno", r"madrid[^.;]+?([0-9][0-9.\s]*|un|una)\s+vehiculos?\s+todoterreno"),
+    ))
+    add_group("Francia · Mecanismo Europeo de Protección Civil", regional, (
+        ("bomberos", r"francia[^.;]+?([0-9][0-9.\s]*|un|una)\s+bomberos"),
+        ("vehículos", r"francia[^.;]+?([0-9][0-9.\s]*|un|una)\s+vehiculos"),
+    ))
+
+    security = paragraph_containing("grupo de seguridad", "guardia civil")
+    add_group("Seguridad", security, (
+        ("patrulla de la UPA", r"([0-9][0-9.\s]*|un|una)\s+patrulla\s+de\s+la\s+upa"),
+        ("patrullas de la Guardia Civil", r"([0-9][0-9.\s]*|un|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\s+patrullas?\s+de\s+la\s+guardia\s+civil"),
+    ))
+    add_group("Sanitario y social", security, (
+        ("unidad de soporte vital avanzado del 061", r"([0-9][0-9.\s]*|un|una)\s+unidad\s+de\s+soporte\s+vital\s+avanzado"),
+    ), (
+        ("equipo de apoyo de Cruz Roja", r"equipo\s+de\s+apoyo\s+de\s+cruz\s+roja"),
+        ("trabajadores sociales de las comarcas", r"trabajadores\s+sociales\s+de\s+las\s+comarcas"),
+    ))
+
+    logistics = paragraph_containing("proteccion civil y logistica", "sarga")
+    add_group("Protección Civil y logística", logistics, (
+        ("vehículo de Puesto de Mando Avanzado", r"([0-9][0-9.\s]*|un|una)\s+vehiculo\s+de\s+puesto\s+de\s+mando\s+avanzado"),
+        ("unidad logística de Protección Civil", r"([0-9][0-9.\s]*|un|una)\s+unidad\s+logistica\s+de\s+proteccion\s+civil"),
+        ("unidad logística de SARGA", r"([0-9][0-9.\s]*|un|una)\s+unidad\s+logistica\s+de\s+sarga"),
+    ), (("voluntariado de Protección Civil", r"voluntarios\s+de\s+las\s+agrupaciones\s+de\s+proteccion\s+civil"),))
+
+    if personnel is None and aircraft is None and not groups:
+        return None
+    return {
+        "personal_jornada_aprox": personnel,
+        "medios_aereos_jornada": aircraft,
+        "resumen_contexto": "Durante la jornada indicada en el parte oficial",
+        "desglose_contexto": "Dispositivo nocturno" if groups else None,
+        "grupos": groups,
+        "meta": official_meta(article["published_at"], article["url"]),
+    }
 
 
 def parse_closed_roads(article: dict) -> list[dict] | None:
@@ -937,6 +1087,7 @@ def update_official_incident_data() -> bool:
     nuclei = first_integer(normalized, (
         r"([0-9][0-9.\s]*)\s+nucleos(?:\s+de\s+poblacion)?\s+(?:desalojad|evacuad)",
         r"(?:evacuad|desalojad)[^.]{0,100}?([0-9][0-9.\s]*)\s+nucleos",
+        r"correspondientes\s+a\s+([0-9][0-9.\s]*)\s+nucleos(?:\s+de\s+poblacion)?",
     ))
     roads = parse_closed_roads(article)
     try:
@@ -960,6 +1111,7 @@ def update_official_incident_data() -> bool:
     if roads:
         roads = attach_official_road_traces(roads)
     status = explicit_fire_status(normalized)
+    operational_resources = parse_operational_resources(article)
     consolidated = first_integer(normalized, (
         r"([0-9]{1,3})\s*%\s+del\s+perimetro\s+consolidado",
         r"perimetro.{0,60}?consolidad[oa].{0,30}?([0-9]{1,3})\s*%",
@@ -981,6 +1133,8 @@ def update_official_incident_data() -> bool:
         state["ultima_actualizacion_oficial"] = article["published_at"]
     if status:
         state["estado"] = {"value": status, "meta": official_meta(article["published_at"], article["url"])}
+    if operational_resources:
+        state["efectivos_desplegados"] = operational_resources
     if area is not None and 100 <= area <= 250_000:
         state["superficie_ha"] = {"value": area, "meta": official_meta(article["published_at"], article["url"], reliability="provisional")}
     if nuclei is not None and 0 <= nuclei <= 500:

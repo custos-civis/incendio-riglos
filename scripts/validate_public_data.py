@@ -162,6 +162,55 @@ def validate_official_sources(documents: dict) -> None:
             if "aragonhoy.es" not in url:
                 fail("cronologia.json: longitud de perímetro sin fuente oficial del Gobierno de Aragón")
     state = documents.get("estado.json", {})
+    fire_status = state.get("estado") if isinstance(state, dict) else None
+    if not isinstance(fire_status, dict) or not isinstance(fire_status.get("value"), str):
+        fail("estado.json: falta un estado del incendio estructurado")
+    else:
+        status_meta = fire_status.get("meta") or {}
+        valid_date(status_meta.get("fecha_hora"), "estado.json estado del incendio")
+        if "aragonhoy.es" not in str((status_meta.get("fuente") or {}).get("url") or ""):
+            fail("estado.json: el estado del incendio no procede de Aragón Hoy")
+
+    deployment = state.get("efectivos_desplegados") if isinstance(state, dict) else None
+    if deployment is not None:
+        if not isinstance(deployment, dict):
+            fail("estado.json: el despliegue de efectivos no es un objeto")
+        else:
+            personnel = deployment.get("personal_jornada_aprox")
+            aircraft = deployment.get("medios_aereos_jornada")
+            if personnel is not None and (not isinstance(personnel, int) or not 1 <= personnel <= 100_000):
+                fail("estado.json: total de efectivos fuera de rango")
+            if aircraft is not None and (not isinstance(aircraft, int) or not 1 <= aircraft <= 1_000):
+                fail("estado.json: número de medios aéreos fuera de rango")
+            if personnel is None and aircraft is None:
+                fail("estado.json: despliegue sin cifras de resumen")
+            meta = deployment.get("meta") or {}
+            valid_date(meta.get("fecha_hora"), "estado.json despliegue de efectivos")
+            if "aragonhoy.es" not in str((meta.get("fuente") or {}).get("url") or ""):
+                fail("estado.json: el despliegue no procede de Aragón Hoy")
+            groups = deployment.get("grupos")
+            if not isinstance(groups, list) or len(groups) > 30:
+                fail("estado.json: grupos del despliegue ausentes o excesivos")
+            else:
+                names = []
+                for group_index, group in enumerate(groups):
+                    context = f"estado.json despliegue grupo {group_index + 1}"
+                    if not isinstance(group, dict) or not str(group.get("organismo") or "").strip():
+                        fail(f"{context}: falta el organismo")
+                        continue
+                    names.append(group["organismo"])
+                    items = group.get("medios")
+                    if not isinstance(items, list) or not items or len(items) > 50:
+                        fail(f"{context}: medios ausentes o excesivos")
+                        continue
+                    for item in items:
+                        if not isinstance(item, dict) or not str(item.get("concepto") or "").strip():
+                            fail(f"{context}: concepto de medio ausente")
+                        quantity = item.get("cantidad")
+                        if quantity is not None and (not isinstance(quantity, int) or not 1 <= quantity <= 100_000):
+                            fail(f"{context}: cantidad fuera de rango")
+                if len(names) != len(set(names)):
+                    fail("estado.json: hay organismos duplicados en el despliegue")
     secondary = state.get("perimetro_longitud_secundaria_km") if isinstance(state, dict) else None
     if secondary is not None:
         meta = secondary.get("meta") or {}

@@ -81,6 +81,7 @@ h3 { font-size: 1.18rem; }
 .metric-card { display: flex; min-width: 0; min-height: 250px; padding: 22px; flex-direction: column; background: var(--white); border: 1px solid var(--line); border-top: 4px solid var(--teal-700); border-radius: var(--radius); box-shadow: var(--shadow); }
 .metric-card.danger { border-top-color: var(--danger); }
 .metric-card.weather-card { grid-column: 1 / -1; min-height: 210px; }
+.metric-card.resources-card { grid-column: 1 / -1; min-height: 0; }
 .metric-label { display: block; min-height: 38px; color: var(--muted); font-size: .77rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
 .metric-value { display: block; margin: 18px 0 14px; color: var(--teal-950); font-family: Georgia, Cambria, serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); line-height: 1.02; }
 .metric-value.active { color: var(--danger); text-transform: uppercase; }
@@ -99,6 +100,18 @@ h3 { font-size: 1.18rem; }
 .evacuation-brief > div { min-width: 0; padding: 10px 0; }
 .evacuation-brief > div + div { padding-left: 18px; border-left: 1px solid var(--line); }
 .evacuation-brief strong { margin-top: 5px; font-family: Georgia, Cambria, serif; font-size: clamp(1.45rem, 2.5vw, 2rem); line-height: 1; }
+.resources-brief { display: grid; grid-template-columns: repeat(2, minmax(0, 260px)); gap: 14px; margin: 12px 0 8px; }
+.resources-brief > div { padding: 14px 16px; background: #f1f5f3; border-radius: 9px; }
+.resources-brief span { display: block; color: var(--muted); font-size: .7rem; text-transform: uppercase; }
+.resources-brief strong { display: block; margin-top: 3px; color: var(--teal-950); font-family: Georgia, Cambria, serif; font-size: 1.8rem; }
+.resources-context, .resources-empty { margin: 2px 0 12px; color: var(--muted); font-size: .78rem; }
+.resources-details { margin: 4px 0 14px; border: 1px solid var(--line); border-radius: 9px; }
+.resources-details summary { padding: 11px 14px; color: var(--teal-900); font-size: .82rem; font-weight: 800; cursor: pointer; }
+.resources-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 0 14px 14px; }
+.resources-groups section { min-width: 0; padding: 12px; background: #f6f7f4; border-radius: 8px; }
+.resources-groups h3 { margin: 0 0 7px; color: var(--teal-900); font: 800 .76rem/1.35 inherit; }
+.resources-groups ul { margin: 0; padding-left: 17px; color: var(--muted); font-size: .73rem; line-height: 1.45; }
+.resources-groups strong { color: var(--ink); }
 .data-rule { display: flex; gap: 11px; align-items: center; margin: 20px 0 0; color: var(--muted); font-size: .88rem; }
 .data-rule > span { display: grid; flex: 0 0 auto; width: 24px; height: 24px; place-items: center; border-radius: 50%; color: var(--teal-900); background: var(--teal-100); font-weight: 800; }
 
@@ -249,6 +262,7 @@ footer { color: #c6d8d9; background: #09262b; }
   .weather-card { grid-column: 1 / -1; }
   .sources-grid { grid-template-columns: repeat(3, 1fr); }
   .rain-record { grid-template-columns: 1fr 1fr; }
+  .resources-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 680px) {
@@ -265,6 +279,7 @@ footer { color: #c6d8d9; background: #09262b; }
   .section-heading .legend, .section-heading .text-link, .section-heading .section-intro { display: flex; justify-content: start; margin-top: 14px; }
   .status-grid, .weather-grid, .road-grid, .info-grid { grid-template-columns: 1fr; }
   .metric-card.weather-card { grid-column: 1 / -1; }
+  .resources-brief, .resources-groups { grid-template-columns: 1fr; }
   .metric-card { min-height: 225px; }
   .map-notes { grid-template-columns: 1fr; }
   .map-actions { justify-items: start; margin-top: 14px; }
