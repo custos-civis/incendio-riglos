@@ -10,12 +10,12 @@ Los datos incorporados enlazan su fuente y conservan su fecha de publicación. L
 
 - HTML5, CSS3 y JavaScript vanilla, sin compilación ni backend.
 - Datos editables en JSON local.
-- Mapa Leaflet con capas activables, resumen del incendio, estaciones AEMET, GeoJSON oficial y capa satelital EFFIS.
+- Mapa Leaflet con capas activables, estaciones AEMET, perímetro oficial, área quemada aproximada EFFIS y focos térmicos VIIRS.
 - Resumen, evacuaciones, carreteras, meteorología, lluvia útil, evolución y cronología.
 - Tres estados de fiabilidad: `oficial`, `provisional` y `sin_actualizacion`.
 - Gráfica SVG propia, accesible y sin dependencias adicionales.
 - Diseño responsive, navegación por teclado y marcado semántico.
-- Actualización horaria automática de predicción y observación AEMET y consulta del perímetro de ICEARAGON.
+- Actualización horaria automática de AEMET, ICEARAGON y del área quemada satelital EFFIS.
 - Sin cookies, formularios, autenticación, analítica, publicidad ni trackers propios.
 
 ## Ejecutar localmente
@@ -145,7 +145,7 @@ La observación solo puede ser: `Sin lluvia significativa`, `Lluvia local`, `Llu
 
 Usa `null` cuando falte un valor. La gráfica separa los segmentos y no interpola huecos.
 
-## Añadir un perímetro GeoJSON
+## Capas de perímetro y área quemada
 
 1. Obtén una geometría publicada por una fuente oficial y comprueba sus condiciones de reutilización.
 2. Confirma que el sistema de coordenadas sea WGS84 (`EPSG:4326`) y el orden GeoJSON sea longitud, latitud.
@@ -154,9 +154,9 @@ Usa `null` cuando falte un valor. La gráfica separa los segmentos y no interpol
 5. Comprueba visualmente que la geometría cae en la zona correcta.
 6. No dibujes a mano un perímetro aproximado ni publiques una geometría operativa filtrada.
 
-La capa del Paisaje Protegido de San Juan de la Peña y Monte Oroel funciona igual en `data/espacios-protegidos.geojson`. Ambas se entregan vacías para evitar representar aproximaciones como cartografía real.
+La geometría oficial se guarda exclusivamente en `data/perimetro.geojson`. La estimación satelital se guarda por separado en `data/perimetro-aproximado.geojson`, se representa en naranja discontinuo y contiene una advertencia expresa de que no es un perímetro operativo. La capa del Paisaje Protegido de San Juan de la Peña y Monte Oroel se mantiene en `data/espacios-protegidos.geojson`.
 
-El flujo automático consulta cada hora la capa de ICEARAGON y solo incorpora una geometría de 2026 cuyo nombre contenga “Riglos”. Hasta que exista, el GeoJSON permanece vacío. El mapa ofrece además la capa diaria EFFIS/Copernicus como estimación satelital de área quemada; no se etiqueta como perímetro operativo ni como porcentaje consolidado.
+El flujo automático consulta cada hora ICEARAGON y solo incorpora una geometría oficial de 2026 cuyo nombre contenga “Riglos”. También consulta por WFS las áreas quemadas EFFIS, exige que el municipio coincida con Las Peñas de Riglos, comprueba fecha, extensión territorial y coherencia con la superficie publicada, y conserva la versión anterior si la fuente falla. Los focos térmicos VIIRS se solicitan directamente al WMS de EFFIS con la fecha actual.
 
 ## Actualización automática
 
@@ -165,7 +165,8 @@ GitHub Actions ejecuta `scripts/update_public_data.py` cada hora y también pued
 1. descarga la predicción horaria oficial de AEMET;
 2. incorpora la observación más reciente de Bailo-Puyalto y los acumulados del día;
 3. consulta si ICEARAGON ya ha publicado el perímetro de 2026;
-4. valida los JSON, guarda únicamente los valores que han cambiado y vuelve a publicar GitHub Pages.
+4. descarga el área quemada EFFIS atribuida a Las Peñas de Riglos y aplica controles automáticos de coherencia;
+5. valida los JSON, guarda únicamente los valores que han cambiado y vuelve a publicar GitHub Pages.
 
 No requiere claves ni secretos. La situación general, las evacuaciones, los cortes y el porcentaje consolidado siguen necesitando revisión humana de los partes del Gobierno de Aragón.
 
@@ -215,7 +216,7 @@ Reglas obligatorias para cualquier actualización:
 - No usar información de redes sociales particulares como confirmación.
 - Priorizar siempre fuentes oficiales y enlazar la publicación original.
 - Mantener revisión humana antes de actualizar datos.
-- No inferir perímetros, porcentajes, evacuaciones ni efectos meteorológicos.
+- No inferir perímetros operativos, porcentajes consolidados, evacuaciones ni efectos meteorológicos. Las estimaciones satelitales deben permanecer identificadas como tales.
 
 ## Privacidad
 
@@ -223,7 +224,7 @@ El código no solicita nombre, correo, teléfono, dirección, geolocalización n
 
 - Leaflet se descarga desde `unpkg.com`.
 - Las teselas del mapa se solicitan a `tile.openstreetmap.org` y, como en cualquier petición web, el servidor puede recibir la dirección IP.
-- La capa satelital se solicita al servicio WMS de EFFIS/Copernicus y el enlace complementario abre Google Maps en otra pestaña.
+- El área satelital se obtiene por WFS y los focos térmicos se solicitan al WMS de EFFIS/Copernicus; el enlace complementario abre Google Maps en otra pestaña.
 - GitHub procesa las visitas cuando aloja el sitio.
 
 Para reducir todavía más las conexiones externas, puede descargarse Leaflet al repositorio y sustituirse el mapa base por teselas de un proveedor con condiciones adecuadas. No almacenes teselas masivamente: respeta la [política de uso de teselas de OpenStreetMap](https://operations.osmfoundation.org/policies/tiles/).

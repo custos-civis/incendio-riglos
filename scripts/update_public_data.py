@@ -5,8 +5,10 @@ Fuentes:
 - AEMET: predicción horaria municipal y observación de Bailo, Puyalto.
 - ICEARAGON: perímetro oficial, únicamente cuando exista un registro de 2026
   cuyo nombre contenga "Riglos".
+- EFFIS/Copernicus: área quemada satelital, separada del perímetro operativo.
 
-El script no estima valores ni genera geometrías aproximadas.
+El script no fabrica valores ni geometrías: conserva separadas las capas oficiales
+y las estimaciones satelitales publicadas por sus proveedores.
 """
 
 from __future__ import annotations
@@ -16,6 +18,7 @@ import io
 import json
 import re
 import time
+import unicodedata
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
@@ -36,6 +39,9 @@ STATION = {
     "altitud_m": 722,
     "coordenadas": [42.5141666667, -0.8172222222],
 }
+INCIDENT_BBOX = (-1.15, 42.10, -0.25, 42.72)
+INCIDENT_START = "2026-08-09"
+EFFIS_WFS = "https://maps.effis.emergency.copernicus.eu/effis"
 
 
 def fetch_bytes(url: str, attempts: int = 2) -> bytes:
@@ -176,7 +182,20 @@ def update_weather() -> bool:
     rows = list(csv.DictReader(io.StringIO("\n".join(lines[header_index:]))))
     if not rows:
         raise RuntimeError("AEMET no ha devuelto observaciones horarias")
-    latest = rows[0]
+    observation_fields = (
+        "Temperatura (ºC)",
+        "Humedad (%)",
+        "Velocidad del viento (km/h)",
+        "Racha (km/h)",
+        "Precipitación (mm)",
+    )
+    latest = next(
+        (
+            row for row in rows
+            if any(number(row.get(field)) is not None for field in observation_fields)
+        ),
+        rows[0],
+    )
     observed_at = datetime.strptime(latest["Fecha y hora oficial"], "%d/%m/%Y %H:%M").replace(tzinfo=TZ)
     current_day_rows = [
         row for row in rows
@@ -310,6 +329,189 @@ def update_perimeter() -> bool:
     return write_json_if_changed(DATA / "perimetro.geojson", result)
 
 
+def xml_local_name(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+def normalize_text(value: str | None) -> str:
+    return "".join(
+        char for char in unicodedata.normalize("NFD", value or "")
+        if unicodedata.category(char) != "Mn"
+    ).lower()
+
+
+def gml_coordinates(node) -> list[list[float]]:
+    if node is None or not node.text:
+        return []
+    coordinates = []
+    for token in re.split(r"\s+", node.text.strip()):
+        parts = token.split(",")
+        if len(parts) < 2:
+            continue
+        coordinates.append([float(parts[0]), float(parts[1])])
+    if coordinates and coordinates[0] != coordinates[-1]:
+        coordinates.append(coordinates[0])
+    return coordinates
+
+
+def gml_geometry(feature) -> dict | None:
+    geometry_node = next(
+        (child for child in feature if xml_local_name(child.tag) == "msGeometry"),
+        None,
+    )
+    if geometry_node is None:
+        return None
+    polygons = []
+    for polygon in geometry_node.findall(".//{*}Polygon"):
+        outer = gml_coordinates(
+            polygon.find("./{*}outerBoundaryIs/{*}LinearRing/{*}coordinates")
+        )
+        if len(outer) < 4:
+            continue
+        rings = [outer]
+        rings.extend(
+            ring for ring in (
+                gml_coordinates(node)
+                for node in polygon.findall(
+                    "./{*}innerBoundaryIs/{*}LinearRing/{*}coordinates"
+                )
+            )
+            if len(ring) >= 4
+        )
+        polygons.append(rings)
+    if not polygons:
+        return None
+    if len(polygons) == 1:
+        return {"type": "Polygon", "coordinates": polygons[0]}
+    return {"type": "MultiPolygon", "coordinates": polygons}
+
+
+def geometry_points(geometry: dict) -> list[list[float]]:
+    points = []
+
+    def visit(value):
+        if (
+            isinstance(value, list)
+            and len(value) >= 2
+            and all(isinstance(item, (int, float)) for item in value[:2])
+        ):
+            points.append(value[:2])
+        elif isinstance(value, list):
+            for item in value:
+                visit(item)
+
+    visit(geometry.get("coordinates", []))
+    return points
+
+
+def effis_timestamp(value: str | None) -> str | None:
+    if not value:
+        return None
+    parsed = datetime.strptime(value.split(".", 1)[0], "%Y-%m-%d %H:%M:%S")
+    return parsed.replace(tzinfo=ZoneInfo("UTC")).astimezone(TZ).isoformat()
+
+
+def update_effis_approximate_perimeter() -> bool:
+    params = {
+        "service": "WFS",
+        "version": "1.0.0",
+        "request": "GetFeature",
+        "typeName": "modis.ba.poly",
+        "srsName": "EPSG:4326",
+        "bbox": ",".join(str(value) for value in INCIDENT_BBOX),
+    }
+    source_url = EFFIS_WFS + "?" + urlencode(params)
+    root = ElementTree.fromstring(decode_xml(fetch_bytes(source_url)))
+    candidates = []
+    for member in root.findall(".//{*}featureMember"):
+        feature = next(iter(member), None)
+        if feature is None:
+            continue
+        properties = {
+            xml_local_name(child.tag): (child.text or "").strip()
+            for child in feature
+            if xml_local_name(child.tag) not in {"boundedBy", "msGeometry"}
+        }
+        fire_date = properties.get("FIREDATE", "")[:10]
+        commune = normalize_text(properties.get("COMMUNE"))
+        if fire_date < INCIDENT_START or "riglos" not in commune:
+            continue
+        geometry = gml_geometry(feature)
+        area = number(properties.get("AREA_HA"), integer=True)
+        if geometry is None or area is None or not 1_000 <= area <= 100_000:
+            continue
+        points = geometry_points(geometry)
+        west, south, east, north = INCIDENT_BBOX
+        if not points or any(not (west <= lon <= east and south <= lat <= north) for lon, lat in points):
+            continue
+        candidates.append((properties, geometry, area))
+
+    if not candidates:
+        print("EFFIS: todavía no existe un área quemada atribuible a Riglos")
+        return False
+
+    properties, geometry, area = max(
+        candidates,
+        key=lambda item: (item[0].get("FINALDATE", ""), item[2]),
+    )
+    official_state = json.loads((DATA / "estado.json").read_text(encoding="utf-8"))
+    official_area = official_state.get("superficie_ha", {}).get("value")
+    difference = None
+    if official_area:
+        difference = round(abs(area - official_area) / official_area * 100, 1)
+        if difference > 40:
+            raise RuntimeError(
+                f"EFFIS devuelve {area} ha, diferencia incompatible con las {official_area} ha publicadas"
+            )
+
+    observed_at = effis_timestamp(properties.get("FINALDATE"))
+    result = {
+        "type": "FeatureCollection",
+        "metadata": {
+            "estado": "satelital_aproximado",
+            "es_ficticio": False,
+            "es_perimetro_operativo": False,
+            "tipo": "area_quemada_estimada",
+            "aviso": (
+                "Área quemada estimada por satélite. No equivale al perímetro operativo, "
+                "al porcentaje consolidado ni a una instrucción de seguridad."
+            ),
+            "fecha_hora": observed_at,
+            "superficie_ha": area,
+            "control_calidad": {
+                "superficie_oficial_referencia_ha": official_area,
+                "diferencia_pct": difference,
+                "umbral_maximo_diferencia_pct": 40,
+                "municipio_coincidente": properties.get("COMMUNE"),
+                "inicio_posterior_a": INCIDENT_START,
+            },
+            "fuente": {
+                "nombre": "EFFIS / Copernicus — áreas quemadas satelitales",
+                "url": source_url,
+            },
+            "licencia": "Copernicus EMS / EFFIS; reutilización con atribución",
+        },
+        "features": [
+            {
+                "type": "Feature",
+                "properties": {
+                    "nombre": "Área quemada aproximada EFFIS — Las Peñas de Riglos",
+                    "tipo": "area_quemada_satelital",
+                    "superficie_ha": area,
+                    "fecha_inicio": effis_timestamp(properties.get("FIREDATE")),
+                    "fecha_fin": observed_at,
+                    "ultima_actualizacion_effis": effis_timestamp(properties.get("LASTUPDATE")),
+                    "municipio": properties.get("COMMUNE"),
+                    "provincia": properties.get("PROVINCE"),
+                    "id_effis": properties.get("id"),
+                },
+                "geometry": geometry,
+            }
+        ],
+    }
+    return write_json_if_changed(DATA / "perimetro-aproximado.geojson", result)
+
+
 def write_json_if_changed(path: Path, data: dict) -> bool:
     rendered = json.dumps(data, ensure_ascii=False, indent=2) + "\n"
     current = path.read_text(encoding="utf-8") if path.exists() else ""
@@ -331,4 +533,9 @@ if __name__ == "__main__":
             changed.append("perímetro")
     except Exception as error:
         print(f"AVISO: no se pudo consultar ICEARAGON; se conserva el perímetro anterior: {error}")
+    try:
+        if update_effis_approximate_perimeter():
+            changed.append("área aproximada EFFIS")
+    except Exception as error:
+        print(f"AVISO: no se pudo actualizar EFFIS; se conserva la capa anterior: {error}")
     print("Actualizados: " + (", ".join(changed) if changed else "sin cambios"))
