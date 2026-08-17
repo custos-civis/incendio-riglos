@@ -31,6 +31,7 @@ async function init() {
 
 function renderAll() {
   renderDates();
+  renderCecopiReport();
   renderSummary();
   renderMapSummary();
   renderEvacuations();
@@ -40,6 +41,16 @@ function renderAll() {
   renderSources();
   setupChartTabs();
   renderChart();
+}
+
+function renderCecopiReport() {
+  const report = state.data.estado.ultimo_informe_cecopi;
+  const link = document.getElementById("cecopi-report");
+  if (!link || !report?.url || !report?.fecha_hora) return;
+  link.href = report.url;
+  link.title = report.titulo || "Último informe oficial de CECOPI";
+  document.getElementById("cecopi-report-date").textContent = formatDate(report.fecha_hora);
+  link.hidden = false;
 }
 
 function renderMapSummary() {
@@ -62,6 +73,11 @@ function renderMapSummary() {
     return `<div title="${escapeHtml(fullText)}"><span>${escapeHtml(label)}</span><strong title="${escapeHtml(value)}">${escapeHtml(value)}</strong></div>`;
   }).join("");
   document.getElementById("perimeter-history").innerHTML = `<strong>Cifras de perímetro:</strong> ${historicalPerimeterLinks(lastPercentage, lastLength)}. La longitud es aproximada y el porcentaje es una referencia histórica fechada.`;
+  const traced = roads.filter(road => Array.isArray(road.trazado) && road.trazado.length > 1).length;
+  const missing = roads.length - traced;
+  document.getElementById("road-map-note").textContent = missing
+    ? `${traced} de ${roads.length} cortes tienen un tramo cartográfico oficial visible en violeta. ${missing} no puede representarse como línea; consulta su marcador para conocer el motivo.`
+    : `Los ${roads.length} cortes disponen de un tramo cartográfico oficial visible en violeta.`;
 }
 
 function renderDates() {

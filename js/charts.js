@@ -23,7 +23,7 @@ window.RiglosCharts = (() => {
       return;
     }
     const chart = chartGeometry(valid);
-    const paths = buildSegments(series, key, key === "superficie_ha").map(segment => segment
+    const paths = buildSegments(series, key, ["superficie_ha", "perimetro_consolidado_pct"].includes(key)).map(segment => segment
       .filter(item => item[key] != null)
       .map(item => `${chart.x(new Date(item.fecha))},${chart.y(item[key])}`).join(" "))
       .filter(Boolean)
@@ -38,7 +38,7 @@ window.RiglosCharts = (() => {
     }).join("");
     const description = key === "superficie_ha"
       ? `${valid.length} valores fechados representados. La línea une las cifras publicadas consecutivas y omite los registros sin superficie.`
-      : `${valid.length} valores fechados representados. Los datos ausentes no se interpolan.`;
+      : `${valid.length} valores oficiales fechados representados. La línea une los puntos disponibles sin inventar valores intermedios.`;
     container.innerHTML = svgFrame(chart, valid, config[key], paths + points, description);
   }
 

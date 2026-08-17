@@ -14,6 +14,10 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 TZ = ZoneInfo("Europe/Madrid")
 INCIDENT_BBOX = (-1.15, 42.10, -0.25, 42.72)
+OFFICIAL_SOURCE_HOSTS = (
+    "aragonhoy.es", "aragon.es", "aemet.es", "dgt.es", "cartociudad.es",
+    "idearagon.aragon.es", "opendata.aragon.es", "copernicus.eu", "europa.eu",
+)
 errors: list[str] = []
 
 
@@ -83,6 +87,8 @@ def validate_roads(data) -> None:
             valid_latlon(record["coordenadas"], f"{context} marcador")
         trace = record.get("trazado")
         if trace is None:
+            if not isinstance(record.get("trazado_no_disponible"), str) or len(record["trazado_no_disponible"].strip()) < 20:
+                fail(f"{context}: falta el motivo por el que no puede dibujarse el tramo")
             continue
         if not isinstance(trace, list) or len(trace) < 2 or len(trace) > 10_000:
             fail(f"{context}: trazado vacío o excesivo")
@@ -98,6 +104,25 @@ def validate_roads(data) -> None:
             if abs(float(reference["fin"]) - float(record["pk_fin"])) > 1.5:
                 fail(f"{context}: el PK final cartográfico se aleja demasiado del publicado")
         valid_https_source(record.get("trazado_fuente"), f"{context} trazado")
+        if record.get("trazado_metodo") not in {"pk_oficiales", "eje_oficial_completo"}:
+            fail(f"{context}: método cartográfico no reconocido")
+
+
+def validate_official_sources(documents: dict) -> None:
+    sources = documents.get("fuentes.json", {}).get("fuentes", [])
+    for source in sources:
+        if source.get("tipo") != "oficial":
+            fail(f"fuentes.json: {source.get('id', '?')} no es una fuente oficial")
+        url = str(source.get("url") or "")
+        if not any(host in url for host in OFFICIAL_SOURCE_HOSTS):
+            fail(f"fuentes.json: dominio no oficial en {source.get('id', '?')}")
+    chronology = documents.get("cronologia.json", {})
+    for point in chronology.get("series", []):
+        if point.get("perimetro_consolidado_pct") is None:
+            continue
+        url = str(point.get("perimetro_consolidado_meta", {}).get("fuente", {}).get("url") or "")
+        if "aragonhoy.es" not in url:
+            fail("cronologia.json: porcentaje de perímetro sin fuente oficial del Gobierno de Aragón")
 
 
 def validate_geojson(path: Path, data) -> None:
@@ -110,6 +135,7 @@ def main() -> None:
     for path in sorted(DATA.glob("*.json")) + sorted(DATA.glob("*.geojson")):
         documents[path.name] = load(path)
     validate_roads(documents.get("carreteras.json"))
+    validate_official_sources(documents)
     for name, document in documents.items():
         if name.endswith(".geojson"):
             validate_geojson(DATA / name, document)
@@ -118,6 +144,11 @@ def main() -> None:
         fail("estado.json: objeto ausente")
     else:
         valid_date(state.get("ultima_comprobacion_panel"), "estado.json última comprobación")
+        report = state.get("ultimo_informe_cecopi")
+        if not isinstance(report, dict) or "aragonhoy.es" not in str(report.get("url") or ""):
+            fail("estado.json: falta el último informe oficial de CECOPI")
+        else:
+            valid_date(report.get("fecha_hora"), "estado.json informe CECOPI")
     if errors:
         raise SystemExit("Validación fallida:\n- " + "\n- ".join(errors))
     print(f"Validación completa: {len(documents)} archivos y {len(documents['carreteras.json'].get('registros', []))} cortes comprobados")

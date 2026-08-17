@@ -1,5 +1,5 @@
 {
-  "ultima_comprobacion_panel": "2026-08-17T18:01:08+02:00",
+  "ultima_comprobacion_panel": "2026-08-17T18:15:28+02:00",
   "ultima_actualizacion_oficial": "2026-08-17T10:01:28+02:00",
   "estado": {
     "value": "Activo",
@@ -28,28 +28,20 @@
     "meta": null
   },
   "perimetro_consolidado_ultimo_pct": {
-    "value": 40,
+    "value": 50,
     "meta": {
-      "fecha_hora": "2026-08-14T19:23:00+02:00",
+      "fecha_hora": "2026-08-12T10:39:19+02:00",
       "fiabilidad": "historico",
-      "vigencia": "Último porcentaje explícito localizado; no confirmado como vigente en partes posteriores.",
+      "vigencia": "Último porcentaje explícito localizado en una publicación oficial; no confirmado como vigente en partes posteriores.",
       "fuente": {
-        "nombre": "Cadena SER / Radio Huesca, con información del Gobierno de Aragón",
-        "url": "https://cadenaser.com/aragon/2026/08/14/el-incendio-de-las-penas-de-riglos-sigue-activo-y-con-un-40-del-perimetro-consolidado-radio-huesca/"
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-logra-perimetrar-50-incendio-penas-riglos-106081"
       }
     }
   },
   "perimetro_longitud_ultima_km": {
-    "value": 100,
-    "meta": {
-      "fecha_hora": "2026-08-17T12:55:14+02:00",
-      "fiabilidad": "provisional",
-      "vigencia": "Longitud aproximada comunicada por responsables del Gobierno de Aragón en entrevista.",
-      "fuente": {
-        "nombre": "Cadena SER / responsables del Gobierno de Aragón",
-        "url": "https://cadenaser.com/aragon/2026/08/17/luis-biendicho-el-incendio-de-las-penas-de-riglos-evoluciona-favorablemente-pero-tenemos-fuego-para-dias-radio-zaragoza/"
-      }
-    }
+    "value": null,
+    "meta": null
   },
   "nucleos_evacuados": {
     "value": 19,
@@ -73,5 +65,11 @@
       }
     }
   },
-  "nota_edicion": "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización."
+  "nota_edicion": "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización.",
+  "ultimo_informe_cecopi": {
+    "titulo": "El Gobierno de Aragón traslada sus condolencias por la muerte de un militar de la UME durante las labores de extinción en Las Peñas de Riglos",
+    "fecha_hora": "2026-08-16T21:01:41+02:00",
+    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-traslada-condolencias-muerte-militar-ume-labores-extincion-penas-riglos-106116",
+    "fuente": "Gobierno de Aragón / Aragón Hoy"
+  }
 }

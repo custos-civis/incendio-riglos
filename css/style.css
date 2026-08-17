@@ -33,7 +33,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .site-header { color: var(--white); background: var(--teal-950); border-top: 5px solid #d59b3d; }
 .site-header::after { content: ""; display: block; height: 12px; opacity: .28; background: repeating-linear-gradient(120deg, transparent 0 10px, #79a5a6 10px 11px); }
-.header-inner { width: min(var(--max), calc(100% - 40px)); margin: auto; padding: 64px 0 44px; }
+.header-inner { position: relative; width: min(var(--max), calc(100% - 40px)); margin: auto; padding: 64px 0 44px; }
+.cecopi-report { position: absolute; top: 26px; right: 0; display: grid; width: min(290px, 34vw); padding: 12px 15px; color: #fff8e9; text-decoration: none; background: rgba(255,255,255,.1); border: 1px solid rgba(244,211,154,.4); border-left: 4px solid #e1a94c; border-radius: 9px; box-shadow: 0 8px 22px rgba(0,0,0,.12); }
+.cecopi-report[hidden] { display: none; }
+.cecopi-report:hover { color: #fff; background: rgba(255,255,255,.16); }
+.cecopi-report span { font-size: .68rem; font-weight: 850; letter-spacing: .055em; text-transform: uppercase; }
+.cecopi-report strong { margin-top: 2px; font-size: .9rem; }
+.cecopi-report small { color: #c9dddd; font-size: .72rem; }
 .eyebrow, .section-kicker { margin: 0 0 .55rem; font-size: .75rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
 .eyebrow { color: #c0d8d8; }
 .signal-dot { display: inline-block; width: 9px; height: 9px; margin-right: 7px; border-radius: 50%; background: #dc794e; box-shadow: 0 0 0 4px rgba(220,121,78,.15); }
@@ -224,6 +230,7 @@ tbody tr:last-child td { border-bottom: 0; }
 footer { color: #c6d8d9; background: #09262b; }
 .footer-inner { display: flex; justify-content: space-between; gap: 30px; width: min(var(--max), calc(100% - 40px)); margin: auto; padding: 35px 0; }
 .footer-inner p { margin: 4px 0 0; font-size: .85rem; }
+.footer-inner .legal-note { max-width: 760px; margin-top: 12px; color: #a9c0c2; font-size: .72rem; line-height: 1.5; }
 .footer-inner > div:last-child { display: flex; gap: 20px; }
 .footer-inner a { color: #dce9e9; }
 .noscript { position: fixed; z-index: 9999; right: 12px; bottom: 12px; left: 12px; padding: 16px; color: #5e3c07; background: var(--amber-bg); border: 1px solid #d9b77b; border-radius: 8px; }
@@ -237,6 +244,7 @@ footer { color: #c6d8d9; background: #09262b; }
 
 @media (max-width: 680px) {
   .header-inner { width: min(100% - 28px, var(--max)); padding: 42px 0 32px; }
+  .cecopi-report { position: static; width: 100%; margin: 0 0 26px; }
   h1 { font-size: clamp(2.25rem, 12vw, 3.4rem); }
   .official-warning { display: block; }
   .official-warning strong { display: block; margin-bottom: 5px; }

@@ -1,5 +1,5 @@
 {
-  "ultima_revision": "2026-08-17T18:00:00+02:00",
+  "ultima_revision": "2026-08-17T18:10:00+02:00",
   "registros": [
     {
       "carretera": "A-1205",
@@ -9,7 +9,7 @@
       "sentido": "Sentido creciente de la kilometración",
       "localizacion": "Jaca – Santa María",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T18:00:00+02:00",
+      "fecha_hora": "2026-08-17T18:10:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -1918,12 +1918,13 @@
         ]
       ],
       "trazado_aproximado": true,
+      "trazado_metodo": "pk_oficiales",
       "trazado_pk_referencia": {
         "inicio": 0.0,
         "fin": 41.0
       },
       "trazado_fuente": {
-        "nombre": "ICEARAGON — red viaria y puntos kilométricos",
+        "nombre": "ICEARAGON — eje viario · ICEARAGON — puntos kilométricos",
         "url": "https://idearagon.aragon.es/servicios/rest/services/CARRETERAS/PK_ARAGON/MapServer",
         "catalogo": "https://opendata.aragon.es/ckan/dataset/carreteras"
       }
@@ -1936,7 +1937,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Murillo de Gállego – Puente la Reina de Jaca",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T18:00:00+02:00",
+      "fecha_hora": "2026-08-17T18:10:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -2889,12 +2890,13 @@
         ]
       ],
       "trazado_aproximado": true,
+      "trazado_metodo": "pk_oficiales",
       "trazado_pk_referencia": {
         "inicio": 40.0,
         "fin": 70.0
       },
       "trazado_fuente": {
-        "nombre": "ICEARAGON — red viaria y puntos kilométricos",
+        "nombre": "ICEARAGON — eje viario · ICEARAGON — puntos kilométricos",
         "url": "https://idearagon.aragon.es/servicios/rest/services/CARRETERAS/PK_ARAGON/MapServer",
         "catalogo": "https://opendata.aragon.es/ckan/dataset/carreteras"
       }
@@ -2907,7 +2909,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Abay – Puente la Reina de Jaca",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T18:00:00+02:00",
+      "fecha_hora": "2026-08-17T18:10:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -2916,7 +2918,152 @@
         42.5577012,
         -0.7123532
       ],
-      "ubicacion_aproximada": true
+      "ubicacion_aproximada": true,
+      "trazado": [
+        [
+          42.5552613,
+          -0.60575
+        ],
+        [
+          42.5535137,
+          -0.611759
+        ],
+        [
+          42.5534086,
+          -0.6127641
+        ],
+        [
+          42.5569158,
+          -0.6388153
+        ],
+        [
+          42.5570729,
+          -0.6521516
+        ],
+        [
+          42.5570053,
+          -0.6536821
+        ],
+        [
+          42.557274,
+          -0.6566935
+        ],
+        [
+          42.5575947,
+          -0.6574017
+        ],
+        [
+          42.5577148,
+          -0.6582133
+        ],
+        [
+          42.5575859,
+          -0.6587358
+        ],
+        [
+          42.5573088,
+          -0.6592737
+        ],
+        [
+          42.5572281,
+          -0.6597336
+        ],
+        [
+          42.5573057,
+          -0.6626532
+        ],
+        [
+          42.5572544,
+          -0.6636654
+        ],
+        [
+          42.5569136,
+          -0.6643982
+        ],
+        [
+          42.5560528,
+          -0.6674519
+        ],
+        [
+          42.5545522,
+          -0.6715912
+        ],
+        [
+          42.554324,
+          -0.6767632
+        ],
+        [
+          42.5544256,
+          -0.6773304
+        ],
+        [
+          42.5551817,
+          -0.6784267
+        ],
+        [
+          42.5553155,
+          -0.6788069
+        ],
+        [
+          42.5579866,
+          -0.7160342
+        ],
+        [
+          42.5553552,
+          -0.7576268
+        ],
+        [
+          42.5551502,
+          -0.7600321
+        ],
+        [
+          42.5542676,
+          -0.7669408
+        ],
+        [
+          42.5542066,
+          -0.76797
+        ],
+        [
+          42.5543995,
+          -0.7697817
+        ],
+        [
+          42.5540389,
+          -0.7748531
+        ],
+        [
+          42.553667,
+          -0.7758765
+        ],
+        [
+          42.5537715,
+          -0.777313
+        ],
+        [
+          42.553486,
+          -0.7783775
+        ],
+        [
+          42.5537839,
+          -0.7800432
+        ],
+        [
+          42.5541176,
+          -0.7858808
+        ]
+      ],
+      "trazado_aproximado": true,
+      "trazado_metodo": "pk_oficiales",
+      "trazado_pk_referencia": {
+        "inicio": 288.0,
+        "fin": 303.0
+      },
+      "trazado_fuente": {
+        "nombre": "ICEARAGON — eje viario · CartoCiudad/IGN — puntos kilométricos",
+        "url": "https://www.cartociudad.es/web/portal/directorio-de-servicios/geoprocesamiento",
+        "catalogo": "https://opendata.aragon.es/ckan/dataset/carreteras"
+      }
     },
     {
       "carretera": "A-1603",
@@ -2926,7 +3073,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Bernués – Botaya",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T18:00:00+02:00",
+      "fecha_hora": "2026-08-17T18:10:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -3559,12 +3706,13 @@
         ]
       ],
       "trazado_aproximado": true,
+      "trazado_metodo": "pk_oficiales",
       "trazado_pk_referencia": {
         "inicio": 0.0,
         "fin": 10.0
       },
       "trazado_fuente": {
-        "nombre": "ICEARAGON — red viaria y puntos kilométricos",
+        "nombre": "ICEARAGON — eje viario · ICEARAGON — puntos kilométricos",
         "url": "https://idearagon.aragon.es/servicios/rest/services/CARRETERAS/PK_ARAGON/MapServer",
         "catalogo": "https://opendata.aragon.es/ckan/dataset/carreteras"
       }
@@ -3577,7 +3725,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Bailo",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T18:00:00+02:00",
+      "fecha_hora": "2026-08-17T18:10:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -3586,7 +3734,8 @@
         42.5170978,
         -0.8478855
       ],
-      "ubicacion_aproximada": true
+      "ubicacion_aproximada": true,
+      "trazado_no_disponible": "DGT publica un corte puntual, sin intervalo lineal que pueda representarse."
     },
     {
       "carretera": "HU-V-3001",
@@ -3596,7 +3745,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Yeste – Rasal",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T18:00:00+02:00",
+      "fecha_hora": "2026-08-17T18:10:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -3605,7 +3754,356 @@
         42.3712182,
         -0.6309061
       ],
-      "ubicacion_aproximada": true
+      "ubicacion_aproximada": true,
+      "trazado": [
+        [
+          42.3859421,
+          -0.6777451
+        ],
+        [
+          42.3858011,
+          -0.6772325
+        ],
+        [
+          42.3857871,
+          -0.6760995
+        ],
+        [
+          42.3856398,
+          -0.6759379
+        ],
+        [
+          42.3850121,
+          -0.6758495
+        ],
+        [
+          42.3847364,
+          -0.6751324
+        ],
+        [
+          42.3847435,
+          -0.6739295
+        ],
+        [
+          42.3845341,
+          -0.6724887
+        ],
+        [
+          42.3844185,
+          -0.6707863
+        ],
+        [
+          42.384025,
+          -0.6687055
+        ],
+        [
+          42.3836701,
+          -0.6683079
+        ],
+        [
+          42.3831386,
+          -0.6674105
+        ],
+        [
+          42.38231,
+          -0.664535
+        ],
+        [
+          42.3817181,
+          -0.6631077
+        ],
+        [
+          42.3809846,
+          -0.6607026
+        ],
+        [
+          42.3790002,
+          -0.6594456
+        ],
+        [
+          42.3784266,
+          -0.6589165
+        ],
+        [
+          42.3777881,
+          -0.6585212
+        ],
+        [
+          42.3772566,
+          -0.6580696
+        ],
+        [
+          42.377032,
+          -0.6576574
+        ],
+        [
+          42.3768888,
+          -0.6565969
+        ],
+        [
+          42.3776142,
+          -0.6533201
+        ],
+        [
+          42.3776226,
+          -0.6524104
+        ],
+        [
+          42.3771064,
+          -0.6518322
+        ],
+        [
+          42.3761486,
+          -0.651455
+        ],
+        [
+          42.3751471,
+          -0.6507021
+        ],
+        [
+          42.3746517,
+          -0.6504799
+        ],
+        [
+          42.3735637,
+          -0.6494608
+        ],
+        [
+          42.3735395,
+          -0.6491604
+        ],
+        [
+          42.3737872,
+          -0.6485052
+        ],
+        [
+          42.3739236,
+          -0.6476894
+        ],
+        [
+          42.3736303,
+          -0.6452516
+        ],
+        [
+          42.373426,
+          -0.6447279
+        ],
+        [
+          42.3726036,
+          -0.6439328
+        ],
+        [
+          42.3722671,
+          -0.6433321
+        ],
+        [
+          42.3720674,
+          -0.638446
+        ],
+        [
+          42.3711517,
+          -0.635747
+        ],
+        [
+          42.3711587,
+          -0.6352139
+        ],
+        [
+          42.3713539,
+          -0.6346327
+        ],
+        [
+          42.3711842,
+          -0.6338322
+        ],
+        [
+          42.3711391,
+          -0.6320828
+        ],
+        [
+          42.3712229,
+          -0.6309092
+        ],
+        [
+          42.3714457,
+          -0.6297107
+        ],
+        [
+          42.3713323,
+          -0.6283623
+        ],
+        [
+          42.3711542,
+          -0.6275887
+        ],
+        [
+          42.3710992,
+          -0.6264576
+        ],
+        [
+          42.3717753,
+          -0.6254044
+        ],
+        [
+          42.3724524,
+          -0.6246168
+        ],
+        [
+          42.3728004,
+          -0.6240298
+        ],
+        [
+          42.3730456,
+          -0.6232569
+        ],
+        [
+          42.372553,
+          -0.6220883
+        ],
+        [
+          42.371062,
+          -0.6203207
+        ],
+        [
+          42.3705436,
+          -0.6194271
+        ],
+        [
+          42.3704467,
+          -0.6190991
+        ],
+        [
+          42.3705708,
+          -0.6177039
+        ],
+        [
+          42.3711564,
+          -0.6155496
+        ],
+        [
+          42.3718385,
+          -0.6147936
+        ],
+        [
+          42.3719654,
+          -0.6139675
+        ],
+        [
+          42.3726974,
+          -0.6114986
+        ],
+        [
+          42.3723467,
+          -0.6104439
+        ],
+        [
+          42.371512,
+          -0.6094987
+        ],
+        [
+          42.3713276,
+          -0.6090761
+        ],
+        [
+          42.3716712,
+          -0.6082789
+        ],
+        [
+          42.3723168,
+          -0.6072836
+        ],
+        [
+          42.3724177,
+          -0.6069435
+        ],
+        [
+          42.3724061,
+          -0.606169
+        ],
+        [
+          42.3725333,
+          -0.6053611
+        ],
+        [
+          42.3731345,
+          -0.6044008
+        ],
+        [
+          42.3732911,
+          -0.6037041
+        ],
+        [
+          42.373607,
+          -0.6030917
+        ],
+        [
+          42.3736607,
+          -0.6013574
+        ],
+        [
+          42.3735563,
+          -0.6006714
+        ],
+        [
+          42.3736702,
+          -0.5994442
+        ],
+        [
+          42.3745615,
+          -0.5970715
+        ],
+        [
+          42.3748196,
+          -0.595857
+        ],
+        [
+          42.3759882,
+          -0.5940392
+        ],
+        [
+          42.3761153,
+          -0.5928024
+        ],
+        [
+          42.3766492,
+          -0.5918528
+        ],
+        [
+          42.3771558,
+          -0.5904655
+        ],
+        [
+          42.3770968,
+          -0.5900123
+        ],
+        [
+          42.3766641,
+          -0.5893518
+        ],
+        [
+          42.376389,
+          -0.5884756
+        ],
+        [
+          42.376605,
+          -0.5869735
+        ],
+        [
+          42.376086,
+          -0.5858494
+        ]
+      ],
+      "trazado_aproximado": true,
+      "trazado_metodo": "pk_oficiales",
+      "trazado_pk_referencia": {
+        "inicio": 0.0,
+        "fin": 9.0
+      },
+      "trazado_fuente": {
+        "nombre": "ICEARAGON — eje viario · CartoCiudad/IGN — puntos kilométricos",
+        "url": "https://www.cartociudad.es/web/portal/directorio-de-servicios/geoprocesamiento",
+        "catalogo": "https://opendata.aragon.es/ckan/dataset/carreteras"
+      }
     },
     {
       "carretera": "HU-V-3003",
@@ -3615,7 +4113,7 @@
       "sentido": "Sentido creciente de la kilometración",
       "localizacion": "Javierrelatre – Osia",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T18:00:00+02:00",
+      "fecha_hora": "2026-08-17T18:10:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -3624,7 +4122,268 @@
         42.4079018,
         -0.5279721
       ],
-      "ubicacion_aproximada": true
+      "ubicacion_aproximada": true,
+      "trazado": [
+        [
+          42.407461,
+          -0.537022
+        ],
+        [
+          42.4083816,
+          -0.5381616
+        ],
+        [
+          42.4089072,
+          -0.5385254
+        ],
+        [
+          42.4094129,
+          -0.5385914
+        ],
+        [
+          42.4103596,
+          -0.5392736
+        ],
+        [
+          42.4125222,
+          -0.5414349
+        ],
+        [
+          42.4131122,
+          -0.5418593
+        ],
+        [
+          42.4138438,
+          -0.5436437
+        ],
+        [
+          42.4149922,
+          -0.5495356
+        ],
+        [
+          42.4154238,
+          -0.550769
+        ],
+        [
+          42.4162561,
+          -0.5524229
+        ],
+        [
+          42.417718,
+          -0.5546721
+        ],
+        [
+          42.4177409,
+          -0.5549006
+        ],
+        [
+          42.4174933,
+          -0.5557481
+        ],
+        [
+          42.4176032,
+          -0.5566789
+        ],
+        [
+          42.4179415,
+          -0.5573425
+        ],
+        [
+          42.4181775,
+          -0.5582738
+        ],
+        [
+          42.4186309,
+          -0.5590538
+        ],
+        [
+          42.4188008,
+          -0.5596321
+        ],
+        [
+          42.4193134,
+          -0.560232
+        ],
+        [
+          42.4194034,
+          -0.5602285
+        ],
+        [
+          42.4195248,
+          -0.5595873
+        ],
+        [
+          42.4198484,
+          -0.5591387
+        ],
+        [
+          42.4205663,
+          -0.5588062
+        ],
+        [
+          42.4208899,
+          -0.5587822
+        ],
+        [
+          42.4229117,
+          -0.5604768
+        ],
+        [
+          42.4242676,
+          -0.5624093
+        ],
+        [
+          42.4248262,
+          -0.5636897
+        ],
+        [
+          42.4249122,
+          -0.5641338
+        ],
+        [
+          42.4249938,
+          -0.5660694
+        ],
+        [
+          42.4253236,
+          -0.5676056
+        ],
+        [
+          42.4259432,
+          -0.5679433
+        ],
+        [
+          42.4267098,
+          -0.5677875
+        ],
+        [
+          42.4269322,
+          -0.5678708
+        ],
+        [
+          42.4273792,
+          -0.5685646
+        ],
+        [
+          42.4279344,
+          -0.5699031
+        ],
+        [
+          42.4285137,
+          -0.5704657
+        ],
+        [
+          42.4291058,
+          -0.5743964
+        ],
+        [
+          42.4296545,
+          -0.5754305
+        ],
+        [
+          42.4292741,
+          -0.5766038
+        ],
+        [
+          42.4294825,
+          -0.5779443
+        ],
+        [
+          42.430268,
+          -0.5803809
+        ],
+        [
+          42.4311725,
+          -0.5818497
+        ],
+        [
+          42.4319179,
+          -0.5838868
+        ],
+        [
+          42.4316028,
+          -0.5849603
+        ],
+        [
+          42.4317308,
+          -0.5869749
+        ],
+        [
+          42.4310818,
+          -0.5880095
+        ],
+        [
+          42.4310137,
+          -0.588414
+        ],
+        [
+          42.4315263,
+          -0.5988821
+        ],
+        [
+          42.4317314,
+          -0.6013648
+        ],
+        [
+          42.4321185,
+          -0.603725
+        ],
+        [
+          42.4320001,
+          -0.604952
+        ],
+        [
+          42.432135,
+          -0.6062377
+        ],
+        [
+          42.4313742,
+          -0.6090436
+        ],
+        [
+          42.4310698,
+          -0.6095597
+        ],
+        [
+          42.4310419,
+          -0.6099513
+        ],
+        [
+          42.4311222,
+          -0.6105621
+        ],
+        [
+          42.4317162,
+          -0.6118418
+        ],
+        [
+          42.4319598,
+          -0.6127275
+        ],
+        [
+          42.4319261,
+          -0.6134863
+        ],
+        [
+          42.4321059,
+          -0.6145523
+        ],
+        [
+          42.4320643,
+          -0.614933
+        ]
+      ],
+      "trazado_aproximado": true,
+      "trazado_metodo": "pk_oficiales",
+      "trazado_pk_referencia": {
+        "inicio": 15.0,
+        "fin": 23.0
+      },
+      "trazado_fuente": {
+        "nombre": "ICEARAGON — eje viario · CartoCiudad/IGN — puntos kilométricos",
+        "url": "https://www.cartociudad.es/web/portal/directorio-de-servicios/geoprocesamiento",
+        "catalogo": "https://opendata.aragon.es/ckan/dataset/carreteras"
+      }
     },
     {
       "carretera": "HF-0262-BA",
@@ -3634,7 +4393,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Áscara – Atarés",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-17T18:00:00+02:00",
+      "fecha_hora": "2026-08-17T18:10:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -3643,8 +4402,184 @@
         42.5275,
         -0.6305
       ],
-      "ubicacion_aproximada": true
+      "ubicacion_aproximada": true,
+      "trazado": [
+        [
+          42.5323642,
+          -0.6249147
+        ],
+        [
+          42.5325638,
+          -0.6252032
+        ],
+        [
+          42.5325893,
+          -0.6255637
+        ],
+        [
+          42.5327022,
+          -0.6257976
+        ],
+        [
+          42.5332524,
+          -0.6267112
+        ],
+        [
+          42.5332721,
+          -0.6276632
+        ],
+        [
+          42.5331793,
+          -0.6283988
+        ],
+        [
+          42.5336106,
+          -0.630527
+        ],
+        [
+          42.5335902,
+          -0.6315026
+        ],
+        [
+          42.5337158,
+          -0.631695
+        ],
+        [
+          42.5339357,
+          -0.6325329
+        ],
+        [
+          42.534674,
+          -0.6331792
+        ],
+        [
+          42.5359794,
+          -0.6340363
+        ],
+        [
+          42.5370064,
+          -0.6344922
+        ],
+        [
+          42.5390797,
+          -0.6363386
+        ],
+        [
+          42.5403667,
+          -0.6378289
+        ],
+        [
+          42.5409606,
+          -0.6382442
+        ],
+        [
+          42.5416215,
+          -0.6384163
+        ],
+        [
+          42.5418745,
+          -0.6386785
+        ],
+        [
+          42.5422669,
+          -0.6393647
+        ],
+        [
+          42.5424939,
+          -0.6394551
+        ],
+        [
+          42.5435642,
+          -0.6391757
+        ],
+        [
+          42.5442188,
+          -0.6392576
+        ],
+        [
+          42.5447458,
+          -0.6388336
+        ],
+        [
+          42.5468427,
+          -0.6381129
+        ],
+        [
+          42.5475815,
+          -0.6381337
+        ],
+        [
+          42.5488764,
+          -0.6389168
+        ],
+        [
+          42.5498965,
+          -0.6390428
+        ],
+        [
+          42.5511238,
+          -0.6398209
+        ],
+        [
+          42.5531295,
+          -0.6383918
+        ],
+        [
+          42.5533269,
+          -0.6379223
+        ],
+        [
+          42.5534274,
+          -0.6375561
+        ],
+        [
+          42.5534344,
+          -0.636806
+        ],
+        [
+          42.5529478,
+          -0.6348269
+        ],
+        [
+          42.5529751,
+          -0.6346196
+        ],
+        [
+          42.5538243,
+          -0.633228
+        ],
+        [
+          42.5541642,
+          -0.6328961
+        ],
+        [
+          42.5552304,
+          -0.6324181
+        ],
+        [
+          42.5555517,
+          -0.6329312
+        ],
+        [
+          42.5558219,
+          -0.6331516
+        ],
+        [
+          42.5561827,
+          -0.6331829
+        ]
+      ],
+      "trazado_aproximado": true,
+      "trazado_metodo": "eje_oficial_completo",
+      "trazado_pk_referencia": {
+        "inicio": 0.0,
+        "fin": 4.0
+      },
+      "trazado_fuente": {
+        "nombre": "ICEARAGON — eje viario oficial completo",
+        "url": "https://opendata.aragon.es/ckan/dataset/carreteras"
+      }
     }
   ],
-  "nota_edicion": "Relación contrastada con el cuadro vigente de carreteras cortadas por incendio de DGT. Los trazados se dibujan únicamente cuando ICEARAGON permite enlazar el eje oficial con puntos kilométricos georreferenciados; son aproximaciones cartográficas entre esos PK. Cuando no existe esa correspondencia se conserva un marcador orientativo. Verificar de nuevo en DGT o 011 antes de desplazarse."
+  "nota_edicion": "Relación contrastada con el cuadro vigente de carreteras cortadas por incendio de DGT. Los trazados enlazan el eje oficial de ICEARAGON con hitos kilométricos oficiales de ICEARAGON o CartoCiudad/IGN; son aproximaciones cartográficas entre esos PK. Cuando no existe correspondencia suficiente se conserva un marcador y se explica el motivo. Verificar de nuevo en DGT o 011 antes de desplazarse."
 }

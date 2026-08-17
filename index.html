@@ -14,17 +14,22 @@
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin>
   <link rel="stylesheet" href="css/leaflet.css?v=1.9.4-local">
-  <link rel="stylesheet" href="css/style.css?v=20260817-road-lines">
+  <link rel="stylesheet" href="css/style.css?v=20260817-official-roads-cecopi">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
-  <script src="js/charts.js?v=20260817-continuous-surface" defer></script>
-  <script src="js/map.js?v=20260817-road-lines" defer></script>
-  <script src="js/app.js?v=20260817-summary-tooltips" defer></script>
+  <script src="js/charts.js?v=20260817-continuous-official" defer></script>
+  <script src="js/map.js?v=20260817-official-roads-cecopi" defer></script>
+  <script src="js/app.js?v=20260817-official-roads-cecopi" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
 
   <header class="site-header">
     <div class="header-inner">
+      <a id="cecopi-report" class="cecopi-report" href="#" target="_blank" rel="noopener noreferrer" hidden>
+        <span>Último informe oficial de CECOPI</span>
+        <strong id="cecopi-report-date">Cargando fecha…</strong>
+        <small>Leer el informe <span aria-hidden="true">↗</span></small>
+      </a>
       <div class="eyebrow"><span class="signal-dot" aria-hidden="true"></span> Panel ciudadano · Huesca</div>
       <h1>Incendio de Las Peñas de Riglos</h1>
       <p class="lede">Información pública reunida para facilitar su consulta. Este panel no pertenece a ningún organismo público.</p>
@@ -87,7 +92,8 @@
       <div class="map-notes">
         <p><strong>Perímetro:</strong> <span id="perimeter-note">No hay un GeoJSON oficial incorporado.</span></p>
         <p id="perimeter-history"><strong>Últimas cifras explícitas:</strong> cargando referencias fechadas…</p>
-        <p><strong>Capas:</strong> el perímetro operativo oficial, el área quemada estimada y los focos térmicos son productos distintos. Las líneas de carretera siguen el eje oficial entre PK georreferenciados disponibles; los cortes sin correspondencia suficiente conservan un marcador orientativo.</p>
+        <p><strong>Capas:</strong> el perímetro operativo oficial, el área quemada estimada y los focos térmicos son productos distintos. Las líneas de carretera siguen ejes y PK de servicios cartográficos oficiales.</p>
+        <p><strong>Carreteras:</strong> <span id="road-map-note">Cargando disponibilidad de los trazados…</span></p>
         <p><strong>Seguridad informativa:</strong> este mapa no muestra ubicaciones de equipos, maquinaria, UME, rutas de ataque, maniobras ni posiciones de voluntariado.</p>
       </div>
     </section>
@@ -131,7 +137,7 @@
         <button type="button" role="tab" aria-selected="false" aria-controls="chart-panel" data-chart="precipitacion_mm">Precipitación</button>
       </div>
       <div id="chart-panel" class="chart-panel" role="tabpanel"><div id="evolution-chart" class="chart" aria-live="polite"></div></div>
-      <p id="chart-note" class="fine-print">Los puntos ausentes permanecen sin dibujar. El panel no interpola ni une tramos cuando falta un porcentaje publicado de perímetro consolidado.</p>
+      <p id="chart-note" class="fine-print">La línea une las cifras oficiales fechadas disponibles y no inventa valores intermedios.</p>
     </section>
 
     <section id="cronologia" class="section" aria-labelledby="timeline-title">
@@ -152,7 +158,7 @@
   </main>
 
   <footer>
-    <div class="footer-inner"><div><strong>Panel ciudadano · Las Peñas de Riglos</strong><p>Proyecto estático, abierto y sin finalidad operativa.</p></div><div><a href="#contenido">Volver arriba ↑</a><a href="README.md">Documentación</a></div></div>
+    <div class="footer-inner"><div><strong>Panel ciudadano · Las Peñas de Riglos</strong><p>Proyecto estático, abierto y sin finalidad operativa.</p><p class="legal-note">Aunque se aplican controles automáticos para reducir errores involuntarios, este panel puede contener omisiones, retrasos o inexactitudes. La información y las instrucciones publicadas por los organismos oficiales competentes prevalecen siempre sobre este sitio.</p></div><div><a href="#contenido">Volver arriba ↑</a><a href="README.md">Documentación</a></div></div>
   </footer>
   <noscript><div class="noscript">Este panel necesita JavaScript para cargar los archivos de datos locales. Los enlaces oficiales siguen disponibles en el código fuente y el README.</div></noscript>
 </body>
