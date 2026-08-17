@@ -2,6 +2,8 @@
 
 Web pública estática para reunir información oficial sobre el incendio forestal de Las Peñas de Riglos (Huesca). El panel prioriza claridad, trazabilidad, privacidad y seguridad informativa.
 
+Web publicada: <https://custoscivis.org/>
+
 > **No es una herramienta oficial de emergencias.** No sustituye los avisos de 112 Aragón, Protección Civil, CECOPI ni de ninguna autoridad. En caso de discrepancia, prevalecen siempre las instrucciones oficiales. Ante una emergencia, llama al 112.
 
 Los datos incorporados enlazan su fuente y conservan su fecha de publicación. Los campos que el último parte no cuantifica —como el porcentaje de perímetro consolidado— permanecen vacíos aunque otras fuentes utilicen expresiones cualitativas.
@@ -200,6 +202,10 @@ git push -u origin main
 ```
 
 Después activa Pages con los pasos 3–6 anteriores. No hace falta una acción de compilación: el sitio se sirve tal cual.
+
+### Dominio público de este proyecto
+
+El dominio canónico es `custoscivis.org`, declarado en el archivo `CNAME`. El dominio raíz apunta a las direcciones oficiales de GitHub Pages y `www.custoscivis.org` apunta a `custos-civis.github.io`; GitHub redirige automáticamente `www` al dominio canónico. HTTPS debe permanecer forzado en la configuración de Pages.
 
 ## Lista de comprobación antes de publicar
 
