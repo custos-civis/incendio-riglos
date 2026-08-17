@@ -1,5 +1,5 @@
 {
-  "ultima_revision": "2026-08-17T23:00:00+02:00",
+  "ultima_revision": "2026-08-18T00:00:00+02:00",
   "prevision": {
     "temperatura_maxima_c": {
       "value": 36,
@@ -119,25 +119,25 @@
       "value": 0
     },
     "racha_actual_kmh": {
-      "value": 18
+      "value": 9
     },
     "racha_maxima_desde_00_kmh": {
-      "value": 37
+      "value": 9
     },
     "humedad_relativa_pct": {
-      "value": 43
+      "value": 51
     },
     "temperatura_c": {
-      "value": 23.1
+      "value": 22
     },
     "viento_kmh": {
-      "value": 4
+      "value": 5
     },
     "direccion": {
-      "value": "Oeste"
+      "value": "Sur"
     },
     "meta": {
-      "fecha_hora": "2026-08-17T23:00:00+02:00",
+      "fecha_hora": "2026-08-18T00:00:00+02:00",
       "fiabilidad": "oficial",
       "estacion": {
         "idema": "9211F",
@@ -358,6 +358,30 @@
     },
     {
       "fecha": "2026-08-17",
+      "idema": "9201X",
+      "estacion": "Jaca",
+      "precipitacion_mm": 0,
+      "estado": "Día en curso",
+      "completo": false,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Jaca",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9201X&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-18",
+      "idema": "9211F",
+      "estacion": "Bailo, Puyalto",
+      "precipitacion_mm": 0,
+      "estado": "Día en curso",
+      "completo": false,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Bailo, Puyalto",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9211F&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-18",
       "idema": "9201X",
       "estacion": "Jaca",
       "precipitacion_mm": 0,
