@@ -1,5 +1,5 @@
 {
-  "ultima_revision": "2026-08-18T00:40:00+02:00",
+  "ultima_revision": "2026-08-18T02:00:00+02:00",
   "registros": [
     {
       "carretera": "A-1205",
@@ -9,7 +9,7 @@
       "sentido": "Sentido creciente de la kilometración",
       "localizacion": "Jaca – Santa María",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-18T00:40:00+02:00",
+      "fecha_hora": "2026-08-18T02:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -29,7 +29,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Murillo de Gállego – Puente la Reina de Jaca",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-18T00:40:00+02:00",
+      "fecha_hora": "2026-08-18T02:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -49,7 +49,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Abay – Puente la Reina de Jaca",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-18T00:40:00+02:00",
+      "fecha_hora": "2026-08-18T02:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -69,7 +69,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Bernués – Botaya",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-18T00:40:00+02:00",
+      "fecha_hora": "2026-08-18T02:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -89,7 +89,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Bailo",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-18T00:40:00+02:00",
+      "fecha_hora": "2026-08-18T02:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -109,7 +109,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Yeste – Rasal",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-18T00:40:00+02:00",
+      "fecha_hora": "2026-08-18T02:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -129,7 +129,7 @@
       "sentido": "Sentido creciente de la kilometración",
       "localizacion": "Javierrelatre – Osia",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-18T00:40:00+02:00",
+      "fecha_hora": "2026-08-18T02:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -149,7 +149,7 @@
       "sentido": "Ambos sentidos",
       "localizacion": "Áscara – Atarés",
       "estado": "Cortada",
-      "fecha_hora": "2026-08-18T00:40:00+02:00",
+      "fecha_hora": "2026-08-18T02:00:00+02:00",
       "fuente": {
         "nombre": "DGT — carreteras cortadas por incendio",
         "url": "https://www.dgt.es/estaticos/movilidad/CarreterasCortadasIncendios.pdf?origen=app"
@@ -159,7 +159,7 @@
         -0.6305
       ],
       "ubicacion_aproximada": true,
-      "trazado_no_disponible": "No hay correspondencia cartográfica oficial suficiente: No se pudo consultar https://idearagon.aragon.es/Visor2D?service=WFS&version=1.0.0&request=GetFeature&typeName=VISOR2D%3ARedCarCod&outputFormat=application%2Fjson&srsName=EPSG%3A4326&CQL_FILTER=codigo%3D%27HF0262BA%27: <urlopen error _ssl.c:993: The handshake operation timed out>."
+      "trazado_no_disponible": "No hay correspondencia cartográfica oficial suficiente: No se pudo consultar https://idearagon.aragon.es/Visor2D?service=WFS&version=1.0.0&request=GetFeature&typeName=VISOR2D%3ARedCarCod&outputFormat=application%2Fjson&srsName=EPSG%3A4326&CQL_FILTER=codigo%3D%27HF0262BA%27: <urlopen error [Errno 111] Connection refused>."
     }
   ],
   "nota_edicion": "Relación contrastada con el cuadro vigente de carreteras cortadas por incendio de DGT. Los trazados enlazan el eje oficial de ICEARAGON con hitos kilométricos oficiales de ICEARAGON o CartoCiudad/IGN; son aproximaciones cartográficas entre esos PK. Cuando no existe correspondencia suficiente se conserva un marcador y se explica el motivo. Verificar de nuevo en DGT o 011 antes de desplazarse."
