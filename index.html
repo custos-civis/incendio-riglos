@@ -14,7 +14,7 @@
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin>
   <link rel="stylesheet" href="css/leaflet.css?v=1.9.4-local">
-  <link rel="stylesheet" href="css/style.css?v=20260817-resources-status">
+  <link rel="stylesheet" href="css/style.css?v=20260818-satellite-comparison">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
   <script src="js/charts.js?v=20260817-evolution-fix" defer></script>
   <script src="js/map.js?v=20260817-official-roads-cecopi" defer></script>
@@ -55,7 +55,7 @@
 
   <nav class="section-nav" aria-label="Secciones del panel">
     <div class="nav-inner">
-      <a href="#resumen">Resumen</a><a href="#mapa">Mapa</a><a href="#evacuaciones">Evacuaciones</a><a href="#carreteras">Carreteras</a><a href="#meteo">Meteorología</a><a href="#evolucion">Evolución</a><a href="#cronologia">Cronología</a><a href="#fuentes">Fuentes</a>
+      <a href="#resumen">Resumen</a><a href="#mapa">Mapa</a><a href="#comparativa-satelite">Satélite</a><a href="#evacuaciones">Evacuaciones</a><a href="#carreteras">Carreteras</a><a href="#meteo">Meteorología</a><a href="#evolucion">Evolución</a><a href="#cronologia">Cronología</a><a href="#fuentes">Fuentes</a>
     </div>
   </nav>
 
@@ -96,6 +96,39 @@
         <p><strong>Capas:</strong> el perímetro operativo oficial, el área quemada estimada y los focos térmicos son productos distintos. Las líneas de carretera siguen ejes y PK de servicios cartográficos oficiales.</p>
         <p><strong>Carreteras:</strong> <span id="road-map-note">Cargando disponibilidad de los trazados…</span></p>
         <p><strong>Seguridad informativa:</strong> este mapa no muestra ubicaciones de equipos, maquinaria, UME, rutas de ataque, maniobras ni posiciones de voluntariado.</p>
+      </div>
+    </section>
+
+    <section id="comparativa-satelite" class="section satellite-section" aria-labelledby="satellite-title">
+      <div class="section-heading">
+        <div><p class="section-kicker">Observación de la superficie</p><h2 id="satellite-title">Comparativa satelital</h2></div>
+        <p class="section-intro">Dos pasadas de Sentinel-2 con el mismo encuadre permiten comparar visualmente el terreno antes y después del inicio del incendio.</p>
+      </div>
+      <div class="satellite-grid">
+        <figure class="satellite-card">
+          <a class="satellite-image-link" href="https://browser.dataspace.copernicus.eu/?zoom=11&amp;lat=42.47&amp;lng=-0.69&amp;themeId=DEFAULT-THEME&amp;visualizationUrl=U2FsdGVkX19izIc4ew4Rmt01RWWYLRBKZy3ZeMBR%2BBi8u3PDOwe2kX8I8WSF2G0c9nxW0efw74OreSOGvFyyAWbYLgl5cS8qxzdJcCK0lQXoGiOyiy4Xx2sLJKPImEUx&amp;datasetId=S2_L2A_CDAS&amp;fromTime=2026-08-07T00%3A00%3A00.000Z&amp;toTime=2026-08-07T23%3A59%3A59.999Z&amp;layerId=1_TRUE_COLOR&amp;demSource3D=%22MAPZEN%22&amp;cloudCoverage=60&amp;dateMode=SINGLE" target="_blank" rel="noopener noreferrer" aria-label="Abrir en Copernicus Browser la imagen anterior al incendio, del 7 de agosto de 2026">
+            <img src="assets/satellite/sentinel-2-antes-2026-08-07.jpg" width="1180" height="600" loading="lazy" decoding="async" alt="Vista satelital de la zona de Las Peñas de Riglos y la Jacetania el 7 de agosto de 2026, antes del incendio">
+            <span class="satellite-open" aria-hidden="true">Abrir visor oficial ↗</span>
+          </a>
+          <figcaption>
+            <span class="satellite-tag before">Antes del inicio</span>
+            <div><strong>7 ago 2026</strong><small>Sentinel-2 L2A · color natural · cielo prácticamente despejado</small></div>
+          </figcaption>
+        </figure>
+        <figure class="satellite-card">
+          <a class="satellite-image-link" href="https://browser.dataspace.copernicus.eu/?zoom=11&amp;lat=42.47007&amp;lng=-0.69008&amp;themeId=DEFAULT-THEME&amp;visualizationUrl=U2FsdGVkX18fD6aDZ8kfJrFbeUQ3NvLDOArEIcP58aj3vM2zP2VA66yG5vP%2BiwNtXTTNPhwly2HiXNqLnto%2FryJYJ4iwyffMA3emMVkOMR63qZdZ75%2BPJJGq2tEeBtQW&amp;datasetId=S2_L2A_CDAS&amp;fromTime=2026-08-17T00%3A00%3A00.000Z&amp;toTime=2026-08-17T23%3A59%3A59.999Z&amp;layerId=1_TRUE_COLOR&amp;demSource3D=%22MAPZEN%22&amp;cloudCoverage=60&amp;dateMode=SINGLE" target="_blank" rel="noopener noreferrer" aria-label="Abrir en Copernicus Browser la imagen posterior al inicio del incendio, del 17 de agosto de 2026">
+            <img src="assets/satellite/sentinel-2-despues-2026-08-17.jpg" width="1180" height="600" loading="lazy" decoding="async" alt="Vista satelital de la zona de Las Peñas de Riglos y la Jacetania el 17 de agosto de 2026, con la huella oscura del incendio visible">
+            <span class="satellite-open" aria-hidden="true">Abrir visor oficial ↗</span>
+          </a>
+          <figcaption>
+            <span class="satellite-tag after">Posterior al inicio</span>
+            <div><strong>17 ago 2026</strong><small>Sentinel-2 L2A · color natural · nubosidad parcial al sur</small></div>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="satellite-notes" role="note">
+        <p><strong>Cómo interpretar las imágenes:</strong> la zona oscura visible en la segunda pasada permite apreciar el cambio de la cubierta terrestre, pero no sustituye al perímetro operativo ni constituye una medición oficial de superficie.</p>
+        <p><strong>Fuente:</strong> <a href="https://dataspace.copernicus.eu/" target="_blank" rel="noopener noreferrer">Copernicus Data Space Ecosystem / Sentinel Hub</a>. Contiene datos Sentinel de Copernicus modificados de 2026. Cartografía superpuesta © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">colaboradores de OpenStreetMap</a>.</p>
       </div>
     </section>
 

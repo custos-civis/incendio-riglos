@@ -148,6 +148,26 @@ h3 { font-size: 1.18rem; }
 .leaflet-popup-content small { color: #536b6f; }
 .leaflet-popup-content a { color: #0e6670; font-weight: 700; }
 
+.satellite-section { width: min(1320px, calc(100% - 40px)); }
+.satellite-section .section-intro { text-align: right; }
+.satellite-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.satellite-card { min-width: 0; margin: 0; overflow: hidden; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+.satellite-image-link { position: relative; display: block; overflow: hidden; background: #dfe8e4; }
+.satellite-image-link::after { content: ""; position: absolute; inset: 0; border: 0 solid rgba(255,255,255,.72); transition: border-width .2s ease; pointer-events: none; }
+.satellite-image-link:hover::after, .satellite-image-link:focus-visible::after { border-width: 5px; }
+.satellite-image-link img { display: block; width: 100%; height: auto; aspect-ratio: 59 / 30; object-fit: cover; transition: transform .25s ease; }
+.satellite-image-link:hover img { transform: scale(1.015); }
+.satellite-open { position: absolute; right: 12px; bottom: 12px; padding: 7px 10px; color: #fff; background: rgba(13,48,54,.88); border: 1px solid rgba(255,255,255,.45); border-radius: 999px; font-size: .7rem; font-weight: 800; box-shadow: 0 3px 12px rgba(0,0,0,.22); }
+.satellite-card figcaption { display: flex; gap: 13px; align-items: center; padding: 16px 18px 18px; }
+.satellite-card figcaption > div { display: grid; min-width: 0; }
+.satellite-card figcaption strong { color: var(--teal-950); font-family: Georgia, Cambria, serif; font-size: 1.25rem; line-height: 1.15; }
+.satellite-card figcaption small { margin-top: 3px; color: var(--muted); font-size: .73rem; }
+.satellite-tag { flex: 0 0 auto; padding: 5px 8px; border-radius: 999px; font-size: .66rem; font-weight: 850; letter-spacing: .035em; text-transform: uppercase; }
+.satellite-tag.before { color: var(--green); background: var(--green-bg); }
+.satellite-tag.after { color: #7c4903; background: var(--amber-bg); }
+.satellite-notes { display: grid; grid-template-columns: 1.25fr 1fr; gap: 18px 28px; margin-top: 16px; padding: 17px 20px; color: var(--muted); background: #f0f3f0; border: 1px solid var(--line); border-radius: 12px; font-size: .78rem; }
+.satellite-notes p { margin: 0; }
+
 .table-wrap { overflow-x: auto; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
 table { width: 100%; border-collapse: collapse; }
 th, td { padding: 17px 20px; text-align: left; border-bottom: 1px solid var(--line); }
@@ -263,6 +283,7 @@ footer { color: #c6d8d9; background: #09262b; }
   .sources-grid { grid-template-columns: repeat(3, 1fr); }
   .rain-record { grid-template-columns: 1fr 1fr; }
   .resources-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .satellite-card figcaption { align-items: flex-start; flex-direction: column; }
 }
 
 @media (max-width: 680px) {
@@ -286,6 +307,9 @@ footer { color: #c6d8d9; background: #09262b; }
   .map-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .map-summary > div { padding: 8px 10px; }
   #map { height: 560px; }
+  .satellite-section .section-intro { text-align: left; }
+  .satellite-grid, .satellite-notes { grid-template-columns: 1fr; }
+  .satellite-card figcaption { flex-direction: row; }
   .weather-warning { display: block; }
   .weather-warning p { margin-top: 5px; }
   .rain-heading { align-items: start; }
@@ -303,6 +327,7 @@ footer { color: #c6d8d9; background: #09262b; }
   .evacuation-brief { grid-template-columns: 1fr 1fr; }
   .sources-grid { grid-template-columns: 1fr; }
   .source-card { min-height: 110px; }
+  .satellite-card figcaption { align-items: flex-start; flex-direction: column; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -316,5 +341,5 @@ footer { color: #c6d8d9; background: #09262b; }
   .site-header, .sources-section { color: black; background: white; }
   .site-header *, .sources-section * { color: black !important; }
   .section { padding: 30px 0; break-inside: avoid; }
-  .metric-card, .panel, .road-card, .table-wrap { box-shadow: none; }
+  .metric-card, .panel, .road-card, .table-wrap, .satellite-card { box-shadow: none; }
 }
