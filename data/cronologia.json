@@ -1,6 +1,16 @@
 {
-  "ultima_revision": "2026-08-17T20:51:25+02:00",
+  "ultima_revision": "2026-08-18T09:26:45+02:00",
   "eventos": [
+    {
+      "fecha_hora": "2026-08-18T09:26:45+02:00",
+      "categoria": "Situación general",
+      "descripcion": "El operativo del incendio forestal de Las Peñas de Riglos sigue avanzando para su estabilización. El parte comunica 17500 hectáreas provisionales, 19 núcleos evacuados, 1046 personas evacuadas.",
+      "fiabilidad": "provisional",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127"
+      }
+    },
     {
       "fecha_hora": "2026-08-17T20:51:25+02:00",
       "categoria": "Situación general",
@@ -247,6 +257,12 @@
           "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
         }
       }
+    },
+    {
+      "fecha": "2026-08-18T09:26:45+02:00",
+      "superficie_ha": 17500,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
     }
   ],
   "nota_edicion": "Las superficies, los porcentajes y las longitudes son cifras explícitas publicadas por fuentes oficiales. La línea une los puntos oficiales disponibles sin inventar valores intermedios; una cifra difundida únicamente por medios de comunicación no se incorpora."

@@ -1,25 +1,25 @@
 {
-  "ultima_comprobacion_panel": "2026-08-18T09:24:58+02:00",
-  "ultima_actualizacion_oficial": "2026-08-17T20:51:25+02:00",
+  "ultima_comprobacion_panel": "2026-08-18T10:16:06+02:00",
+  "ultima_actualizacion_oficial": "2026-08-18T09:26:45+02:00",
   "estado": {
     "value": "Activo",
     "meta": {
-      "fecha_hora": "2026-08-17T20:51:25+02:00",
+      "fecha_hora": "2026-08-18T09:26:45+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127"
       }
     }
   },
   "superficie_ha": {
     "value": 17500,
     "meta": {
-      "fecha_hora": "2026-08-17T20:51:25+02:00",
+      "fecha_hora": "2026-08-18T09:26:45+02:00",
       "fiabilidad": "provisional",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127"
       }
     }
   },
@@ -43,8 +43,8 @@
     "value": 100,
     "meta": {
       "fecha_hora": "2026-08-17T20:51:25+02:00",
-      "fiabilidad": "provisional",
-      "vigencia": "Perímetro aproximado publicado en el último parte oficial.",
+      "fiabilidad": "historico",
+      "vigencia": "Última longitud explícita localizada en una publicación oficial; puede no ser el valor vigente.",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
@@ -54,35 +54,35 @@
   "nucleos_evacuados": {
     "value": 19,
     "meta": {
-      "fecha_hora": "2026-08-17T20:51:25+02:00",
+      "fecha_hora": "2026-08-18T09:26:45+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127"
       }
     }
   },
   "personas_evacuadas": {
     "value": 1046,
     "meta": {
-      "fecha_hora": "2026-08-17T20:51:25+02:00",
+      "fecha_hora": "2026-08-18T09:26:45+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127"
       }
     }
   },
   "nota_edicion": "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización.",
   "ultimo_informe_cecopi": {
-    "titulo": "El incendio de Las Peñas de Riglos evoluciona favorablemente y el Gobierno de Aragón trabaja para acelerar la vuelta de los desalojados a sus casas",
-    "fecha_hora": "2026-08-17T20:51:25+02:00",
-    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124",
+    "titulo": "El operativo del incendio forestal de Las Peñas de Riglos sigue avanzando para su estabilización",
+    "fecha_hora": "2026-08-18T09:26:45+02:00",
+    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127",
     "fuente": "Gobierno de Aragón / Aragón Hoy"
   },
   "efectivos_desplegados": {
-    "personal_jornada_aprox": 1000,
-    "medios_aereos_jornada": 42,
+    "personal_jornada_aprox": null,
+    "medios_aereos_jornada": 30,
     "resumen_contexto": "Durante la jornada indicada en el parte oficial",
     "desglose_contexto": "Dispositivo nocturno",
     "grupos": [
@@ -95,7 +95,7 @@
           },
           {
             "concepto": "autobombas",
-            "cantidad": 11
+            "cantidad": 12
           },
           {
             "concepto": "bulldóceres",
@@ -111,52 +111,15 @@
         ]
       },
       {
-        "organismo": "Bomberos de Huesca y Zaragoza",
-        "medios": [
-          {
-            "concepto": "autobomba del Ayuntamiento de Huesca",
-            "cantidad": 1
-          },
-          {
-            "concepto": "nodriza del Ayuntamiento de Huesca",
-            "cantidad": 1
-          },
-          {
-            "concepto": "autobombas de la Diputación de Huesca",
-            "cantidad": 5
-          },
-          {
-            "concepto": "nodrizas de la Diputación de Huesca",
-            "cantidad": 2
-          },
-          {
-            "concepto": "autobomba del Ayuntamiento de Zaragoza",
-            "cantidad": 1
-          },
-          {
-            "concepto": "nodriza del Ayuntamiento de Zaragoza",
-            "cantidad": 1
-          },
-          {
-            "concepto": "autobombas de la Diputación de Zaragoza",
-            "cantidad": 3
-          },
-          {
-            "concepto": "nodriza de la Diputación de Zaragoza",
-            "cantidad": 1
-          }
-        ]
-      },
-      {
         "organismo": "Ministerio para la Transición Ecológica",
         "medios": [
           {
             "concepto": "BRIF",
-            "cantidad": 1
+            "cantidad": 2
           },
           {
             "concepto": "helicópteros",
-            "cantidad": 6
+            "cantidad": 4
           }
         ]
       },
@@ -164,20 +127,12 @@
         "organismo": "UME y Ejército de Tierra",
         "medios": [
           {
-            "concepto": "secciones de la UME",
-            "cantidad": 4
-          },
-          {
             "concepto": "efectivos de la UME",
             "cantidad": 160
           },
           {
             "concepto": "bulldóceres de la UME",
             "cantidad": 2
-          },
-          {
-            "concepto": "bulldóceres del Ejército de Tierra",
-            "cantidad": 3
           }
         ]
       },
@@ -258,7 +213,7 @@
           },
           {
             "concepto": "patrullas de la Guardia Civil",
-            "cantidad": 6
+            "cantidad": 7
           }
         ]
       },
@@ -299,11 +254,11 @@
       }
     ],
     "meta": {
-      "fecha_hora": "2026-08-17T20:51:25+02:00",
+      "fecha_hora": "2026-08-18T09:26:45+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127"
       }
     }
   }
