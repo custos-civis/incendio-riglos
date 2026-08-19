@@ -1,12 +1,12 @@
 {
-  "ultima_revision": "2026-08-19T11:50:56+02:00",
+  "ultima_revision": "2026-08-19T12:48:09+02:00",
   "fuentes": [
     {
       "id": "aragon-hoy-ultimo-parte",
       "nombre": "Gobierno de Aragón / Aragón Hoy — último parte",
       "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/vecinos-cinco-nucleos-afectados-incendio-penas-riglos-volver-hogares-106136",
       "tipo": "oficial",
-      "ultima_consulta": "2026-08-19T11:50:52+02:00",
+      "ultima_consulta": "2026-08-19T12:48:05+02:00",
       "alcance": "Estado, superficie, evacuaciones y carreteras"
     },
     {
@@ -14,7 +14,7 @@
       "nombre": "Aragón Hoy — histórico de partes de Las Peñas de Riglos",
       "url": "https://www.aragonhoy.es/search/?q=penas-de-riglos",
       "tipo": "oficial",
-      "ultima_consulta": "2026-08-19T11:50:52+02:00",
+      "ultima_consulta": "2026-08-19T12:48:05+02:00",
       "alcance": "Cronología oficial"
     },
     {
@@ -22,7 +22,7 @@
       "nombre": "AEMET — Las Peñas de Riglos",
       "url": "https://www.aemet.es/es/eltiempo/prediccion/municipios/penas-de-riglos-las-id22173",
       "tipo": "oficial",
-      "ultima_consulta": "2026-08-19T11:50:55+02:00",
+      "ultima_consulta": "2026-08-19T12:48:07+02:00",
       "alcance": "Predicción horaria municipal, observación de Bailo-Puyalto y precipitación diaria registrada en Bailo-Puyalto y Jaca"
     },
     {
@@ -30,7 +30,7 @@
       "nombre": "ICEARAGON — perímetros de incendios forestales",
       "url": "https://idearagon.aragon.es/Visor2D?service=WFS&version=1.0.0&request=GetFeature&typeName=VISOR2D%3APerimetros_activos&outputFormat=application%2Fjson&srsName=EPSG%3A4326&CQL_FILTER=anio%3D2026",
       "tipo": "oficial",
-      "ultima_consulta": "2026-08-19T11:50:55+02:00",
+      "ultima_consulta": "2026-08-19T12:48:08+02:00",
       "alcance": "Perímetro oficial; sin registro de 2026 en la consulta realizada"
     },
     {
@@ -38,7 +38,7 @@
       "nombre": "EFFIS / Copernicus — área quemada satelital",
       "url": "https://forest-fire.emergency.copernicus.eu/apps/effis_current_situation/",
       "tipo": "oficial",
-      "ultima_consulta": "2026-08-19T11:50:56+02:00",
+      "ultima_consulta": "2026-08-19T12:48:09+02:00",
       "alcance": "Estimación satelital diaria; no equivale al perímetro operativo consolidado"
     },
     {
