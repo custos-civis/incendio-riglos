@@ -1,22 +1,22 @@
 {
-  "ultima_revision": "2026-08-19T22:00:00+02:00",
+  "ultima_revision": "2026-08-19T23:00:00+02:00",
   "prevision": {
     "temperatura_maxima_c": {
-      "value": 38,
-      "periodo": "17 h"
+      "value": 30,
+      "periodo": "21 h"
     },
     "temperatura_minima_c": {
       "value": 23,
       "periodo": "23 h"
     },
     "humedad_minima_pct": {
-      "value": 16
+      "value": 39
     },
     "humedad_maxima_pct": {
-      "value": 44
+      "value": 47
     },
     "viento_maximo_kmh": {
-      "value": 30,
+      "value": 28,
       "periodo": "22 h"
     },
     "direccion_viento_maximo": {
@@ -24,55 +24,35 @@
       "periodo": "22 h"
     },
     "racha_maxima_kmh": {
-      "value": 54,
-      "periodo": "22 h"
+      "value": 44,
+      "periodo": "21 h"
     },
     "prob_precipitacion_pct": {
-      "value": 35
+      "value": 75
     },
     "precipitacion_total_mm": {
       "value": 0
     },
     "prob_tormenta_pct": {
-      "value": 35
+      "value": 75
     },
     "cielo": {
-      "value": "Despejado"
+      "value": "Intervalos nubosos con lluvia escasa"
     },
     "horaria": [
       {
-        "hora": "17:00",
-        "temperatura_c": 38,
-        "humedad_pct": 16,
-        "viento_kmh": 12,
-        "direccion": "SO",
-        "racha_kmh": 28,
-        "precipitacion_mm": 0,
-        "cielo": "Despejado"
-      },
-      {
-        "hora": "20:00",
-        "temperatura_c": 33,
-        "humedad_pct": 19,
-        "viento_kmh": 10,
-        "direccion": "SE",
-        "racha_kmh": 44,
-        "precipitacion_mm": 0,
-        "cielo": "Cubierto"
-      },
-      {
         "hora": "23:00",
         "temperatura_c": 23,
-        "humedad_pct": 44,
-        "viento_kmh": 25,
-        "direccion": "N",
-        "racha_kmh": 42,
+        "humedad_pct": 47,
+        "viento_kmh": 27,
+        "direccion": "NE",
+        "racha_kmh": 41,
         "precipitacion_mm": 0,
-        "cielo": "Nuboso"
+        "cielo": "Intervalos nubosos con lluvia escasa"
       }
     ],
     "meta": {
-      "fecha_hora": "2026-08-19T19:19:10+02:00",
+      "fecha_hora": "2026-08-19T20:59:10+02:00",
       "periodo": "2026-08-19",
       "fiabilidad": "oficial",
       "fuente": {
@@ -83,22 +63,22 @@
   },
   "observacion": {
     "precipitacion_ultima_hora_mm": {
-      "value": 8.2
+      "value": 0.6
     },
     "precipitacion_desde_00_mm": {
-      "value": 8.2
+      "value": 8.799999999999999
     },
     "racha_actual_kmh": {
-      "value": 62
+      "value": 23
     },
     "racha_maxima_desde_00_kmh": {
       "value": 62
     },
     "humedad_relativa_pct": {
-      "value": 84
+      "value": 83
     },
     "temperatura_c": {
-      "value": 20.4
+      "value": 20.5
     },
     "viento_kmh": {
       "value": 4
@@ -107,7 +87,7 @@
       "value": "Oeste"
     },
     "meta": {
-      "fecha_hora": "2026-08-19T22:00:00+02:00",
+      "fecha_hora": "2026-08-19T23:00:00+02:00",
       "fiabilidad": "oficial",
       "estacion": {
         "idema": "9211F",
@@ -366,7 +346,7 @@
       "fecha": "2026-08-19",
       "idema": "9211F",
       "estacion": "Bailo, Puyalto",
-      "precipitacion_mm": 8.2,
+      "precipitacion_mm": 8.8,
       "estado": "Día en curso",
       "completo": false,
       "fuente": {
@@ -378,7 +358,7 @@
       "fecha": "2026-08-19",
       "idema": "9201X",
       "estacion": "Jaca",
-      "precipitacion_mm": 10.1,
+      "precipitacion_mm": 10.7,
       "estado": "Día en curso",
       "completo": false,
       "fuente": {
