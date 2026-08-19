@@ -1,6 +1,16 @@
 {
-  "ultima_revision": "2026-08-19T09:49:02+02:00",
+  "ultima_revision": "2026-08-19T20:46:44+02:00",
   "eventos": [
+    {
+      "fecha_hora": "2026-08-19T20:46:44+02:00",
+      "categoria": "Situación general",
+      "descripcion": "La evolución favorable del incendio de Las Peñas de Riglos permite la vuelta a casa de 583 vecinos de 13 núcleos y comenzar la desescalada de medios.",
+      "fiabilidad": "provisional",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/evolucion-favorable-incendio-penas-riglos-permite-vuelta-casa-583-vecinos-13-nucleos-comenzar-desescalada-medios-106142"
+      }
+    },
     {
       "fecha_hora": "2026-08-19T09:49:02+02:00",
       "categoria": "Situación general",
