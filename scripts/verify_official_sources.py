@@ -138,41 +138,75 @@ def verify_status_and_resources(state: dict) -> tuple[int | None, int | None]:
     deployment = state.get("efectivos_desplegados")
     if not deployment:
         return None, None
-    meta = deployment.get("meta") or {}
-    source_url = str((meta.get("fuente") or {}).get("url") or "")
-    raw = status_raw if source_url == status_url else fetch(source_url).decode("utf-8", errors="replace")
-    visible = clean_html(raw)
-    published = re.search(r'"datePublished"\s*:\s*"([^"]+)"', raw)
-    if not published or datetime.fromisoformat(published.group(1)).astimezone(TZ).isoformat() != meta.get("fecha_hora"):
-        raise RuntimeError("la fecha del despliegue no coincide con Aragón Hoy")
+
+    document_cache: dict[str, tuple[str, str]] = {status_url: (status_raw, status_visible)}
+
+    def official_document(meta: dict, context: str) -> tuple[str, str]:
+        source_url = str((meta.get("fuente") or {}).get("url") or "")
+        if urlparse(source_url).netloc not in {"aragonhoy.es", "www.aragonhoy.es"}:
+            raise RuntimeError(f"{context}: la fuente no es Aragón Hoy")
+        if source_url not in document_cache:
+            raw = fetch(source_url).decode("utf-8", errors="replace")
+            document_cache[source_url] = (raw, clean_html(raw))
+        raw, visible = document_cache[source_url]
+        published = re.search(r'"datePublished"\s*:\s*"([^"]+)"', raw)
+        if not published or datetime.fromisoformat(published.group(1)).astimezone(TZ).isoformat() != meta.get("fecha_hora"):
+            raise RuntimeError(f"{context}: la fecha no coincide con Aragón Hoy")
+        return raw, visible
+
+    fallback_meta = deployment.get("meta") or {}
     personnel = deployment.get("personal_jornada_aprox")
     aircraft = deployment.get("medios_aereos_jornada")
-    if personnel == 1_000:
-        personnel_found = re.search(r"(?:1[.\s]?000|un\s+millar)\s+de?\s*efectivos", visible, re.I)
-    else:
-        personnel_found = personnel is None or re.search(rf"{re.escape(str(personnel))}\s+efectivos", visible, re.I)
-    if not personnel_found:
-        raise RuntimeError("el total de efectivos no aparece en la publicación oficial")
-    if aircraft is not None and not re.search(rf"{re.escape(str(aircraft))}\s+medios\s+a.reos", visible, re.I):
-        raise RuntimeError("el total de medios aéreos no aparece en la publicación oficial")
-    for group in deployment.get("grupos", []):
-        name = group.get("organismo", "")
-        markers = {
-            "Operativo INFOAR": r"\bINFOAR\b",
-            "Bomberos de Huesca y Zaragoza": r"bomberos.{0,80}Huesca.{0,80}Zaragoza",
-            "Ministerio para la Transición Ecológica": r"Ministerio para la Transici.n Ecol.gica",
-            "UME y Ejército de Tierra": r"Unidad Militar de Emergencias.{0,120}Ej.rcito de Tierra",
-            "Cataluña": r"Catalu.a",
-            "Navarra": r"Navarra",
-            "Comunidad de Madrid": r"Madrid",
-            "Francia · Mecanismo Europeo de Protección Civil": r"Mecanismo Europeo de Protecci.n Civil.{0,80}Francia",
-            "Seguridad": r"grupo de seguridad",
-            "Sanitario y social": r"grupo sanitario y social",
-            "Protección Civil y logística": r"Protecci.n Civil y log.stica",
-        }
-        marker = markers.get(name)
-        if not marker or not re.search(marker, visible, re.I):
-            raise RuntimeError(f"el grupo operativo {name!r} no aparece en la publicación oficial")
+    if personnel is not None:
+        _raw, personnel_visible = official_document(
+            deployment.get("personal_jornada_meta") or fallback_meta,
+            "cifra de efectivos",
+        )
+        if personnel == 1_000:
+            personnel_found = re.search(r"(?:1[.\s]?000|un\s+millar)\s+de?\s*efectivos", personnel_visible, re.I)
+        else:
+            personnel_found = re.search(rf"{re.escape(str(personnel))}\s+efectivos", personnel_visible, re.I)
+        if not personnel_found:
+            raise RuntimeError("el total de efectivos no aparece en su publicación oficial")
+    if aircraft is not None:
+        _raw, aircraft_visible = official_document(
+            deployment.get("medios_aereos_meta") or fallback_meta,
+            "cifra de medios aéreos",
+        )
+        if not re.search(rf"{re.escape(str(aircraft))}\s+medios\s+a.reos", aircraft_visible, re.I):
+            raise RuntimeError("el total de medios aéreos no aparece en su publicación oficial")
+
+    groups = deployment.get("grupos", [])
+    if groups:
+        _raw, groups_visible = official_document(
+            deployment.get("desglose_meta") or fallback_meta,
+            "desglose del operativo",
+        )
+        for group in groups:
+            name = group.get("organismo", "")
+            markers = {
+                "Operativo INFOAR": r"\bINFOAR\b",
+                "Bomberos de Huesca y Zaragoza": r"bomberos.{0,80}Huesca.{0,80}Zaragoza",
+                "Ministerio para la Transición Ecológica": r"Ministerio para la Transici.n Ecol.gica",
+                "UME y Ejército de Tierra": r"Unidad Militar de Emergencias.{0,120}Ej.rcito de Tierra",
+                "Cataluña": r"Catalu.a",
+                "Navarra": r"Navarra",
+                "Comunidad de Madrid": r"Madrid",
+                "Francia · Mecanismo Europeo de Protección Civil": r"Mecanismo Europeo de Protecci.n Civil.{0,80}Francia",
+                "Seguridad": r"grupo de seguridad",
+                "Sanitario y social": r"grupo sanitario y social",
+                "Protección Civil y logística": r"Protecci.n Civil y log.stica",
+            }
+            marker = markers.get(name)
+            if not marker or not re.search(marker, groups_visible, re.I):
+                raise RuntimeError(f"el grupo operativo {name!r} no aparece en la publicación oficial")
+
+    review = deployment.get("revision_ultimo_parte") or {}
+    _raw, review_visible = official_document(review, "revisión del último parte")
+    if not re.search(r"Pe.as de Riglos", review_visible, re.I):
+        raise RuntimeError("la revisión de efectivos no enlaza un parte de Las Peñas de Riglos")
+    if review.get("fecha_hora") != state.get("ultima_actualizacion_oficial"):
+        raise RuntimeError("la revisión de efectivos no corresponde al último parte incorporado")
     return personnel, aircraft
 
 

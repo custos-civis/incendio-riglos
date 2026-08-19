@@ -162,16 +162,30 @@ function resourcesCard(e) {
   }
   const personnel = deployment.personal_jornada_aprox == null ? "—" : `≈ ${formatNumber(deployment.personal_jornada_aprox)}`;
   const aircraft = deployment.medios_aereos_jornada == null ? "—" : formatNumber(deployment.medios_aereos_jornada);
+  const personnelMeta = deployment.personal_jornada_meta || deployment.meta;
+  const aircraftMeta = deployment.medios_aereos_meta || deployment.meta;
+  const personnelDate = deployment.personal_jornada_aprox == null || !personnelMeta?.fecha_hora ? "" : `<small>Dato explícito: ${formatDate(personnelMeta.fecha_hora)}</small>`;
+  const aircraftDate = deployment.medios_aereos_jornada == null || !aircraftMeta?.fecha_hora ? "" : `<small>Dato explícito: ${formatDate(aircraftMeta.fecha_hora)}</small>`;
   const groups = Array.isArray(deployment.grupos) ? deployment.grupos : [];
   const details = groups.length
     ? `<details class="resources-details"><summary>Ver desglose del ${escapeHtml(String(deployment.desglose_contexto || "operativo").toLowerCase())}</summary><div class="resources-groups">${groups.map(group => `<section><h3>${escapeHtml(group.organismo)}</h3><ul>${(group.medios || []).map(item => `<li>${item.cantidad == null ? "" : `<strong>${escapeHtml(formatNumber(item.cantidad))}</strong> `}${escapeHtml(item.concepto)}</li>`).join("")}</ul></section>`).join("")}</div></details>`
     : `<p class="resources-empty">El parte no publica un desglose por organismos.</p>`;
+  const review = deployment.revision_ultimo_parte;
+  const retainedLabels = (review?.campos_mantenidos || []).map(field => field === "personal_jornada_aprox" ? "personal" : "medios aéreos");
+  const reviewMessage = !review?.fuente ? "" : review.sin_cambios_notificados
+    ? "El último parte no comunica cambios en estas cifras; se mantienen los últimos valores explícitos."
+    : retainedLabels.length
+      ? `El último parte actualiza parcialmente el despliegue y no publica una nueva cifra de ${retainedLabels.join(" ni ")}; se conserva el último valor explícito.`
+      : "Las cifras-resumen proceden del último parte revisado.";
+  const reviewBlock = review?.fuente
+    ? `<p class="resources-review"><strong>Último parte revisado: ${formatDate(review.fecha_hora)}</strong><span>${escapeHtml(reviewMessage)}</span></p><div class="metric-source resources-source">${sourceLink(review.fuente)}<time datetime="${escapeAttr(review.fecha_hora || "")}">Comprobado frente al último parte oficial</time>${badge(review.fiabilidad || "oficial")}</div>`
+    : sourceBlock(deployment.meta);
   return `<article class="metric-card resources-card">
     <span class="metric-label">Efectivos y medios del operativo</span>
-    <div class="resources-brief"><div><span>Personal durante la jornada</span><strong>${escapeHtml(personnel)}</strong></div><div><span>Medios aéreos durante la jornada</span><strong>${escapeHtml(aircraft)}</strong></div></div>
+    <div class="resources-brief"><div><span>Personal durante la jornada</span><strong>${escapeHtml(personnel)}</strong>${personnelDate}</div><div><span>Medios aéreos durante la jornada</span><strong>${escapeHtml(aircraft)}</strong>${aircraftDate}</div></div>
     <p class="resources-context">${escapeHtml(deployment.resumen_contexto || "Periodo indicado en el parte oficial")}. Las cifras no representan necesariamente medios actuando de forma simultánea.</p>
     ${details}
-    ${sourceBlock(deployment.meta)}
+    ${reviewBlock}
   </article>`;
 }
 

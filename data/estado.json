@@ -1,6 +1,6 @@
 {
-  "ultima_comprobacion_panel": "2026-08-18T20:14:19+02:00",
-  "ultima_actualizacion_oficial": "2026-08-18T09:26:45+02:00",
+  "ultima_comprobacion_panel": "2026-08-19T05:11:00+02:00",
+  "ultima_actualizacion_oficial": "2026-08-18T20:52:39+02:00",
   "estado": {
     "value": "Activo",
     "meta": {
@@ -13,13 +13,13 @@
     }
   },
   "superficie_ha": {
-    "value": 17500,
+    "value": 18400,
     "meta": {
-      "fecha_hora": "2026-08-18T09:26:45+02:00",
+      "fecha_hora": "2026-08-18T20:52:39+02:00",
       "fiabilidad": "provisional",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134"
       }
     }
   },
@@ -54,72 +54,68 @@
   "nucleos_evacuados": {
     "value": 19,
     "meta": {
-      "fecha_hora": "2026-08-18T09:26:45+02:00",
+      "fecha_hora": "2026-08-18T20:52:39+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134"
       }
     }
   },
   "personas_evacuadas": {
     "value": 1046,
     "meta": {
+      "fecha_hora": "2026-08-18T20:52:39+02:00",
+      "fiabilidad": "oficial",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134"
+      }
+    }
+  },
+  "nota_edicion": "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización.",
+  "ultimo_informe_cecopi": {
+    "titulo": "El incendio de Las Peñas de Riglos continúa su evolución favorable y entra en fase de estabilización",
+    "fecha_hora": "2026-08-18T20:52:39+02:00",
+    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134",
+    "fuente": "Gobierno de Aragón / Aragón Hoy"
+  },
+  "efectivos_desplegados": {
+    "personal_jornada_aprox": 1000,
+    "medios_aereos_jornada": 30,
+    "personal_jornada_meta": {
+      "fecha_hora": "2026-08-17T20:51:25+02:00",
+      "fiabilidad": "oficial",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-registra-evolucion-favorable-gobierno-aragon-redobla-esfuerzos-acelerar-vuelta-desalojados-casas-106124"
+      }
+    },
+    "medios_aereos_meta": {
       "fecha_hora": "2026-08-18T09:26:45+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
         "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127"
       }
-    }
-  },
-  "nota_edicion": "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización.",
-  "ultimo_informe_cecopi": {
-    "titulo": "El operativo del incendio forestal de Las Peñas de Riglos sigue avanzando para su estabilización",
-    "fecha_hora": "2026-08-18T09:26:45+02:00",
-    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127",
-    "fuente": "Gobierno de Aragón / Aragón Hoy"
-  },
-  "efectivos_desplegados": {
-    "personal_jornada_aprox": null,
-    "medios_aereos_jornada": 30,
+    },
+    "desglose_meta": {
+      "fecha_hora": "2026-08-18T20:52:39+02:00",
+      "fiabilidad": "oficial",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134"
+      }
+    },
     "resumen_contexto": "Durante la jornada indicada en el parte oficial",
     "desglose_contexto": "Dispositivo nocturno",
     "grupos": [
-      {
-        "organismo": "Operativo INFOAR",
-        "medios": [
-          {
-            "concepto": "cuadrillas terrestres",
-            "cantidad": 11
-          },
-          {
-            "concepto": "autobombas",
-            "cantidad": 12
-          },
-          {
-            "concepto": "bulldóceres",
-            "cantidad": 8
-          },
-          {
-            "concepto": "vehículo de Puesto de Mando Avanzado",
-            "cantidad": 1
-          },
-          {
-            "concepto": "personal técnico"
-          }
-        ]
-      },
       {
         "organismo": "Ministerio para la Transición Ecológica",
         "medios": [
           {
             "concepto": "BRIF",
-            "cantidad": 2
-          },
-          {
-            "concepto": "helicópteros",
-            "cantidad": 4
+            "cantidad": 1
           }
         ]
       },
@@ -128,79 +124,7 @@
         "medios": [
           {
             "concepto": "efectivos de la UME",
-            "cantidad": 160
-          },
-          {
-            "concepto": "bulldóceres de la UME",
-            "cantidad": 2
-          }
-        ]
-      },
-      {
-        "organismo": "Cataluña",
-        "medios": [
-          {
-            "concepto": "helicóptero bombardero",
-            "cantidad": 1
-          }
-        ]
-      },
-      {
-        "organismo": "Navarra",
-        "medios": [
-          {
-            "concepto": "autobombas forestales",
-            "cantidad": 2
-          },
-          {
-            "concepto": "nodriza",
-            "cantidad": 1
-          },
-          {
-            "concepto": "vehículos ligeros",
-            "cantidad": 3
-          },
-          {
-            "concepto": "bomberos",
-            "cantidad": 14
-          },
-          {
-            "concepto": "helicóptero",
-            "cantidad": 1
-          },
-          {
-            "concepto": "brigada",
-            "cantidad": 1
-          }
-        ]
-      },
-      {
-        "organismo": "Comunidad de Madrid",
-        "medios": [
-          {
-            "concepto": "autobombas",
-            "cantidad": 2
-          },
-          {
-            "concepto": "nodriza",
-            "cantidad": 1
-          },
-          {
-            "concepto": "vehículos todoterreno",
-            "cantidad": 2
-          }
-        ]
-      },
-      {
-        "organismo": "Francia · Mecanismo Europeo de Protección Civil",
-        "medios": [
-          {
-            "concepto": "bomberos",
-            "cantidad": 61
-          },
-          {
-            "concepto": "vehículos",
-            "cantidad": 22
+            "cantidad": 80
           }
         ]
       },
@@ -213,7 +137,7 @@
           },
           {
             "concepto": "patrullas de la Guardia Civil",
-            "cantidad": 7
+            "cantidad": 5
           }
         ]
       },
@@ -254,12 +178,26 @@
       }
     ],
     "meta": {
-      "fecha_hora": "2026-08-18T09:26:45+02:00",
+      "fecha_hora": "2026-08-18T20:52:39+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/operativo-luchar-incendio-forestal-penas-riglos-continua-perimetrado-avanza-estabilizacion-106127"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134"
       }
+    },
+    "revision_ultimo_parte": {
+      "fecha_hora": "2026-08-18T20:52:39+02:00",
+      "fiabilidad": "oficial",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134"
+      },
+      "campos_actualizados": [],
+      "campos_mantenidos": [
+        "personal_jornada_aprox",
+        "medios_aereos_jornada"
+      ],
+      "sin_cambios_notificados": true
     }
   }
 }

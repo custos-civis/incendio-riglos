@@ -481,6 +481,67 @@ def parse_operational_resources(article: dict) -> dict | None:
     }
 
 
+def merge_operational_resources(previous: dict | None, current: dict | None, article: dict) -> dict | None:
+    """Conserva cada última cifra explícita cuando el parte nuevo no la actualiza.
+
+    La procedencia de personal, medios aéreos y desglose se guarda por separado.
+    La revisión del parte más reciente nunca cambia retroactivamente la fecha de
+    las cifras conservadas.
+    """
+    if not isinstance(previous, dict) and not isinstance(current, dict):
+        return None
+
+    merged = dict(previous or {})
+    parsed = current or {}
+    parsed_meta = parsed.get("meta") or official_meta(article["published_at"], article["url"])
+    previous_meta = merged.get("meta") or {}
+    updated_fields = []
+    retained_fields = []
+    field_specs = (
+        ("personal_jornada_aprox", "personal_jornada_meta"),
+        ("medios_aereos_jornada", "medios_aereos_meta"),
+    )
+    for value_key, meta_key in field_specs:
+        new_value = parsed.get(value_key)
+        if new_value is not None:
+            merged[value_key] = new_value
+            merged[meta_key] = parsed_meta
+            updated_fields.append(value_key)
+        elif merged.get(value_key) is not None:
+            merged.setdefault(meta_key, previous_meta)
+            retained_fields.append(value_key)
+        else:
+            merged[value_key] = None
+
+    if parsed.get("grupos"):
+        merged["grupos"] = parsed["grupos"]
+        merged["desglose_contexto"] = parsed.get("desglose_contexto")
+        merged["desglose_meta"] = parsed_meta
+    elif merged.get("grupos"):
+        merged.setdefault("desglose_meta", previous_meta)
+
+    if parsed.get("resumen_contexto"):
+        merged["resumen_contexto"] = parsed["resumen_contexto"]
+
+    data_metas = [
+        merged.get("personal_jornada_meta"),
+        merged.get("medios_aereos_meta"),
+        merged.get("desglose_meta"),
+    ]
+    data_metas = [meta for meta in data_metas if isinstance(meta, dict) and meta.get("fecha_hora")]
+    if data_metas:
+        merged["meta"] = max(data_metas, key=lambda meta: meta["fecha_hora"])
+
+    review = official_meta(article["published_at"], article["url"])
+    review.update({
+        "campos_actualizados": updated_fields,
+        "campos_mantenidos": retained_fields,
+        "sin_cambios_notificados": not updated_fields,
+    })
+    merged["revision_ultimo_parte"] = review
+    return merged
+
+
 def parse_closed_roads(article: dict) -> list[dict] | None:
     road_pattern = re.compile(r"\b(?:[A-Z]{1,3}(?:-[A-Z])?-\d+(?:-[A-Z]{2})?|N-\d+)\b", re.I)
     paragraph = next((
@@ -1111,7 +1172,7 @@ def update_official_incident_data() -> bool:
     if roads:
         roads = attach_official_road_traces(roads)
     status = explicit_fire_status(normalized)
-    operational_resources = parse_operational_resources(article)
+    parsed_operational_resources = parse_operational_resources(article)
     consolidated = first_integer(normalized, (
         r"([0-9]{1,3})\s*%\s+del\s+perimetro\s+consolidado",
         r"perimetro.{0,60}?consolidad[oa].{0,30}?([0-9]{1,3})\s*%",
@@ -1127,6 +1188,11 @@ def update_official_incident_data() -> bool:
 
     state_path = DATA / "estado.json"
     state = read_json(state_path)
+    operational_resources = merge_operational_resources(
+        state.get("efectivos_desplegados"),
+        parsed_operational_resources,
+        article,
+    )
     state["ultima_comprobacion_panel"] = checked_at
     state["ultimo_informe_cecopi"] = article["ultimo_informe_cecopi"]
     if article["published_at"] >= (state.get("ultima_actualizacion_oficial") or ""):

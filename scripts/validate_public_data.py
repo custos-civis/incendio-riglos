@@ -178,17 +178,52 @@ def validate_official_sources(documents: dict) -> None:
         else:
             personnel = deployment.get("personal_jornada_aprox")
             aircraft = deployment.get("medios_aereos_jornada")
+            groups = deployment.get("grupos")
             if personnel is not None and (not isinstance(personnel, int) or not 1 <= personnel <= 100_000):
                 fail("estado.json: total de efectivos fuera de rango")
             if aircraft is not None and (not isinstance(aircraft, int) or not 1 <= aircraft <= 1_000):
                 fail("estado.json: número de medios aéreos fuera de rango")
-            if personnel is None and aircraft is None:
-                fail("estado.json: despliegue sin cifras de resumen")
-            meta = deployment.get("meta") or {}
-            valid_date(meta.get("fecha_hora"), "estado.json despliegue de efectivos")
-            if "aragonhoy.es" not in str((meta.get("fuente") or {}).get("url") or ""):
-                fail("estado.json: el despliegue no procede de Aragón Hoy")
-            groups = deployment.get("grupos")
+            if personnel is None and aircraft is None and not groups:
+                fail("estado.json: despliegue sin cifras ni desglose")
+
+            def validate_deployment_meta(meta, context: str) -> None:
+                if not isinstance(meta, dict):
+                    fail(f"{context}: metadatos ausentes")
+                    return
+                valid_date(meta.get("fecha_hora"), context)
+                if "aragonhoy.es" not in str((meta.get("fuente") or {}).get("url") or ""):
+                    fail(f"{context}: la fuente no es Aragón Hoy")
+
+            fallback_meta = deployment.get("meta") or {}
+            if personnel is not None:
+                validate_deployment_meta(
+                    deployment.get("personal_jornada_meta") or fallback_meta,
+                    "estado.json cifra de efectivos",
+                )
+            if aircraft is not None:
+                validate_deployment_meta(
+                    deployment.get("medios_aereos_meta") or fallback_meta,
+                    "estado.json cifra de medios aéreos",
+                )
+            if groups:
+                validate_deployment_meta(
+                    deployment.get("desglose_meta") or fallback_meta,
+                    "estado.json desglose de efectivos",
+                )
+
+            review = deployment.get("revision_ultimo_parte")
+            validate_deployment_meta(review, "estado.json revisión del último parte")
+            if isinstance(review, dict):
+                updated = review.get("campos_actualizados")
+                retained = review.get("campos_mantenidos")
+                allowed = {"personal_jornada_aprox", "medios_aereos_jornada"}
+                if not isinstance(updated, list) or not set(updated).issubset(allowed):
+                    fail("estado.json revisión: campos actualizados no válidos")
+                if not isinstance(retained, list) or not set(retained).issubset(allowed):
+                    fail("estado.json revisión: campos mantenidos no válidos")
+                if review.get("sin_cambios_notificados") != (not bool(updated)):
+                    fail("estado.json revisión: indicador de cambios incoherente")
+
             if not isinstance(groups, list) or len(groups) > 30:
                 fail("estado.json: grupos del despliegue ausentes o excesivos")
             else:

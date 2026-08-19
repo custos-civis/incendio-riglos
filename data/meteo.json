@@ -1,22 +1,22 @@
 {
-  "ultima_revision": "2026-08-18T19:00:00+02:00",
+  "ultima_revision": "2026-08-19T04:00:00+02:00",
   "prevision": {
     "temperatura_maxima_c": {
-      "value": 36,
+      "value": 38,
       "periodo": "17 h"
     },
     "temperatura_minima_c": {
-      "value": 19,
-      "periodo": "09 h"
+      "value": 17,
+      "periodo": "07 h"
     },
     "humedad_minima_pct": {
-      "value": 14
+      "value": 18
     },
     "humedad_maxima_pct": {
-      "value": 51
+      "value": 93
     },
     "viento_maximo_kmh": {
-      "value": 20,
+      "value": 34,
       "periodo": "23 h"
     },
     "direccion_viento_maximo": {
@@ -24,76 +24,86 @@
       "periodo": "23 h"
     },
     "racha_maxima_kmh": {
-      "value": 37,
-      "periodo": "15–16 h"
+      "value": 59,
+      "periodo": "21 h"
     },
     "prob_precipitacion_pct": {
-      "value": 0
+      "value": 50
     },
     "precipitacion_total_mm": {
       "value": 0
     },
     "prob_tormenta_pct": {
-      "value": 0
+      "value": 50
     },
     "cielo": {
       "value": "Despejado"
     },
     "horaria": [
       {
-        "hora": "11:00",
-        "temperatura_c": 25,
-        "humedad_pct": 31,
+        "hora": "08:00",
+        "temperatura_c": 18,
+        "humedad_pct": 90,
         "viento_kmh": 8,
-        "direccion": "N",
-        "racha_kmh": 21,
+        "direccion": "E",
+        "racha_kmh": 12,
+        "precipitacion_mm": 0,
+        "cielo": "Despejado"
+      },
+      {
+        "hora": "11:00",
+        "temperatura_c": 30,
+        "humedad_pct": 47,
+        "viento_kmh": 9,
+        "direccion": "SE",
+        "racha_kmh": 23,
         "precipitacion_mm": 0,
         "cielo": "Despejado"
       },
       {
         "hora": "14:00",
-        "temperatura_c": 34,
-        "humedad_pct": 15,
-        "viento_kmh": 12,
-        "direccion": "O",
-        "racha_kmh": 34,
-        "precipitacion_mm": 0,
-        "cielo": "Despejado"
-      },
-      {
-        "hora": "17:00",
-        "temperatura_c": 36,
-        "humedad_pct": 14,
-        "viento_kmh": 19,
-        "direccion": "O",
-        "racha_kmh": 36,
-        "precipitacion_mm": 0,
-        "cielo": "Despejado"
-      },
-      {
-        "hora": "20:00",
-        "temperatura_c": 32,
-        "humedad_pct": 18,
-        "viento_kmh": 16,
-        "direccion": "NO",
+        "temperatura_c": 35,
+        "humedad_pct": 27,
+        "viento_kmh": 13,
+        "direccion": "SE",
         "racha_kmh": 27,
         "precipitacion_mm": 0,
         "cielo": "Despejado"
       },
       {
-        "hora": "23:00",
-        "temperatura_c": 26,
-        "humedad_pct": 33,
-        "viento_kmh": 20,
-        "direccion": "N",
-        "racha_kmh": 32,
+        "hora": "17:00",
+        "temperatura_c": 38,
+        "humedad_pct": 21,
+        "viento_kmh": 7,
+        "direccion": "S",
+        "racha_kmh": 20,
         "precipitacion_mm": 0,
         "cielo": "Despejado"
+      },
+      {
+        "hora": "20:00",
+        "temperatura_c": 34,
+        "humedad_pct": 19,
+        "viento_kmh": 10,
+        "direccion": "S",
+        "racha_kmh": 18,
+        "precipitacion_mm": 0,
+        "cielo": "Cubierto con lluvia escasa"
+      },
+      {
+        "hora": "23:00",
+        "temperatura_c": 24,
+        "humedad_pct": 51,
+        "viento_kmh": 34,
+        "direccion": "N",
+        "racha_kmh": 54,
+        "precipitacion_mm": 0,
+        "cielo": "Intervalos nubosos con lluvia escasa"
       }
     ],
     "meta": {
-      "fecha_hora": "2026-08-18T16:41:11+02:00",
-      "periodo": "2026-08-18",
+      "fecha_hora": "2026-08-18T21:11:11+02:00",
+      "periodo": "2026-08-19",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "AEMET — predicción horaria de Las Peñas de Riglos",
@@ -109,25 +119,25 @@
       "value": 0
     },
     "racha_actual_kmh": {
-      "value": 35
+      "value": 7
     },
     "racha_maxima_desde_00_kmh": {
-      "value": 40
+      "value": 8
     },
     "humedad_relativa_pct": {
-      "value": 18
+      "value": 42
     },
     "temperatura_c": {
-      "value": 34.5
+      "value": 19.1
     },
     "viento_kmh": {
-      "value": 25
+      "value": 4
     },
     "direccion": {
-      "value": "Noroeste"
+      "value": "Sudoeste"
     },
     "meta": {
-      "fecha_hora": "2026-08-18T19:00:00+02:00",
+      "fecha_hora": "2026-08-19T04:00:00+02:00",
       "fiabilidad": "oficial",
       "estacion": {
         "idema": "9211F",
@@ -363,6 +373,30 @@
       "idema": "9211F",
       "estacion": "Bailo, Puyalto",
       "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Bailo, Puyalto",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9211F&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-18",
+      "idema": "9201X",
+      "estacion": "Jaca",
+      "precipitacion_mm": 0,
+      "estado": "Día completo",
+      "completo": true,
+      "fuente": {
+        "nombre": "AEMET — resúmenes diarios de Jaca",
+        "url": "https://www.aemet.es/es/eltiempo/observacion/ultimosdatos?l=9201X&datos=det&w=2"
+      }
+    },
+    {
+      "fecha": "2026-08-19",
+      "idema": "9211F",
+      "estacion": "Bailo, Puyalto",
+      "precipitacion_mm": 0,
       "estado": "Día en curso",
       "completo": false,
       "fuente": {
@@ -371,7 +405,7 @@
       }
     },
     {
-      "fecha": "2026-08-18",
+      "fecha": "2026-08-19",
       "idema": "9201X",
       "estacion": "Jaca",
       "precipitacion_mm": 0,

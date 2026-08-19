@@ -104,7 +104,11 @@ h3 { font-size: 1.18rem; }
 .resources-brief > div { padding: 14px 16px; background: #f1f5f3; border-radius: 9px; }
 .resources-brief span { display: block; color: var(--muted); font-size: .7rem; text-transform: uppercase; }
 .resources-brief strong { display: block; margin-top: 3px; color: var(--teal-950); font-family: Georgia, Cambria, serif; font-size: 1.8rem; }
+.resources-brief small { display: block; margin-top: 4px; color: var(--muted); font-size: .66rem; }
 .resources-context, .resources-empty { margin: 2px 0 12px; color: var(--muted); font-size: .78rem; }
+.resources-review { display: grid; gap: 3px; margin: 4px 0 12px; padding: 11px 13px; color: #425d61; background: var(--green-bg); border-left: 3px solid var(--green); border-radius: 7px; font-size: .76rem; }
+.resources-review strong { color: var(--green); }
+.resources-source { margin-top: 0; }
 .resources-details { margin: 4px 0 14px; border: 1px solid var(--line); border-radius: 9px; }
 .resources-details summary { padding: 11px 14px; color: var(--teal-900); font-size: .82rem; font-weight: 800; cursor: pointer; }
 .resources-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 0 14px 14px; }
