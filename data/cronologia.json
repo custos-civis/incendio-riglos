@@ -1,6 +1,16 @@
 {
-  "ultima_revision": "2026-08-18T20:52:39+02:00",
+  "ultima_revision": "2026-08-19T09:49:02+02:00",
   "eventos": [
+    {
+      "fecha_hora": "2026-08-19T09:49:02+02:00",
+      "categoria": "Situación general",
+      "descripcion": "Los vecinos de cinco núcleos afectados por el incendio de Las Peñas de Riglos pueden volver ya a sus hogares.",
+      "fiabilidad": "provisional",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/vecinos-cinco-nucleos-afectados-incendio-penas-riglos-volver-hogares-106136"
+      }
+    },
     {
       "fecha_hora": "2026-08-18T20:52:39+02:00",
       "categoria": "Situación general",

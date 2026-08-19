@@ -1,6 +1,6 @@
 {
-  "ultima_comprobacion_panel": "2026-08-19T09:07:08+02:00",
-  "ultima_actualizacion_oficial": "2026-08-18T20:52:39+02:00",
+  "ultima_comprobacion_panel": "2026-08-19T09:55:37+02:00",
+  "ultima_actualizacion_oficial": "2026-08-19T09:49:02+02:00",
   "estado": {
     "value": "Activo",
     "meta": {
@@ -75,9 +75,9 @@
   },
   "nota_edicion": "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización.",
   "ultimo_informe_cecopi": {
-    "titulo": "El incendio de Las Peñas de Riglos continúa su evolución favorable y entra en fase de estabilización",
-    "fecha_hora": "2026-08-18T20:52:39+02:00",
-    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134",
+    "titulo": "Los vecinos de cinco núcleos afectados por el incendio de Las Peñas de Riglos pueden volver ya a sus hogares",
+    "fecha_hora": "2026-08-19T09:49:02+02:00",
+    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/vecinos-cinco-nucleos-afectados-incendio-penas-riglos-volver-hogares-106136",
     "fuente": "Gobierno de Aragón / Aragón Hoy"
   },
   "efectivos_desplegados": {
@@ -100,11 +100,11 @@
       }
     },
     "desglose_meta": {
-      "fecha_hora": "2026-08-18T20:52:39+02:00",
+      "fecha_hora": "2026-08-19T09:49:02+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/vecinos-cinco-nucleos-afectados-incendio-penas-riglos-volver-hogares-106136"
       }
     },
     "resumen_contexto": "Durante la jornada indicada en el parte oficial",
@@ -124,73 +124,25 @@
         "medios": [
           {
             "concepto": "efectivos de la UME",
-            "cantidad": 80
-          }
-        ]
-      },
-      {
-        "organismo": "Seguridad",
-        "medios": [
-          {
-            "concepto": "patrulla de la UPA",
-            "cantidad": 1
-          },
-          {
-            "concepto": "patrullas de la Guardia Civil",
-            "cantidad": 5
-          }
-        ]
-      },
-      {
-        "organismo": "Sanitario y social",
-        "medios": [
-          {
-            "concepto": "unidad de soporte vital avanzado del 061",
-            "cantidad": 1
-          },
-          {
-            "concepto": "equipo de apoyo de Cruz Roja"
-          },
-          {
-            "concepto": "trabajadores sociales de las comarcas"
-          }
-        ]
-      },
-      {
-        "organismo": "Protección Civil y logística",
-        "medios": [
-          {
-            "concepto": "vehículo de Puesto de Mando Avanzado",
-            "cantidad": 1
-          },
-          {
-            "concepto": "unidad logística de Protección Civil",
-            "cantidad": 1
-          },
-          {
-            "concepto": "unidad logística de SARGA",
-            "cantidad": 1
-          },
-          {
-            "concepto": "voluntariado de Protección Civil"
+            "cantidad": 160
           }
         ]
       }
     ],
     "meta": {
-      "fecha_hora": "2026-08-18T20:52:39+02:00",
+      "fecha_hora": "2026-08-19T09:49:02+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/vecinos-cinco-nucleos-afectados-incendio-penas-riglos-volver-hogares-106136"
       }
     },
     "revision_ultimo_parte": {
-      "fecha_hora": "2026-08-18T20:52:39+02:00",
+      "fecha_hora": "2026-08-19T09:49:02+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/vecinos-cinco-nucleos-afectados-incendio-penas-riglos-volver-hogares-106136"
       },
       "campos_actualizados": [],
       "campos_mantenidos": [

@@ -1,37 +1,37 @@
 {
-  "ultima_revision": "2026-08-19T08:00:00+02:00",
+  "ultima_revision": "2026-08-19T09:00:00+02:00",
   "prevision": {
     "temperatura_maxima_c": {
       "value": 38,
       "periodo": "17 h"
     },
     "temperatura_minima_c": {
-      "value": 17,
+      "value": 18,
       "periodo": "07 h"
     },
     "humedad_minima_pct": {
-      "value": 18
+      "value": 17
     },
     "humedad_maxima_pct": {
-      "value": 93
+      "value": 90
     },
     "viento_maximo_kmh": {
-      "value": 34,
+      "value": 30,
       "periodo": "23 h"
     },
     "direccion_viento_maximo": {
-      "value": "N",
+      "value": "NE",
       "periodo": "23 h"
     },
     "racha_maxima_kmh": {
-      "value": 59,
+      "value": 58,
       "periodo": "21 h"
     },
     "prob_precipitacion_pct": {
       "value": 50
     },
     "precipitacion_total_mm": {
-      "value": 0
+      "value": 2
     },
     "prob_tormenta_pct": {
       "value": 50
@@ -42,9 +42,9 @@
     "horaria": [
       {
         "hora": "08:00",
-        "temperatura_c": 18,
+        "temperatura_c": 19,
         "humedad_pct": 90,
-        "viento_kmh": 8,
+        "viento_kmh": 6,
         "direccion": "E",
         "racha_kmh": 12,
         "precipitacion_mm": 0,
@@ -53,10 +53,10 @@
       {
         "hora": "11:00",
         "temperatura_c": 30,
-        "humedad_pct": 47,
+        "humedad_pct": 46,
         "viento_kmh": 9,
-        "direccion": "SE",
-        "racha_kmh": 23,
+        "direccion": "S",
+        "racha_kmh": 22,
         "precipitacion_mm": 0,
         "cielo": "Despejado"
       },
@@ -64,45 +64,45 @@
         "hora": "14:00",
         "temperatura_c": 35,
         "humedad_pct": 27,
-        "viento_kmh": 13,
-        "direccion": "SE",
-        "racha_kmh": 27,
+        "viento_kmh": 10,
+        "direccion": "S",
+        "racha_kmh": 25,
         "precipitacion_mm": 0,
         "cielo": "Despejado"
       },
       {
         "hora": "17:00",
         "temperatura_c": 38,
-        "humedad_pct": 21,
+        "humedad_pct": 20,
         "viento_kmh": 7,
         "direccion": "S",
-        "racha_kmh": 20,
+        "racha_kmh": 22,
         "precipitacion_mm": 0,
         "cielo": "Despejado"
       },
       {
         "hora": "20:00",
-        "temperatura_c": 34,
+        "temperatura_c": 33,
         "humedad_pct": 19,
-        "viento_kmh": 10,
+        "viento_kmh": 11,
         "direccion": "S",
-        "racha_kmh": 18,
+        "racha_kmh": 43,
         "precipitacion_mm": 0,
-        "cielo": "Cubierto con lluvia escasa"
+        "cielo": "Nuboso"
       },
       {
         "hora": "23:00",
         "temperatura_c": 24,
         "humedad_pct": 51,
-        "viento_kmh": 34,
-        "direccion": "N",
-        "racha_kmh": 54,
+        "viento_kmh": 30,
+        "direccion": "NE",
+        "racha_kmh": 48,
         "precipitacion_mm": 0,
-        "cielo": "Intervalos nubosos con lluvia escasa"
+        "cielo": "Poco nuboso"
       }
     ],
     "meta": {
-      "fecha_hora": "2026-08-18T21:11:11+02:00",
+      "fecha_hora": "2026-08-19T07:15:12+02:00",
       "periodo": "2026-08-19",
       "fiabilidad": "oficial",
       "fuente": {
@@ -119,25 +119,25 @@
       "value": 0
     },
     "racha_actual_kmh": {
-      "value": 6
+      "value": 5
     },
     "racha_maxima_desde_00_kmh": {
       "value": 8
     },
     "humedad_relativa_pct": {
-      "value": 45
+      "value": 41
     },
     "temperatura_c": {
-      "value": 18.3
+      "value": 20.6
     },
     "viento_kmh": {
-      "value": 0
+      "value": 2
     },
     "direccion": {
-      "value": "Calma"
+      "value": "Sudeste"
     },
     "meta": {
-      "fecha_hora": "2026-08-19T08:00:00+02:00",
+      "fecha_hora": "2026-08-19T09:00:00+02:00",
       "fiabilidad": "oficial",
       "estacion": {
         "idema": "9211F",
