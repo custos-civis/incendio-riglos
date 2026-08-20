@@ -1,5 +1,5 @@
 {
-  "ultima_revision": "2026-08-20T17:00:00+02:00",
+  "ultima_revision": "2026-08-20T18:00:00+02:00",
   "prevision": {
     "temperatura_maxima_c": {
       "value": 32,
@@ -109,25 +109,25 @@
       "value": 0.2
     },
     "racha_actual_kmh": {
-      "value": 37
+      "value": 26
     },
     "racha_maxima_desde_00_kmh": {
       "value": 40
     },
     "humedad_relativa_pct": {
-      "value": 37
+      "value": 38
     },
     "temperatura_c": {
-      "value": 29.6
+      "value": 29
     },
     "viento_kmh": {
-      "value": 20
+      "value": 16
     },
     "direccion": {
       "value": "Noroeste"
     },
     "meta": {
-      "fecha_hora": "2026-08-20T17:00:00+02:00",
+      "fecha_hora": "2026-08-20T18:00:00+02:00",
       "fiabilidad": "oficial",
       "estacion": {
         "idema": "9211F",
