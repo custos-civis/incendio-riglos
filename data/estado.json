@@ -1,6 +1,6 @@
 {
-  "ultima_comprobacion_panel": "2026-08-20T09:08:05+02:00",
-  "ultima_actualizacion_oficial": "2026-08-19T20:46:44+02:00",
+  "ultima_comprobacion_panel": "2026-08-20T11:51:28+02:00",
+  "ultima_actualizacion_oficial": "2026-08-20T11:44:03+02:00",
   "estado": {
     "value": "Activo",
     "meta": {
@@ -15,11 +15,11 @@
   "superficie_ha": {
     "value": 18400,
     "meta": {
-      "fecha_hora": "2026-08-18T20:52:39+02:00",
+      "fecha_hora": "2026-08-20T11:44:03+02:00",
       "fiabilidad": "provisional",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-penas-riglos-continua-evolucion-favorable-entra-fase-estabilizacion-106134"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-restringe-acceso-zona-afectada-incendio-forestal-penas-riglos-106146"
       }
     }
   },
@@ -75,9 +75,9 @@
   },
   "nota_edicion": "Actualización automática conservadora a partir del último parte oficial localizado en Aragón Hoy. Solo se incorporan cifras explícitas; los datos no publicados se conservan o se muestran sin actualización.",
   "ultimo_informe_cecopi": {
-    "titulo": "La evolución favorable del incendio de Las Peñas de Riglos permite la vuelta a casa de 583 vecinos de 13 núcleos y comenzar la desescalada de medios",
-    "fecha_hora": "2026-08-19T20:46:44+02:00",
-    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/evolucion-favorable-incendio-penas-riglos-permite-vuelta-casa-583-vecinos-13-nucleos-comenzar-desescalada-medios-106142",
+    "titulo": "El incendio forestal de Las Peñas de Riglos queda estabilizado tras el intenso trabajo de un operativo histórico",
+    "fecha_hora": "2026-08-20T09:36:55+02:00",
+    "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/incendio-forestal-penas-riglos-queda-estabilizado-intenso-operativo-historico-106143",
     "fuente": "Gobierno de Aragón / Aragón Hoy"
   },
   "efectivos_desplegados": {
@@ -138,19 +138,18 @@
       }
     },
     "revision_ultimo_parte": {
-      "fecha_hora": "2026-08-19T20:46:44+02:00",
+      "fecha_hora": "2026-08-20T11:44:03+02:00",
       "fiabilidad": "oficial",
       "fuente": {
         "nombre": "Gobierno de Aragón / Aragón Hoy",
-        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/evolucion-favorable-incendio-penas-riglos-permite-vuelta-casa-583-vecinos-13-nucleos-comenzar-desescalada-medios-106142"
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-restringe-acceso-zona-afectada-incendio-forestal-penas-riglos-106146"
       },
-      "campos_actualizados": [
+      "campos_actualizados": [],
+      "campos_mantenidos": [
+        "personal_jornada_aprox",
         "medios_aereos_jornada"
       ],
-      "campos_mantenidos": [
-        "personal_jornada_aprox"
-      ],
-      "sin_cambios_notificados": false
+      "sin_cambios_notificados": true
     }
   }
 }

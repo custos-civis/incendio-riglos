@@ -1,6 +1,16 @@
 {
-  "ultima_revision": "2026-08-19T20:46:44+02:00",
+  "ultima_revision": "2026-08-20T11:44:03+02:00",
   "eventos": [
+    {
+      "fecha_hora": "2026-08-20T11:44:03+02:00",
+      "categoria": "Situación general",
+      "descripcion": "El Gobierno de Aragón restringe el acceso a la zona afectada por el incendio forestal de Las Peñas de Riglos. El parte comunica 18400 hectáreas provisionales.",
+      "fiabilidad": "provisional",
+      "fuente": {
+        "nombre": "Gobierno de Aragón / Aragón Hoy",
+        "url": "https://www.aragonhoy.es/hacienda-interior-administracion-publica/gobierno-aragon-restringe-acceso-zona-afectada-incendio-forestal-penas-riglos-106146"
+      }
+    },
     {
       "fecha_hora": "2026-08-19T20:46:44+02:00",
       "categoria": "Situación general",
@@ -296,6 +306,12 @@
     },
     {
       "fecha": "2026-08-18T20:52:39+02:00",
+      "superficie_ha": 18400,
+      "perimetro_consolidado_pct": null,
+      "precipitacion_mm": null
+    },
+    {
+      "fecha": "2026-08-20T11:44:03+02:00",
       "superficie_ha": 18400,
       "perimetro_consolidado_pct": null,
       "precipitacion_mm": null
