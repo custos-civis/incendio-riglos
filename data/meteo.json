@@ -1,5 +1,5 @@
 {
-  "ultima_revision": "2026-08-20T00:00:00+02:00",
+  "ultima_revision": "2026-08-20T01:00:00+02:00",
   "prevision": {
     "temperatura_maxima_c": {
       "value": 32,
@@ -113,31 +113,31 @@
   },
   "observacion": {
     "precipitacion_ultima_hora_mm": {
-      "value": 0.2
+      "value": 0
     },
     "precipitacion_desde_00_mm": {
       "value": 0.2
     },
     "racha_actual_kmh": {
-      "value": 24
+      "value": 22
     },
     "racha_maxima_desde_00_kmh": {
       "value": 24
     },
     "humedad_relativa_pct": {
-      "value": 81
+      "value": 84
     },
     "temperatura_c": {
-      "value": 20.1
+      "value": 19.5
     },
     "viento_kmh": {
-      "value": 17
+      "value": 6
     },
     "direccion": {
-      "value": "Oeste"
+      "value": "Sudoeste"
     },
     "meta": {
-      "fecha_hora": "2026-08-20T00:00:00+02:00",
+      "fecha_hora": "2026-08-20T01:00:00+02:00",
       "fiabilidad": "oficial",
       "estacion": {
         "idema": "9211F",
@@ -432,7 +432,7 @@
       "fecha": "2026-08-20",
       "idema": "9201X",
       "estacion": "Jaca",
-      "precipitacion_mm": 0,
+      "precipitacion_mm": 0.1,
       "estado": "Día en curso",
       "completo": false,
       "fuente": {
