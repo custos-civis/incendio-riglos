@@ -1,5 +1,5 @@
 {
-  "ultima_revision": "2026-08-20T05:00:00+02:00",
+  "ultima_revision": "2026-08-20T06:00:00+02:00",
   "prevision": {
     "temperatura_maxima_c": {
       "value": 32,
@@ -131,13 +131,13 @@
       "value": 17.5
     },
     "viento_kmh": {
-      "value": 3
+      "value": 0
     },
     "direccion": {
-      "value": "Noroeste"
+      "value": "Calma"
     },
     "meta": {
-      "fecha_hora": "2026-08-20T05:00:00+02:00",
+      "fecha_hora": "2026-08-20T06:00:00+02:00",
       "fiabilidad": "oficial",
       "estacion": {
         "idema": "9211F",
